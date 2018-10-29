@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+
+      <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+        <title>注册账号</title>
+<link rel="stylesheet" type="text/css" href="css/verify.css">
+	  <script type="text/javascript" src="js/jquery.min.js" ></script>
+        <script type="text/javascript" src="js/verify.js" ></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+		
+		
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+<script language="javascript" type="text/javascript">	    
+        function buttonClick(){   
+		var id = document.getElementById("id").value;
+		var name = document.getElementById("name").value;
+		var pw = document.getElementById("pw").value;
+		var email = document.getElementById("email").value;
+		if(id.length==0) {alert("ID不能为空");}
+		  else if(isNaN(id)){alert("ID不是数字");}
+		  else if(pw.length==0){alert("请输入密码");}
+          else if(name.length==0){alert("请输入名字");}
+		  else if(email.length==0){alert("请输入邮箱");}
+		  else loadXMLDoc();
+        }
+    </script>
+<script type="text/javascript">
+function loadXMLDoc()
+{
+  var id =document.getElementById("id").value;
+  var password = document.getElementById("pw").value;
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  var data = JSON.stringify({
+  "id":id,
+  "password":password,
+  "name":name,
+  "email":email
+  });
+
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+
+  xhr.addEventListener("readystatechange", function () {
+  if (this.readyState === 4&&this.status==201) {
+     var obj=JSON.parse(this.responseText);
+	alert(obj.message);
+    console.log(this.responseText);
+javascript:location.href="http://springbootblog.cn/login";
+  }
+ else if (this.readyState === 4&&this.status!==201){
+          alert("注册失败!");
+	}
+});
+
+xhr.open("POST", "/users");
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.send(data);
+}
+</script>
+
+    </head>
+
+    <body>
+
+        <!-- Top content -->
+        <div class="top-content">
+        	
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-8 col-sm-offset-2 text">
+                            <h1><strong>Blog</strong> Regist</h1>
+                            <div class="description">
+                            	<p>
+	                            	注册账号
+                            	</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3 form-box">
+                        	<div class="form-top">
+                        		<div class="form-top-left">
+                        			<h3>Regist to my site</h3>
+                            		<p>输入你的信息来注册，已有账号?<a href="http://springbootblog.cn/login">点此登陆</a></p>
+                        		</div>
+                        		<div class="form-top-right">
+                        			<i class="fa fa-lock"></i>
+                        		</div>
+                            </div>
+                            <div class="form-bottom">
+			                    <form role="form"  class="login-form">
+			                    	<div class="form-group">
+			                    		<label class="sr-only" for="form-username">ID</label>
+			                        	<input type="text" id="id" placeholder="ID...(仅数字！)" class="form-username form-control">
+			                        </div>								
+			                        <div class="form-group">
+			                        	<label class="sr-only" for="form-password">密码</label>
+			                        	<input type="password" id="pw" placeholder="Password..." class="form-password form-control" >
+			                        </div>
+									<div class="form-group">
+			                    		<label class="sr-only" for="form-username">名字</label>
+			                        	<input type="text" id="name" placeholder="Name..." class="form-username form-control">
+			                        </div>
+									<div class="form-group">
+			                    		<label class="sr-only" for="form-username">邮箱</label>
+			                        	<input type="text" id="email" placeholder="Email..." class="form-username form-control">
+			                        </div>			               
+								 <div id="mpanel6" style="margin-top:50px;">
+									</div>
+			                    </form>
+		                    </div>
+                        </div>
+                    </div>               
+                </div>
+            </div>
+           
+        </div>
+
+		<script>   	
+        	
+	    
+		    $('#mpanel6').pointsVerify({
+		    	defaultNum : 5,	//默认的文字数量
+		    	checkNum : 2,	//校对的文字数量
+		    	vSpace : 5,	//间隔
+		    	imgName : ['1.jpg', '2.jpg'],
+		    	imgSize : {
+		        	width: '500px',
+		        	height: '200px',
+		        },
+		        barSize : {
+		        	width : '500px',
+		        	height : '40px',
+		        },
+		        ready : function() {
+		    	},
+		        success : function() {
+		        	buttonClick();
+		        },
+		        error : function() {
+		        	alert('验证失败！');
+		        }
+		        
+		    });		   	    
+		</script>
+    
+     
+        
+ 
+</body>
+
+</html>
