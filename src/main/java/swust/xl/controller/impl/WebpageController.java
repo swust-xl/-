@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
 import swust.xl.pojo.vo.VerificationCodeResp;
 import swust.xl.service.UsersService;
 
 /**
- * 验证码相关控制器
+ * 测试controller
  * 
  * @author xuLiang
  * @since 0.0.1
@@ -30,11 +29,11 @@ public class WebpageController {
 	 * 
 	 * @param request
 	 */
-	@GetMapping("/regist")
+	@GetMapping("/index")
 	@ResponseStatus(HttpStatus.OK)
 	public String Index(HttpServletRequest request) {
 		request.getSession().setMaxInactiveInterval(3600);
-		return "regist";
+		return "index";
 	}
 
 	/**

@@ -1,16 +1,18 @@
 package swust.xl.dao.impl;
 
-import static swust.xl.pojo.po.mysql.tables.Users.USERS;
+import static swust.xl.pojo.po.mysql.tables.UserPerson.USER_PERSON;
 
+import java.sql.Timestamp;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import swust.xl.dao.Mappers;
-import swust.xl.pojo.po.mysql.tables.pojos.Users;
-import swust.xl.pojo.po.mysql.tables.records.UsersRecord;
+import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
+import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
 import swust.xl.pojo.vo.UserLogin;
+import swust.xl.util.md5.md5Util;
 
 /**
  * 
@@ -28,7 +30,7 @@ public class MappersImpl implements Mappers {
 
 	/**
 	 * 
-	 * 获取指定id用户.
+	 * 根据id查询用户信息
 	 *
 	 * @param id
 	 *            需要获取的用户id
@@ -37,14 +39,31 @@ public class MappersImpl implements Mappers {
 	 * @since 0.0.1
 	 */
 	@Override
-	public Users getUser(Long id) {
-		UsersRecord record = dsl.selectFrom(USERS).where(USERS.ID.eq(id)).fetchOne();
+	public UserPerson getUser(Long id) {
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.ID.eq(id)).fetchOne();
 		if (record != null) {
-			Users users = record.into(Users.class);
-			return users;
+			UserPerson userPerson = record.into(UserPerson.class);
+			return userPerson;
 		}
 		return null;
+	}
 
+	/**
+	 * 根据用户名查询用户信息
+	 * 
+	 * @param username
+	 * @return 获取到的用户对象
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	@Override
+	public UserPerson getUser(String username) {
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(username)).fetchOne();
+		if (record != null) {
+			UserPerson userPerson = record.into(UserPerson.class);
+			return userPerson;
+		}
+		return null;
 	}
 
 	/**
@@ -60,7 +79,7 @@ public class MappersImpl implements Mappers {
 	@Override
 	public Boolean deleteUser(Long id) {
 		Assert.notNull(id, "待删除的Users全局ID不能为空");
-		int num = dsl.deleteFrom(USERS).where(USERS.ID.eq(id)).execute();
+		int num = dsl.deleteFrom(USER_PERSON).where(USER_PERSON.ID.eq(id)).execute();
 		Assert.isTrue(num == 1, "根据id删除Users失败");
 		return true;
 	}
@@ -76,13 +95,14 @@ public class MappersImpl implements Mappers {
 	 * @since 0.0.1
 	 */
 	@Override
-	public Users addUser(Users users) {
-		UsersRecord userRecord = new UsersRecord();
-		userRecord = dsl.newRecord(USERS);
-		userRecord.from(users);
+	public UserPerson addUser(UserPerson userPerson) {
+		System.out.println(userPerson.getPasswordSalt());
+		UserPersonRecord userRecord = new UserPersonRecord();
+		userRecord = dsl.newRecord(USER_PERSON);
+		userRecord.from(userPerson);
 		int addResult = userRecord.store();
 		if (addResult == 1) {
-			return userRecord.into(Users.class);
+			return userRecord.into(UserPerson.class);
 		}
 		return null;
 	}
@@ -98,13 +118,13 @@ public class MappersImpl implements Mappers {
 	 * @since 0.0.1
 	 */
 	@Override
-	public Users patchUser(Users users) {
-
-		UsersRecord UsersRecord = dsl.newRecord(USERS);
-		UsersRecord.from(users);
-		UsersRecord.changed("user_id", false);
+	public UserPerson patchUser(UserPerson userPerson) {
+		UserPersonRecord UsersRecord = dsl.selectFrom(USER_PERSON)
+				.where(USER_PERSON.USERNAME.eq(userPerson.getUsername())).fetchOne();
+		UsersRecord.from(userPerson);
+		UsersRecord.changed("id", false);
 		UsersRecord.store();
-		return UsersRecord.into(Users.class);
+		return UsersRecord.into(UserPerson.class);
 	}
 
 	/**
@@ -119,12 +139,32 @@ public class MappersImpl implements Mappers {
 	 */
 	@Override
 	public boolean findByIdAndPassword(UserLogin userLogin) {
-		UsersRecord record = dsl.selectFrom(USERS)
-				.where(USERS.ID.eq(userLogin.getId()).and(USERS.PASSWORD.eq(userLogin.getPassword()))).fetchOne();
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON)
+				.where(USER_PERSON.USERNAME.eq(userLogin.getUsername())
+						.and(USER_PERSON.PASSWORD_SALT.eq(
+								md5Util.md5Hex(userLogin.getPassword() + getUser(userLogin.getUsername()).getSalt()))))
+				.fetchOne();
 		if (record != null) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 更新用户最后登录时间
+	 * 
+	 * @param username
+	 * @return Timestamp更新后的时间
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	@Override
+	public Timestamp updateLastLoginDatetime(String username) {
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(username)).fetchOne();
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		record.setLastLoginDatetime(ts);
+		record.store();
+		return ts;
 	}
 
 }

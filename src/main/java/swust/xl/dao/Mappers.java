@@ -1,8 +1,11 @@
 package swust.xl.dao;
 
+import java.sql.Timestamp;
+
 import org.springframework.validation.annotation.Validated;
 
-import swust.xl.pojo.po.mysql.tables.pojos.Users;
+import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
+import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
 import swust.xl.pojo.vo.UserLogin;
 
 /**
@@ -25,7 +28,19 @@ public interface Mappers {
 	 * @author xuLiang
 	 * @since 0.0.1
 	 */
-	Users getUser(Long id);
+	UserPerson getUser(Long id);
+
+	/**
+	 * 
+	 * 获取指定用户名用户.
+	 *
+	 * @param id
+	 *            需要获取的用户id
+	 * @return 获取到的用户对象
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	UserPerson getUser(String username);
 
 	/**
 	 * 
@@ -37,7 +52,7 @@ public interface Mappers {
 	 * @author xuLiang
 	 * @since 0.0.1
 	 */
-	Users addUser(Users users);
+	UserPerson addUser(UserPerson userPerson);
 
 	/**
 	 * 
@@ -61,7 +76,7 @@ public interface Mappers {
 	 * @author xuLiang
 	 * @since 0.0.1
 	 */
-	Users patchUser(Users users);
+	UserPerson patchUser(UserPerson userPerson);
 
 	/**
 	 * 
@@ -75,4 +90,13 @@ public interface Mappers {
 	 */
 	boolean findByIdAndPassword(UserLogin userLogin);
 
+	/**
+	 * 更新用户最后登录时间
+	 * 
+	 * @param username
+	 * @return Timestamp更新后的时间
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	Timestamp updateLastLoginDatetime(String username);
 }

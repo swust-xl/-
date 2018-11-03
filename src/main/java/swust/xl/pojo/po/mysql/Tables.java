@@ -6,13 +6,11 @@ package swust.xl.pojo.po.mysql;
 
 import javax.annotation.Generated;
 
-import swust.xl.pojo.po.mysql.tables.Article;
-import swust.xl.pojo.po.mysql.tables.Comments;
-import swust.xl.pojo.po.mysql.tables.Users;
+import swust.xl.pojo.po.mysql.tables.UserPerson;
 
 
 /**
- * Convenience access to all tables in user
+ * Convenience access to all tables in test
  */
 @Generated(
     value = {
@@ -25,17 +23,7 @@ import swust.xl.pojo.po.mysql.tables.Users;
 public class Tables {
 
     /**
-     * The table <code>user.article</code>.
+     * The table <code>test.user_person</code>.
      */
-    public static final Article ARTICLE = swust.xl.pojo.po.mysql.tables.Article.ARTICLE;
-
-    /**
-     * The table <code>user.comments</code>.
-     */
-    public static final Comments COMMENTS = swust.xl.pojo.po.mysql.tables.Comments.COMMENTS;
-
-    /**
-     * The table <code>user.users</code>.
-     */
-    public static final Users USERS = swust.xl.pojo.po.mysql.tables.Users.USERS;
+    public static final UserPerson USER_PERSON = swust.xl.pojo.po.mysql.tables.UserPerson.USER_PERSON;
 }

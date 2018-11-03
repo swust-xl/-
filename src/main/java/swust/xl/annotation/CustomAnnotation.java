@@ -1,26 +1,3 @@
-/*
- * Copyright © 2018 signit.cn. All rights reserved.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
 package swust.xl.annotation;
 
 import java.lang.annotation.Documented;

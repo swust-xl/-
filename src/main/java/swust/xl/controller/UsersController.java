@@ -32,7 +32,7 @@ public interface UsersController {
 
 	/**
 	 * 
-	 * 获取一个用户信息记录.
+	 * 根据id获取一个用户信息记录.
 	 *
 	 * @param id
 	 *            需要获取的用户信息id
@@ -40,7 +40,20 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 0.0.1
 	 */
-	GetUserResp getUser(Long id);
+	GetUserResp getUserById(Long id);
+
+	/**
+	 * 
+	 * 根据用户名查询用户信息
+	 *
+	 * @param username
+	 *            待获取用户的用户名
+	 * @return 封装用户信息的统一响应对象
+	 * 
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	GetUserResp getUserByUsername(String username);
 
 	/**
 	 * 
@@ -67,7 +80,7 @@ public interface UsersController {
 	 * @since 0.0.1
 	 */
 
-	GetUserResp patchUser(Long id, VoPatchUserRequest voPatchUserRequest);
+	GetUserResp patchUser(VoPatchUserRequest voPatchUserRequest);
 
 	/**
 	 * 用户登陆验证
@@ -89,4 +102,5 @@ public interface UsersController {
 	 * @since 0.0.1
 	 */
 	public String logout(HttpSession session);
+
 }

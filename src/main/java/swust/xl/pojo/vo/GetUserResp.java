@@ -3,7 +3,7 @@ package swust.xl.pojo.vo;
 import swust.xl.pojo.vo.getuser.response.VoGetUserResponse;
 
 /**
- * 查询用户响应数据.
+ * 查询用户统一响应体.
  *
  *
  * @author xuLiang

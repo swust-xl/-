@@ -1,5 +1,6 @@
 package swust.xl.service;
 
+import java.sql.Timestamp;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -22,16 +23,28 @@ import swust.xl.pojo.vo.VerificationCodeResp;
 @Validated
 public interface UsersService {
 	/**
-	 * 获取一条用户信息记录.
+	 * 根据id获取一条用户信息记录.
 	 * 
 	 * @param id
-	 *            待获取用户id
+	 *            待获取用户的id
 	 * @return 一条得到的用户信息记录
 	 * @author xuLiang
 	 * @since 0.0.1
 	 */
 
 	BoGetUserResponse getUser(@Valid @NotNull Long id);
+
+	/**
+	 * 根据用户名获取一条用户信息记录.
+	 * 
+	 * @param username
+	 *            待获取用户的用户名
+	 * @return 一条得到的用户信息记录
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+
+	BoGetUserResponse getUser(@Valid @NotNull String username);
 
 	/**
 	 * 
@@ -69,6 +82,16 @@ public interface UsersService {
 	 * @since 0.0.1
 	 */
 	BoGetUserResponse patchUser(@Valid @NotNull BoPatchUserRequest boPatchUserRequest);
+
+	/**
+	 * 更新用户最后登录时间
+	 * 
+	 * @param username
+	 * @return Timestamp更新后的时间
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	Timestamp updateLastLoginDatetime(String username);
 
 	/**
 	 * 

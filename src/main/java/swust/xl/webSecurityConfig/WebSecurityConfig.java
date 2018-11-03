@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 	/**
 	 * 登录session key
 	 */
-	public final static String SESSION_KEY = "id";
+	public final static String SESSION_KEY = "username";
 
 	@Bean
 	public SecurityInterceptor getSecurityInterceptor() {

@@ -10,16 +10,12 @@ import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.AbstractKeys;
 
-import swust.xl.pojo.po.mysql.tables.Article;
-import swust.xl.pojo.po.mysql.tables.Comments;
-import swust.xl.pojo.po.mysql.tables.Users;
-import swust.xl.pojo.po.mysql.tables.records.ArticleRecord;
-import swust.xl.pojo.po.mysql.tables.records.CommentsRecord;
-import swust.xl.pojo.po.mysql.tables.records.UsersRecord;
+import swust.xl.pojo.po.mysql.tables.UserPerson;
+import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
 
 
 /**
- * A class modelling foreign key relationships between tables of the <code>user</code> 
+ * A class modelling foreign key relationships between tables of the <code>test</code> 
  * schema
  */
 @Generated(
@@ -36,15 +32,13 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<ArticleRecord, Long> IDENTITY_ARTICLE = Identities0.IDENTITY_ARTICLE;
+    public static final Identity<UserPersonRecord, Long> IDENTITY_USER_PERSON = Identities0.IDENTITY_USER_PERSON;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<ArticleRecord> KEY_ARTICLE_PRIMARY = UniqueKeys0.KEY_ARTICLE_PRIMARY;
-    public static final UniqueKey<CommentsRecord> KEY_COMMENTS_PRIMARY = UniqueKeys0.KEY_COMMENTS_PRIMARY;
-    public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
+    public static final UniqueKey<UserPersonRecord> KEY_USER_PERSON_PRIMARY = UniqueKeys0.KEY_USER_PERSON_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -56,12 +50,10 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 extends AbstractKeys {
-        public static Identity<ArticleRecord, Long> IDENTITY_ARTICLE = createIdentity(Article.ARTICLE, Article.ARTICLE.AID);
+        public static Identity<UserPersonRecord, Long> IDENTITY_USER_PERSON = createIdentity(UserPerson.USER_PERSON, UserPerson.USER_PERSON.ID);
     }
 
     private static class UniqueKeys0 extends AbstractKeys {
-        public static final UniqueKey<ArticleRecord> KEY_ARTICLE_PRIMARY = createUniqueKey(Article.ARTICLE, "KEY_article_PRIMARY", Article.ARTICLE.AID);
-        public static final UniqueKey<CommentsRecord> KEY_COMMENTS_PRIMARY = createUniqueKey(Comments.COMMENTS, "KEY_comments_PRIMARY", Comments.COMMENTS.COMMENT, Comments.COMMENTS.NAME);
-        public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID);
+        public static final UniqueKey<UserPersonRecord> KEY_USER_PERSON_PRIMARY = createUniqueKey(UserPerson.USER_PERSON, "KEY_user_person_PRIMARY", UserPerson.USER_PERSON.ID);
     }
 }

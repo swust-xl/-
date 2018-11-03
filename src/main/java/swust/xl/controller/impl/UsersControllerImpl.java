@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,7 +64,7 @@ public class UsersControllerImpl implements UsersController {
 
 	/**
 	 * 
-	 * 获取一个用户信息记录.
+	 * 根据id查询用户信息
 	 *
 	 * @param id
 	 *            待获取用户id
@@ -72,15 +73,36 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 0.0.1
 	 */
-
 	@GetMapping("/users/{user-id}")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public GetUserResp getUser(@PathVariable("user-id") Long id) {
+	public GetUserResp getUserById(@PathVariable("user-id") Long id) {
 		GetUserResp result = new GetUserResp();
 		result.setCode(1);
 		result.setMessage("查询成功！");
 		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
+		return result;
+	}
+
+	/**
+	 * 
+	 * 根据用户名查询用户信息
+	 *
+	 * @param username
+	 *            待获取用户的用户名
+	 * @return 封装用户信息的统一响应对象
+	 * 
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	@GetMapping("/users")
+	@ResponseStatus(HttpStatus.OK)
+	@Override
+	public GetUserResp getUserByUsername(@RequestParam("username") String username) {
+		GetUserResp result = new GetUserResp();
+		result.setCode(1);
+		result.setMessage("查询成功！");
+		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(username)));
 		return result;
 	}
 
@@ -106,8 +128,8 @@ public class UsersControllerImpl implements UsersController {
 	 * 
 	 * 更新一个用户信息记录.
 	 *
-	 * @param id
-	 *            需要更新的用户id
+	 * @param username
+	 *            需要更新的用户的用户名
 	 * @param voPatchUserRequest
 	 *            需要更新的用户对象
 	 * @return 封装用户信息的统一响应对象
@@ -115,16 +137,15 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 0.0.1
 	 */
-	@PutMapping("/users/{user-id}")
-	@ResponseStatus(HttpStatus.ACCEPTED)
+	@PutMapping("/patchuser")
+	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public GetUserResp patchUser(@PathVariable("user-id") Long id, @RequestBody VoPatchUserRequest voPatchUserRequest) {
+	public GetUserResp patchUser(@RequestBody VoPatchUserRequest voPatchUserRequest) {
 		GetUserResp result = new GetUserResp();
 		result.setCode(1);
 		result.setMessage("update succeed");
 		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
 				usersService.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
-
 		return result;
 	}
 
@@ -143,16 +164,17 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseBody
 	@Override
 	public String loginVerify(@RequestBody UserLogin userLogin, HttpSession session) {
-		if (userLogin.getId().toString().isEmpty() || userLogin.getPassword().isEmpty()) {
+		if (userLogin.getUsername().toString().isEmpty() || userLogin.getPassword().isEmpty()) {
 			return "ID或密码不能为空";
 		} else {
 			boolean verify = usersService.verifyLogin(userLogin);
 			if (verify) {
-				session.setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getId());
+				session.setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsername());
 				session.setMaxInactiveInterval(3600);
+				usersService.updateLastLoginDatetime(userLogin.getUsername());
 				return "登陆成功";
 			} else {
-				return "ID或密码错误";
+				return "用户名或密码错误";
 			}
 		}
 

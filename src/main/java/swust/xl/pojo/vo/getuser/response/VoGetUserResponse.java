@@ -8,17 +8,13 @@ package swust.xl.pojo.vo.getuser.response;
  */
 public class VoGetUserResponse {
 	private Long id;
-	private String password;
-	private String name;
-	private String email;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	private String username;
+	private String sex;
+	private int isSystem;
+	private String salt;
+	private String passwordSalt;
+	private String registDatetime;
+	private String lastLoginDatetime;
 
 	public Long getId() {
 		return id;
@@ -28,20 +24,60 @@ public class VoGetUserResponse {
 		this.id = id;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getSex() {
+		return sex;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public int getIsSystem() {
+		return isSystem;
+	}
+
+	public void setIsSystem(int isSystem) {
+		this.isSystem = isSystem;
+	}
+
+	public String getPasswordSalt() {
+		return passwordSalt;
+	}
+
+	public void setPasswordSalt(String passwordSalt) {
+		this.passwordSalt = passwordSalt;
+	}
+
+	public String getRegistDatetime() {
+		return registDatetime;
+	}
+
+	public void setRegistDatetime(String registDatetime) {
+		this.registDatetime = registDatetime;
+	}
+
+	public String getLastLoginDatetime() {
+		return lastLoginDatetime;
+	}
+
+	public void setLastLoginDatetime(String lastLoginDatetime) {
+		this.lastLoginDatetime = lastLoginDatetime;
 	}
 
 }

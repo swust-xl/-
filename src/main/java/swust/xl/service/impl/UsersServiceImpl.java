@@ -2,15 +2,18 @@ package swust.xl.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.sql.Timestamp;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import swust.xl.dao.Mappers;
-import swust.xl.mailservice.MailService;
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
 import swust.xl.pojo.bo.getuser.response.BoGetUserResponse;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
@@ -19,6 +22,7 @@ import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.VerificationCodeResp;
 import swust.xl.service.UsersService;
 import swust.xl.util.image.VerifyImageUtil;
+import swust.xl.util.md5.md5Util;
 
 /**
  * 
@@ -32,12 +36,10 @@ public class UsersServiceImpl implements UsersService {
 
 	@Autowired
 	private Mappers mappers;
-	@Autowired
-	private MailService mailservice;
 
 	/**
 	 * 
-	 * 获取一条用户信息记录.
+	 * 根据id获取一条用户信息记录.
 	 *
 	 * @param id
 	 *            待获取用户id
@@ -48,6 +50,21 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public BoGetUserResponse getUser(Long id) {
 		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(id));
+
+	}
+
+	/**
+	 * 根据用户名获取一条用户信息记录.
+	 * 
+	 * @param username
+	 *            待获取用户的用户名
+	 * @return 一条得到的用户信息记录
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	@Override
+	public BoGetUserResponse getUser(@Valid @NotNull String username) {
+		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(username));
 
 	}
 
@@ -64,8 +81,11 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional
 	@Override
 	public BoGetUserResponse addUser(BoAddUserRequest boAddUserRequest) {
-		// 注册成功邮件发送功能实现
-		mailservice.sendSimpleMail(boAddUserRequest.getEmail(), "此处为邮件主题", "此处为邮件正文");
+		String salt = md5Util.getSalt();
+		String passwordWithSalt = md5Util.md5Hex(boAddUserRequest.getPassword() + salt);
+		boAddUserRequest.setSalt(salt);
+		boAddUserRequest.setPassword(passwordWithSalt);
+		boAddUserRequest.setRegistDatetime(new Timestamp(System.currentTimeMillis()));
 		return BoMapper.INSTANCE
 				.toBoGetUserRespMap(mappers.addUser(BoMapper.INSTANCE.fromBoAddUserReqMap(boAddUserRequest)));
 	}
@@ -100,6 +120,10 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional
 	@Override
 	public BoGetUserResponse patchUser(BoPatchUserRequest boPatchUserRequest) {
+		String salt = md5Util.getSalt();
+		String passwordWithSalt = md5Util.md5Hex(boPatchUserRequest.getPassword() + salt);
+		boPatchUserRequest.setSalt(salt);
+		boPatchUserRequest.setPassword(passwordWithSalt);
 		return BoMapper.INSTANCE
 				.toBoGetUserRespMap(mappers.patchUser(BoMapper.INSTANCE.fromBoPatchUserReqMap(boPatchUserRequest)));
 	}
@@ -154,6 +178,19 @@ public class UsersServiceImpl implements UsersService {
 		response.setXCoordinate(x + "");
 		response.setYCoordinate(y + "");
 		return response;
+	}
+
+	/**
+	 * 更新用户最后登录时间
+	 * 
+	 * @param username
+	 * @return Timestamp更新后的时间
+	 * @author xuLiang
+	 * @since 0.0.1
+	 */
+	@Override
+	public Timestamp updateLastLoginDatetime(String username) {
+		return mappers.updateLastLoginDatetime(username);
 	}
 
 }
