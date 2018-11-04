@@ -68,13 +68,11 @@ public class VerifyImageUtil {
 	 * 
 	 */
 	public static void cutByTemplate(BufferedImage oriImage, int[][] templateImage) {
-
 		for (int i = 0; i < oriImage.getWidth(); i++) {
 			for (int j = 0; j < oriImage.getHeight(); j++) {
 				int rgb = templateImage[i][j];
 				if (rgb == 1) {
-					// 原图对应位置颜色变化
-					oriImage.setRGB(i, j, 99999999);
+					oriImage.setRGB(i, j, -1); // 原图对应位置颜色变化
 				}
 			}
 		}

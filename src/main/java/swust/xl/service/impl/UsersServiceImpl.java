@@ -2,6 +2,7 @@ package swust.xl.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.sql.Timestamp;
 import java.util.Random;
 
