@@ -14,8 +14,8 @@ import swust.xl.pojo.po.user.transform.UserTransform;
  * 创建BO与PO之间的映射
  * </p>
  *
- * @author xuLiang 0.0.1
- * @since 0.0.1
+ * @author xuLiang 1.0.0
+ * @since 1.0.0
  */
 @Mapper(uses = UserTransform.class)
 public interface BoMapper {
@@ -30,7 +30,7 @@ public interface BoMapper {
 	 * 
 	 * @author xuLiang
 	 * 
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 
 	BoGetUserResponse toBoGetUserRespMap(UserPerson userPerson);
@@ -44,7 +44,7 @@ public interface BoMapper {
 	 * 
 	 * @author xuLiang
 	 * 
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Mapping(target = "passwordSalt", source = "password")
 	UserPerson fromBoAddUserReqMap(BoAddUserRequest boAddUserRequest);
@@ -58,7 +58,7 @@ public interface BoMapper {
 	 * 
 	 * @author xuLiang
 	 * 
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Mapping(target = "passwordSalt", source = "password")
 	UserPerson fromBoPatchUserReqMap(BoPatchUserRequest boPatchUserReq);

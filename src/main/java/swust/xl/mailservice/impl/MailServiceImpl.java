@@ -14,7 +14,7 @@ import swust.xl.mailservice.MailService;
  * </p>
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Component
 public class MailServiceImpl implements MailService {

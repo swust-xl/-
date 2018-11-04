@@ -4,7 +4,7 @@ package swust.xl.pojo.vo;
  * 用户登陆请求体
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class UserLogin {
 	private String username;

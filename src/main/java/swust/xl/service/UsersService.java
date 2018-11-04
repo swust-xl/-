@@ -18,7 +18,7 @@ import swust.xl.pojo.vo.VerificationCodeResp;
  * </p>
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Validated
 public interface UsersService {
@@ -29,7 +29,7 @@ public interface UsersService {
 	 *            待获取用户的id
 	 * @return 一条得到的用户信息记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 
 	BoGetUserResponse getUser(@Valid @NotNull Long id);
@@ -41,7 +41,7 @@ public interface UsersService {
 	 *            待获取用户的用户名
 	 * @return 一条得到的用户信息记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 
 	BoGetUserResponse getUser(@Valid @NotNull String username);
@@ -54,7 +54,7 @@ public interface UsersService {
 	 *            待添加的用户信息
 	 * @return 添加完成的用户信息对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 
 	BoGetUserResponse addUser(@Valid @NotNull BoAddUserRequest boAddUserRequest);
@@ -67,7 +67,7 @@ public interface UsersService {
 	 *            待删除的用户信息id
 	 * @return 删除结果：true-删除成功，成功删除一条用户记录；false-删除失败，没有删除任何记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	boolean deleteUser(@Valid @NotNull Long id);
 
@@ -79,7 +79,7 @@ public interface UsersService {
 	 *            需要更新的用户对象
 	 * @return 更新完成的用户信息对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	BoGetUserResponse patchUser(@Valid @NotNull BoPatchUserRequest boPatchUserRequest);
 
@@ -89,7 +89,7 @@ public interface UsersService {
 	 * @param username
 	 * @return Timestamp更新后的时间
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	Timestamp updateLastLoginDatetime(String username);
 
@@ -101,7 +101,7 @@ public interface UsersService {
 	 *            用户登陆请求体
 	 * @return true or false
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	boolean verifyLogin(@Valid @NotNull UserLogin userLogin);
 
@@ -120,7 +120,7 @@ public interface UsersService {
 	 *            原图文件路径
 	 * @return VerificationCodeResp
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @throws Exception
 	 */
 	VerificationCodeResp getImage(int originImgX, int originImgY, int cuttedImgX, int cuttedImgY, String path)

@@ -7,7 +7,8 @@ import org.apache.commons.codec.binary.Hex;
 
 /**
  * md5加密工具类
- *
+ * 
+ * @since 1.0.0
  */
 public class md5Util {
 	/**
@@ -36,6 +37,7 @@ public class md5Util {
 			byte[] bs = md5.digest(src.getBytes());
 			return new String(new Hex().encode(bs));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

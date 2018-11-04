@@ -10,7 +10,7 @@ import swust.xl.configuration.CustomBean;
  * Spring boot启动类
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Import(CustomBean.class)
 @SpringBootApplication

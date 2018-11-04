@@ -4,7 +4,7 @@ package swust.xl.pojo.po.user.transform;
  * PO层和VO层不同类型属性之间转换
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class UserTransform {
 	/**
@@ -14,7 +14,7 @@ public class UserTransform {
 	 *            待转换的属性数据
 	 * @return 转换后的属性数据
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public String byteToString(byte[] inPutBytes) {
 		if (inPutBytes == null) {

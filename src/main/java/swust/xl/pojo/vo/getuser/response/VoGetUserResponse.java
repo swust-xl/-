@@ -4,7 +4,7 @@ package swust.xl.pojo.vo.getuser.response;
  * 查询用户控制器响应数据.
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class VoGetUserResponse {
 	private Long id;
@@ -15,6 +15,13 @@ public class VoGetUserResponse {
 	private String passwordSalt;
 	private String registDatetime;
 	private String lastLoginDatetime;
+
+	@Override
+	public String toString() {
+		return "VoGetUserResponse [id=" + id + ", username=" + username + ", sex=" + sex + ", isSystem=" + isSystem
+				+ ", salt=" + salt + ", passwordSalt=" + passwordSalt + ", registDatetime=" + registDatetime
+				+ ", lastLoginDatetime=" + lastLoginDatetime + "]";
+	}
 
 	public Long getId() {
 		return id;

@@ -36,7 +36,7 @@ import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPerson extends TableImpl<UserPersonRecord> {
 
-    private static final long serialVersionUID = 971408809;
+    private static final long serialVersionUID = -195935954;
 
     /**
      * The reference instance of <code>test.user_person</code>
@@ -69,7 +69,7 @@ public class UserPerson extends TableImpl<UserPersonRecord> {
     /**
      * The column <code>test.user_person.is_system</code>.
      */
-    public final TableField<UserPersonRecord, Byte> IS_SYSTEM = createField("is_system", org.jooq.impl.SQLDataType.TINYINT, this, "");
+    public final TableField<UserPersonRecord, Byte> IS_SYSTEM = createField("is_system", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * The column <code>test.user_person.salt</code>.

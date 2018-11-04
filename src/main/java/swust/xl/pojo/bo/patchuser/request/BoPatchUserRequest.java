@@ -2,17 +2,21 @@ package swust.xl.pojo.bo.patchuser.request;
 
 /**
  * BO层更新用户请求体
- *
- * 
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class BoPatchUserRequest {
 	private String username;
 	private String password;
 	private String sex;
 	private String salt;
+
+	@Override
+	public String toString() {
+		return "BoPatchUserRequest [username=" + username + ", password=" + password + ", sex=" + sex + ", salt=" + salt
+				+ "]";
+	}
 
 	public String getPassword() {
 		return password;

@@ -4,12 +4,18 @@ package swust.xl.pojo.vo.adduser.requset;
  * 添加用户请求体.
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class VoAddUserRequest {
+
 	private String username;
 	private String password;
 	private String sex;
+
+	@Override
+	public String toString() {
+		return "VoAddUserRequest [username=" + username + ", password=" + password + ", sex=" + sex + "]";
+	}
 
 	public String getPassword() {
 		return password;

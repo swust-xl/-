@@ -30,7 +30,7 @@ import swust.xl.webSecurityConfig.WebSecurityConfig;
  * </p>
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @RestController
 public class UsersControllerImpl implements UsersController {
@@ -47,7 +47,7 @@ public class UsersControllerImpl implements UsersController {
 	 * @return 封装用户信息的统一响应对象
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -71,7 +71,7 @@ public class UsersControllerImpl implements UsersController {
 	 * @return 封装用户信息的统一响应对象
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@GetMapping("/users/{user-id}")
 	@ResponseStatus(HttpStatus.OK)
@@ -93,7 +93,7 @@ public class UsersControllerImpl implements UsersController {
 	 * @return 封装用户信息的统一响应对象
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@GetMapping("/users")
 	@ResponseStatus(HttpStatus.OK)
@@ -115,7 +115,7 @@ public class UsersControllerImpl implements UsersController {
 	 * @return 封装用户信息的统一响应对象
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@DeleteMapping("/users/{user-id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -135,7 +135,7 @@ public class UsersControllerImpl implements UsersController {
 	 * @return 封装用户信息的统一响应对象
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@PutMapping("/patchuser")
 	@ResponseStatus(HttpStatus.OK)
@@ -156,14 +156,15 @@ public class UsersControllerImpl implements UsersController {
 	 *            用户登录请求体
 	 * @return SESSION
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @throws Exception
+	 * @since 1.0.0
 	 * 
 	 */
 	@PostMapping("/loginVerify")
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@Override
-	public String loginVerify(@RequestBody UserLogin userLogin, HttpSession session) {
+	public String loginVerify(@RequestBody UserLogin userLogin, HttpSession session) throws Exception {
 		if (userLogin.getUsername().toString().isEmpty() || userLogin.getPassword().isEmpty()) {
 			return "ID或密码不能为空";
 		} else {
@@ -174,7 +175,7 @@ public class UsersControllerImpl implements UsersController {
 				usersService.updateLastLoginDatetime(userLogin.getUsername());
 				return "登陆成功";
 			} else {
-				return "用户名或密码错误";
+				throw new Exception("用户名或密码错误");
 			}
 		}
 
@@ -187,7 +188,7 @@ public class UsersControllerImpl implements UsersController {
 	 *            用户登录请求体
 	 * @return SESSION
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@GetMapping("/logout")
 	@ResponseStatus(HttpStatus.OK)

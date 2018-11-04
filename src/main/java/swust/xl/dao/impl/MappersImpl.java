@@ -20,7 +20,7 @@ import swust.xl.util.md5.md5Util;
  * 
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Repository
 public class MappersImpl implements Mappers {
@@ -36,7 +36,7 @@ public class MappersImpl implements Mappers {
 	 *            需要获取的用户id
 	 * @return 获取到的用户对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public UserPerson getUser(Long id) {
@@ -54,7 +54,7 @@ public class MappersImpl implements Mappers {
 	 * @param username
 	 * @return 获取到的用户对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public UserPerson getUser(String username) {
@@ -74,7 +74,7 @@ public class MappersImpl implements Mappers {
 	 *            需要删除的用户id
 	 * @return 删除结果：true-删除成功，成功删除一条用户记录；false-删除失败，没有删除任何记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public Boolean deleteUser(Long id) {
@@ -92,11 +92,10 @@ public class MappersImpl implements Mappers {
 	 *            待添加的用户信息
 	 * @return 添加完成的用户信息对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public UserPerson addUser(UserPerson userPerson) {
-		System.out.println(userPerson.getPasswordSalt());
 		UserPersonRecord userRecord = new UserPersonRecord();
 		userRecord = dsl.newRecord(USER_PERSON);
 		userRecord.from(userPerson);
@@ -115,7 +114,7 @@ public class MappersImpl implements Mappers {
 	 *            需要更新的用户对象
 	 * @return 更新完成的用户信息对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public UserPerson patchUser(UserPerson userPerson) {
@@ -135,7 +134,7 @@ public class MappersImpl implements Mappers {
 	 *            用户登陆请求体
 	 * @return true or false
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public boolean findByIdAndPassword(UserLogin userLogin) {
@@ -156,7 +155,7 @@ public class MappersImpl implements Mappers {
 	 * @param username
 	 * @return Timestamp更新后的时间
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public Timestamp updateLastLoginDatetime(String username) {

@@ -14,7 +14,7 @@ import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
  * </p>
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Validated
 public interface UsersController {
@@ -26,7 +26,7 @@ public interface UsersController {
 	 *            需要添加的用户信息记录
 	 * @return 封装用户信息的统一响应对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	GetUserResp addUser(VoAddUserRequest voAddUserRequset);
 
@@ -38,7 +38,7 @@ public interface UsersController {
 	 *            需要获取的用户信息id
 	 * @return 封装用户信息的统一响应对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	GetUserResp getUserById(Long id);
 
@@ -51,7 +51,7 @@ public interface UsersController {
 	 * @return 封装用户信息的统一响应对象
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	GetUserResp getUserByUsername(String username);
 
@@ -62,7 +62,7 @@ public interface UsersController {
 	 * @param id
 	 *            需要删除的用户id
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 
 	void deleteUser(Long id);
@@ -77,7 +77,7 @@ public interface UsersController {
 	 *            需要更新的用户信息内容
 	 * @return 封装用户信息的统一响应对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 
 	GetUserResp patchUser(VoPatchUserRequest voPatchUserRequest);
@@ -89,9 +89,10 @@ public interface UsersController {
 	 *            用户登录请求体
 	 * @return SESSION
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @throws Exception
+	 * @since 1.0.0
 	 */
-	public String loginVerify(UserLogin userLogin, HttpSession session);
+	public String loginVerify(UserLogin userLogin, HttpSession session) throws Exception;
 
 	/**
 	 * 用户登出移除session
@@ -99,7 +100,7 @@ public interface UsersController {
 	 * @param session
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public String logout(HttpSession session);
 

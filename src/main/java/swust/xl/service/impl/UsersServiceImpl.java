@@ -29,7 +29,7 @@ import swust.xl.util.md5.md5Util;
  * 用户信息操作相关服务层实现.
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -45,7 +45,7 @@ public class UsersServiceImpl implements UsersService {
 	 *            待获取用户id
 	 * @return 一条得到的用户信息记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public BoGetUserResponse getUser(Long id) {
@@ -60,7 +60,7 @@ public class UsersServiceImpl implements UsersService {
 	 *            待获取用户的用户名
 	 * @return 一条得到的用户信息记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public BoGetUserResponse getUser(@Valid @NotNull String username) {
@@ -76,7 +76,7 @@ public class UsersServiceImpl implements UsersService {
 	 *            待添加的用户信息
 	 * @return 添加完成的用户信息对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Transactional
 	@Override
@@ -98,7 +98,7 @@ public class UsersServiceImpl implements UsersService {
 	 *            待删除的用户信息id
 	 * @return 删除结果：true-删除成功，成功删除一条用户记录；false-删除失败，没有删除任何记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Transactional
 	@Override
@@ -115,7 +115,7 @@ public class UsersServiceImpl implements UsersService {
 	 * 
 	 * @return 更新后的用户对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Transactional
 	@Override
@@ -136,7 +136,7 @@ public class UsersServiceImpl implements UsersService {
 	 *            用户登陆请求体
 	 * @return true ， false
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public boolean verifyLogin(UserLogin userLogin) {
@@ -158,25 +158,28 @@ public class UsersServiceImpl implements UsersService {
 	 *            原图文件路径
 	 * @return VerificationCodeResp
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 * @throws Exception
+	 * 
 	 */
 	@Override
 	public VerificationCodeResp getImage(int originImgX, int originImgY, int cuttedImgX, int cuttedImgY, String path)
 			throws Exception {
+		VerificationCodeResp response = new VerificationCodeResp();
 		int x = new Random().nextInt(originImgX - cuttedImgX);
 		int y = new Random().nextInt(originImgY - cuttedImgY);
-		BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
-		VerifyImageUtil verifyImageUtil = new VerifyImageUtil();
-		BufferedImage cuttedImg = verifyImageUtil.getMarkImage(bufferedImage, x, y, cuttedImgX, cuttedImgY);// 用来裁剪到滑动的方块
-		int[][] cuttedOriginImgCoordinate = verifyImageUtil.getCutAreaData(originImgX, originImgY, x, y, cuttedImgX,
-				cuttedImgY);// 被抠滑块的坐标
-		VerifyImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);// 得到抠掉滑块后的图并加阴影
-		VerificationCodeResp response = new VerificationCodeResp();
-		response.setCuttedImgBase64(verifyImageUtil.imageToBase64(cuttedImg));
-		response.setCuttedOriginImgBase64(verifyImageUtil.imageToBase64(bufferedImage));
 		response.setXCoordinate(x + "");
 		response.setYCoordinate(y + "");
+		BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
+		BufferedImage cuttedImg = VerifyImageUtil.getMarkImage(bufferedImage, x, y, cuttedImgX, cuttedImgY);// 用来裁剪到滑动的方块
+		/**
+		 * 此行代码必须在VerifyImageUtil.cutByTemplate之前,否则裁剪的源图会变成经过变色处理了的图片
+		 */
+		response.setCuttedImgBase64(VerifyImageUtil.imageToBase64(cuttedImg));
+		int[][] cuttedOriginImgCoordinate = VerifyImageUtil.getCutAreaData(originImgX, originImgY, x, y, cuttedImgX,
+				cuttedImgY);// 被抠滑块的坐标集合
+		VerifyImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);// 得到抠掉滑块后的图并加阴影
+		response.setCuttedOriginImgBase64(VerifyImageUtil.imageToBase64(bufferedImage));
 		return response;
 	}
 
@@ -186,7 +189,7 @@ public class UsersServiceImpl implements UsersService {
 	 * @param username
 	 * @return Timestamp更新后的时间
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	@Override
 	public Timestamp updateLastLoginDatetime(String username) {

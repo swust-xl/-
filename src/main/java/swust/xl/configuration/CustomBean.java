@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * 自定义Bean
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Configuration
 public class CustomBean {

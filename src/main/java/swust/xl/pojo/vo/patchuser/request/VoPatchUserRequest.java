@@ -5,12 +5,17 @@ package swust.xl.pojo.vo.patchuser.request;
  *
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class VoPatchUserRequest {
 	private String username;
 	private String password;
 	private String sex;
+
+	@Override
+	public String toString() {
+		return "VoPatchUserRequest [username=" + username + ", password=" + password + ", sex=" + sex + "]";
+	}
 
 	public String getPassword() {
 		return password;

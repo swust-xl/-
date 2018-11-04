@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import org.springframework.validation.annotation.Validated;
 
-import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
 import swust.xl.pojo.vo.UserLogin;
 
@@ -14,7 +13,7 @@ import swust.xl.pojo.vo.UserLogin;
  * 
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Validated
 public interface Mappers {
@@ -26,7 +25,7 @@ public interface Mappers {
 	 *            需要获取的用户id
 	 * @return 获取到的用户对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	UserPerson getUser(Long id);
 
@@ -38,7 +37,7 @@ public interface Mappers {
 	 *            需要获取的用户id
 	 * @return 获取到的用户对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	UserPerson getUser(String username);
 
@@ -50,7 +49,7 @@ public interface Mappers {
 	 *            待添加的用户信息
 	 * @return 添加完成的用户信息对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	UserPerson addUser(UserPerson userPerson);
 
@@ -62,7 +61,7 @@ public interface Mappers {
 	 *            需要删除的用户id
 	 * @return 删除结果：true-删除成功，成功删除一条用户记录；false-删除失败，没有删除任何记录
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	Boolean deleteUser(Long id);
 
@@ -74,7 +73,7 @@ public interface Mappers {
 	 *            需要更新的用户对象
 	 * @return 更新完成的用户信息对象
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	UserPerson patchUser(UserPerson userPerson);
 
@@ -86,7 +85,7 @@ public interface Mappers {
 	 *            用户登陆请求体
 	 * @return true or false
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	boolean findByIdAndPassword(UserLogin userLogin);
 
@@ -96,7 +95,7 @@ public interface Mappers {
 	 * @param username
 	 * @return Timestamp更新后的时间
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	Timestamp updateLastLoginDatetime(String username);
 }

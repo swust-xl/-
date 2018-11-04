@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  * 
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class BoAddUserRequest {
 	private String username;
@@ -15,7 +15,12 @@ public class BoAddUserRequest {
 	private String sex;
 	private String salt;
 	private Timestamp registDatetime;
-	 
+
+	@Override
+	public String toString() {
+		return "BoAddUserRequest [username=" + username + ", password=" + password + ", sex=" + sex + ", salt=" + salt
+				+ ", registDatetime=" + registDatetime + "]";
+	}
 
 	public String getPassword() {
 		return password;

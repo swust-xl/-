@@ -6,7 +6,7 @@ package swust.xl.mailservice;
  * </p>
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public interface MailService {
 	public void sendSimpleMail(String to, String subject, String content);

@@ -4,13 +4,20 @@ package swust.xl.pojo.vo;
  * 获取验证图片响应体
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class VerificationCodeResp {
+
 	private String cuttedImgBase64;
 	private String cuttedOriginImgBase64;
 	private String XCoordinate;
 	private String YCoordinate;
+
+	@Override
+	public String toString() {
+		return "VerificationCodeResp [cuttedImgBase64=" + cuttedImgBase64 + ", cuttedOriginImgBase64="
+				+ cuttedOriginImgBase64 + ", XCoordinate=" + XCoordinate + ", YCoordinate=" + YCoordinate + "]";
+	}
 
 	public String getCuttedImgBase64() {
 		return cuttedImgBase64;
@@ -43,4 +50,5 @@ public class VerificationCodeResp {
 	public void setYCoordinate(String yCoordinate) {
 		YCoordinate = yCoordinate;
 	}
+
 }

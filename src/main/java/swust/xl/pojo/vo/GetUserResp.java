@@ -7,7 +7,7 @@ import swust.xl.pojo.vo.getuser.response.VoGetUserResponse;
  *
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class GetUserResp {
 

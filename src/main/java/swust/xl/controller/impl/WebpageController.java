@@ -16,7 +16,7 @@ import swust.xl.service.UsersService;
  * 测试controller
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Controller
 @SessionAttributes("value")
@@ -33,6 +33,7 @@ public class WebpageController {
 	@ResponseStatus(HttpStatus.OK)
 	public String Index(HttpServletRequest request) {
 		request.getSession().setMaxInactiveInterval(3600);
+		System.out.println(request.getAttribute("value"));
 		return "index";
 	}
 
@@ -48,7 +49,7 @@ public class WebpageController {
 	@ResponseBody
 	public VerificationCodeResp sendImage(HttpServletRequest request) throws Exception {
 		String path = "src/main/resources/static/1.jpg";// 指定图片路径
-		VerificationCodeResp resp = usersService.getImage(2560, 1440, 300, 300, path);
+		VerificationCodeResp resp = usersService.getImage(1920, 1080, 300, 300, path);
 		int x = Integer.valueOf(resp.getXCoordinate());
 		request.getSession().setAttribute("value", x);
 		return resp;

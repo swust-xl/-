@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
@@ -17,11 +17,11 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * </p>
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
-@SuppressWarnings("deprecation")
+
 @Configuration
-public class WebSecurityConfig extends WebMvcConfigurerAdapter {
+public class WebSecurityConfig implements WebMvcConfigurer {
 
 	/**
 	 * 登录session key
@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 		return new SecurityInterceptor();
 	}
 
+	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
 
@@ -41,8 +42,8 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
 		addInterceptor.excludePathPatterns("/**");
 
 		// 拦截配置
-		//addInterceptor.addPathPatterns("/");
-		//addInterceptor.addPathPatterns("/index");
+		// addInterceptor.addPathPatterns("/");
+		// addInterceptor.addPathPatterns("/index");
 	}
 
 	private class SecurityInterceptor extends HandlerInterceptorAdapter {

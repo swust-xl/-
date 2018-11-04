@@ -5,7 +5,7 @@ package swust.xl.pojo.bo.getuser.response;
  * 
  *
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 public class BoGetUserResponse {
 	private Long id;
@@ -16,6 +16,13 @@ public class BoGetUserResponse {
 	private String passwordSalt;
 	private String registDatetime;
 	private String lastLoginDatetime;
+
+	@Override
+	public String toString() {
+		return "BoGetUserResponse [id=" + id + ", username=" + username + ", sex=" + sex + ", isSystem=" + isSystem
+				+ ", salt=" + salt + ", passwordSalt=" + passwordSalt + ", registDatetime=" + registDatetime
+				+ ", lastLoginDatetime=" + lastLoginDatetime + "]";
+	}
 
 	public Long getId() {
 		return id;
@@ -80,4 +87,5 @@ public class BoGetUserResponse {
 	public void setLastLoginDatetime(String lastLoginDatetime) {
 		this.lastLoginDatetime = lastLoginDatetime;
 	}
+
 }

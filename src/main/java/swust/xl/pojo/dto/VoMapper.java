@@ -15,7 +15,7 @@ import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
  *
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
 @Mapper
 public interface VoMapper {
@@ -28,7 +28,7 @@ public interface VoMapper {
 	 * @return 转化后的VO层对象
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 
 	VoGetUserResponse fromBoToVoGetUserResponseMap(BoGetUserResponse boGetUserResponse);
@@ -41,7 +41,7 @@ public interface VoMapper {
 	 *
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	BoAddUserRequest fromVoToBoAddUserRequestMap(VoAddUserRequest voAddUserRequest);
 
@@ -53,7 +53,7 @@ public interface VoMapper {
 	 *
 	 * 
 	 * @author xuLiang
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	BoPatchUserRequest fromVoToBoPatchUserRequestMap(VoPatchUserRequest voPatchUserRequest);
 

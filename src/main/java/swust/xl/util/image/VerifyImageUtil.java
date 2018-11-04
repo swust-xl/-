@@ -1,18 +1,10 @@
 package swust.xl.util.image;
 
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
-
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-
 import org.springframework.stereotype.Component;
 
 import sun.misc.BASE64Decoder;
@@ -22,8 +14,9 @@ import sun.misc.BASE64Encoder;
  * 图片处理工具类
  * 
  * @author xuLiang
- * @since 0.0.1
+ * @since 1.0.0
  */
+
 @SuppressWarnings("restriction")
 @Component
 public class VerifyImageUtil {
@@ -31,29 +24,9 @@ public class VerifyImageUtil {
 	/**
 	 * 用来裁剪到滑动的方块
 	 */
-	public BufferedImage getMarkImage(BufferedImage image, int x, int y, int length, int width) throws IOException {
-		InputStream is = null;
-		ImageInputStream iis = null;
-		try {
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
-			ImageIO.write(image, "png", os);
-			is = new ByteArrayInputStream(os.toByteArray());
-			Iterator<ImageReader> it = ImageIO.getImageReadersByFormatName("png");
-			ImageReader reader = it.next();
-			iis = ImageIO.createImageInputStream(is);
-			reader.setInput(iis, true);
-			ImageReadParam param = reader.getDefaultReadParam();
-			Rectangle rectangle = new Rectangle(x, y, length, width);
-			param.setSourceRegion(rectangle);
-			BufferedImage bi = reader.read(0, param);
-			return bi;
-		} finally {
-			if (is != null)
-				is.close();
-			if (iis != null)
-				iis.close();
-		}
-
+	public static BufferedImage getMarkImage(BufferedImage bufferedImage, int x, int y, int length, int width) {
+		BufferedImage bi = bufferedImage.getSubimage(x, y, length, width);
+		return bi;
 	}
 
 	/**
@@ -73,7 +46,7 @@ public class VerifyImageUtil {
 	 *            抠图的宽度
 	 * @return 被抠滑块的坐标
 	 */
-	public int[][] getCutAreaData(int targetLength, int targetWidth, int x, int y, int length, int width) {
+	public static int[][] getCutAreaData(int targetLength, int targetWidth, int x, int y, int length, int width) {
 		int[][] data = new int[targetLength][targetWidth];
 		for (int i = 0; i < targetLength; i++) {
 			for (int j = 0; j < targetWidth; j++) {
@@ -99,20 +72,8 @@ public class VerifyImageUtil {
 		for (int i = 0; i < oriImage.getWidth(); i++) {
 			for (int j = 0; j < oriImage.getHeight(); j++) {
 				int rgb = templateImage[i][j];
-				// 原图中对应位置变色处理
-
-				// int rgb_ori = oriImage.getRGB(i, j);
-
 				if (rgb == 1) {
-					// 颜色处理
-					/**
-					 * int r = (0xff & rgb_ori); int g = (0xff & (rgb_ori >> 8)); int b = (0xff &
-					 * (rgb_ori >> 16)); int Gray = (r * 2 + g * 5 + b * 1) >> 3;
-					 * 
-					 */
-
 					// 原图对应位置颜色变化
-
 					oriImage.setRGB(i, j, 99999999);
 				}
 			}
@@ -126,7 +87,7 @@ public class VerifyImageUtil {
 	 * @return Base64
 	 * @throws Exception
 	 */
-	public String imageToBase64(BufferedImage image) throws Exception {
+	public static String imageToBase64(BufferedImage image) throws Exception {
 		byte[] imagedata = null;
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 		ImageIO.write(image, "png", bao);
@@ -144,7 +105,7 @@ public class VerifyImageUtil {
 	 * @return image
 	 * @throws Exception
 	 */
-	public BufferedImage base64StringToImage(String base64String) {
+	public static BufferedImage base64StringToImage(String base64String) {
 		try {
 			BASE64Decoder decoder = new BASE64Decoder();
 			byte[] bytes1 = decoder.decodeBuffer(base64String);
