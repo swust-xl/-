@@ -160,7 +160,6 @@ public class UsersServiceImpl implements UsersService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 * @throws Exception
-	 * 
 	 */
 	@Override
 	public VerificationCodeResp getImage(int originImgX, int originImgY, int cuttedImgX, int cuttedImgY, String path)
