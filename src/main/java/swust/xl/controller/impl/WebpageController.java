@@ -68,6 +68,7 @@ public class WebpageController {
 		String userX = String.valueOf(request.getHeader("value"));
 		String x = String.valueOf(request.getSession().getAttribute("value"));
 		if ((Math.abs((Integer.valueOf(x) - Integer.valueOf(userX))) > 30)) {
+			request.getSession().removeAttribute("value");
 			throw new Exception("验证失败");
 		}
 		return "验证成功";
