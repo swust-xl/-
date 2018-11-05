@@ -1,7 +1,6 @@
 package swust.xl.controller;
 
-import javax.servlet.http.HttpSession;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import swust.xl.pojo.vo.GetUserResp;
 import swust.xl.pojo.vo.UserLogin;
@@ -28,7 +27,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	GetUserResp addUser(VoAddUserRequest voAddUserRequset);
+	ResponseEntity<Object> addUser(VoAddUserRequest voAddUserRequset);
 
 	/**
 	 * 
@@ -40,7 +39,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	GetUserResp getUserById(Long id);
+	ResponseEntity<Object> getUserById(Long id);
 
 	/**
 	 * 
@@ -53,7 +52,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	GetUserResp getUserByUsername(String username);
+	ResponseEntity<Object> getUserByUsername(String username);
 
 	/**
 	 * 
@@ -80,7 +79,7 @@ public interface UsersController {
 	 * @since 1.0.0
 	 */
 
-	GetUserResp patchUser(VoPatchUserRequest voPatchUserRequest);
+	ResponseEntity<Object> patchUser(VoPatchUserRequest voPatchUserRequest);
 
 	/**
 	 * 用户登陆验证
@@ -92,7 +91,7 @@ public interface UsersController {
 	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	public String loginVerify(UserLogin userLogin, HttpSession session) throws Exception;
+	public ResponseEntity<Object> loginVerify(UserLogin userLogin);
 
 	/**
 	 * 用户登出移除session
@@ -102,6 +101,6 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public String logout(HttpSession session);
+	public GetUserResp logout();
 
 }

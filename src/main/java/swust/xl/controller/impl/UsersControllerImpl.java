@@ -1,9 +1,9 @@
 package swust.xl.controller.impl;
 
-import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import swust.xl.annotation.CustomAnnotation;
 import swust.xl.controller.UsersController;
 import swust.xl.pojo.dto.VoMapper;
 import swust.xl.pojo.vo.GetUserResp;
@@ -36,7 +34,9 @@ import swust.xl.webSecurityConfig.WebSecurityConfig;
 public class UsersControllerImpl implements UsersController {
 
 	@Autowired
-	public UsersService usersService;
+	private UsersService usersService;
+	@Autowired
+	private HttpServletRequest request;
 
 	/**
 	 * 
@@ -52,14 +52,18 @@ public class UsersControllerImpl implements UsersController {
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
 	@Override
-	@CustomAnnotation
-	public GetUserResp addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
-		GetUserResp result = new GetUserResp();
-		result.setCode(1);
-		result.setMessage("添加成功！");
-		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
-				usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
-		return result;
+	public ResponseEntity<Object> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
+		GetUserResp response = new GetUserResp();
+		if (usersService.getUser(voAddUserRequest.getUsername()) == null) {
+			response.setCode(1);
+			response.setMessage("添加成功");
+			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
+					usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
+			return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+		}
+		response.setCode(0);
+		response.setMessage("用户名已存在");
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -76,12 +80,17 @@ public class UsersControllerImpl implements UsersController {
 	@GetMapping("/users/{user-id}")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public GetUserResp getUserById(@PathVariable("user-id") Long id) {
-		GetUserResp result = new GetUserResp();
-		result.setCode(1);
-		result.setMessage("查询成功！");
-		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
-		return result;
+	public ResponseEntity<Object> getUserById(@PathVariable("user-id") Long id) {
+		GetUserResp response = new GetUserResp();
+		if (request.getSession().getAttribute("admin") != null) {
+			response.setCode(1);
+			response.setMessage("查询成功");
+			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
+		response.setCode(0);
+		response.setMessage("查询失败");
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -98,12 +107,17 @@ public class UsersControllerImpl implements UsersController {
 	@GetMapping("/users")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public GetUserResp getUserByUsername(@RequestParam("username") String username) {
-		GetUserResp result = new GetUserResp();
-		result.setCode(1);
-		result.setMessage("查询成功！");
-		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(username)));
-		return result;
+	public ResponseEntity<Object> getUserByUsername(@RequestParam("username") String username) {
+		GetUserResp response = new GetUserResp();
+		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY).equals(username)) {
+			response.setCode(1);
+			response.setMessage("查询成功");
+			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(username)));
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
+		response.setCode(0);
+		response.setMessage("查询失败");
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -117,11 +131,13 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@DeleteMapping("/users/{user-id}")
+	@DeleteMapping("/users")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Override
-	public void deleteUser(@PathVariable("user-id") Long id) {
-		usersService.deleteUser(id);
+	public void deleteUser(@RequestParam Long id) {
+		if (request.getSession().getAttribute("admin") != null) {
+			usersService.deleteUser(id);
+		}
 	}
 
 	/**
@@ -140,13 +156,18 @@ public class UsersControllerImpl implements UsersController {
 	@PutMapping("/users")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public GetUserResp patchUser(@RequestBody VoPatchUserRequest voPatchUserRequest) {
-		GetUserResp result = new GetUserResp();
-		result.setCode(1);
-		result.setMessage("更新成功");
-		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
-				usersService.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
-		return result;
+	public ResponseEntity<Object> patchUser(@RequestBody VoPatchUserRequest voPatchUserRequest) {
+		GetUserResp response = new GetUserResp();
+		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY).equals(voPatchUserRequest.getUsername())) {
+			response.setCode(1);
+			response.setMessage("更新成功");
+			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
+					usersService.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		}
+		response.setCode(0);
+		response.setMessage("更新失败");
+		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -154,31 +175,37 @@ public class UsersControllerImpl implements UsersController {
 	 * 
 	 * @param userLogin
 	 *            用户登录请求体
-	 * @return SESSION
+	 * @return ResponseEntity<Object>
 	 * @author xuLiang
-	 * @throws Exception
 	 * @since 1.0.0
 	 * 
 	 */
-	@PostMapping("/loginVerify")
+	@PostMapping("/loginverify")
 	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
 	@Override
-	public String loginVerify(@RequestBody UserLogin userLogin, HttpSession session) throws Exception {
-		if (userLogin.getUsername().toString().isEmpty() || userLogin.getPassword().isEmpty()) {
-			throw new Exception("用户名或密码不能为空");
-		} else {
-			boolean verify = usersService.verifyLogin(userLogin);
-			if (verify) {
-				session.setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsername());
-				session.setMaxInactiveInterval(3600);
-				usersService.updateLastLoginDatetime(userLogin.getUsername());
-				return "登陆成功";
+	public ResponseEntity<Object> loginVerify(@RequestBody UserLogin userLogin) {
+		GetUserResp response = new GetUserResp();
+		boolean verify = usersService.verifyLogin(userLogin);
+		if (verify) {
+			if (usersService.getUser(userLogin.getUsername()).getIsSystem() == 1) {
+				request.getSession().setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsername());
+				request.getSession().setAttribute("admin", 1);
+				request.getSession().setMaxInactiveInterval(1800);
 			} else {
-				throw new Exception("用户名或密码错误");
+				request.getSession().setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsername());
+				request.getSession().setMaxInactiveInterval(3600);
 			}
+			usersService.updateLastLoginDatetime(userLogin.getUsername());
+			response.setCode(1);
+			response.setMessage("登录成功");
+			response.setData(
+					VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(userLogin.getUsername())));
+			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		} else {
+			response.setCode(0);
+			response.setMessage("用户名或密码错误");
+			return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
 		}
-
 	}
 
 	/**
@@ -186,16 +213,18 @@ public class UsersControllerImpl implements UsersController {
 	 * 
 	 * @param userLogin
 	 *            用户登录请求体
-	 * @return SESSION
+	 * @return GetUserResp
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@GetMapping("/logout")
+	@DeleteMapping("/logout")
 	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
 	@Override
-	public String logout(HttpSession session) {
-		session.removeAttribute(WebSecurityConfig.SESSION_KEY);
-		return "登出成功";
+	public GetUserResp logout() {
+		GetUserResp response = new GetUserResp();
+		request.getSession().invalidate();
+		response.setCode(0);
+		response.setMessage("登出成功");
+		return response;
 	}
 }

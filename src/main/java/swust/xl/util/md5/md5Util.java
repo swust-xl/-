@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * md5加密工具类
  * 
+ * @author xuLiang
  * @since 1.0.0
  */
 @Component

@@ -2,8 +2,6 @@ package swust.xl;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-import swust.xl.configuration.CustomBean;
 
 /**
  * 
@@ -12,7 +10,6 @@ import swust.xl.configuration.CustomBean;
  * @author xuLiang
  * @since 1.0.0
  */
-@Import(CustomBean.class)
 @SpringBootApplication
 public class Application {
 	public static void main(String[] args) {

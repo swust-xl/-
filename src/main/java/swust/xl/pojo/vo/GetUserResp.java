@@ -13,7 +13,7 @@ public class GetUserResp {
 
 	private int code;
 	private String message;
-	private VoGetUserResponse voGetUserResponse;
+	private VoGetUserResponse data;
 
 	public int getCode() {
 		return code;
@@ -31,12 +31,12 @@ public class GetUserResp {
 		this.message = message;
 	}
 
-	public VoGetUserResponse getVoGetUserResponse() {
-		return voGetUserResponse;
+	public VoGetUserResponse getData() {
+		return data;
 	}
 
-	public void setVoGetUserResponse(VoGetUserResponse voGetUserResponse) {
-		this.voGetUserResponse = voGetUserResponse;
+	public void setData(VoGetUserResponse data) {
+		this.data = data;
 	}
 
 }

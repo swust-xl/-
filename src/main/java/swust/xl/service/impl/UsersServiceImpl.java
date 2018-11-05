@@ -48,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
 	 * @since 1.0.0
 	 */
 	@Override
-	public BoGetUserResponse getUser(Long id) {
+	public BoGetUserResponse getUser(@Valid @NotNull Long id) {
 		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(id));
 
 	}

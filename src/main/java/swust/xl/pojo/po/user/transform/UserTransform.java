@@ -1,7 +1,7 @@
 package swust.xl.pojo.po.user.transform;
 
 /**
- * PO层和VO层不同类型属性之间转换
+ * 不同类型变量之间转换
  *
  * @author xuLiang
  * @since 1.0.0
