@@ -137,13 +137,13 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@PutMapping("/patchuser")
+	@PutMapping("/users")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public GetUserResp patchUser(@RequestBody VoPatchUserRequest voPatchUserRequest) {
 		GetUserResp result = new GetUserResp();
 		result.setCode(1);
-		result.setMessage("update succeed");
+		result.setMessage("更新成功");
 		result.setVoGetUserResponse(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
 				usersService.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
 		return result;
@@ -166,7 +166,7 @@ public class UsersControllerImpl implements UsersController {
 	@Override
 	public String loginVerify(@RequestBody UserLogin userLogin, HttpSession session) throws Exception {
 		if (userLogin.getUsername().toString().isEmpty() || userLogin.getPassword().isEmpty()) {
-			return "ID或密码不能为空";
+			throw new Exception("用户名或密码不能为空");
 		} else {
 			boolean verify = usersService.verifyLogin(userLogin);
 			if (verify) {

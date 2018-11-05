@@ -24,13 +24,13 @@ public class VerifyImageUtil {
 	/**
 	 * 用来裁剪到滑动的方块
 	 */
-	public static BufferedImage getMarkImage(BufferedImage bufferedImage, int x, int y, int length, int width) {
+	public static BufferedImage getCuttedImage(BufferedImage bufferedImage, int x, int y, int length, int width) {
 		BufferedImage bi = bufferedImage.getSubimage(x, y, length, width);
 		return bi;
 	}
 
 	/**
-	 * 被抠滑块的坐标
+	 * 被抠滑块的坐标集合
 	 * 
 	 * @param targetLength
 	 *            原图的长度

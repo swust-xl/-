@@ -2,7 +2,6 @@ package swust.xl.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.sql.Timestamp;
 import java.util.Random;
 
@@ -171,10 +170,7 @@ public class UsersServiceImpl implements UsersService {
 		response.setXCoordinate(x + "");
 		response.setYCoordinate(y + "");
 		BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
-		BufferedImage cuttedImg = VerifyImageUtil.getMarkImage(bufferedImage, x, y, cuttedImgX, cuttedImgY);// 用来裁剪到滑动的方块
-		/**
-		 * 此行代码必须在VerifyImageUtil.cutByTemplate之前,否则裁剪的源图会变成经过变色处理了的图片
-		 */
+		BufferedImage cuttedImg = VerifyImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgX, cuttedImgY);// 用来裁剪到滑动的方块
 		response.setCuttedImgBase64(VerifyImageUtil.imageToBase64(cuttedImg));
 		int[][] cuttedOriginImgCoordinate = VerifyImageUtil.getCutAreaData(originImgX, originImgY, x, y, cuttedImgX,
 				cuttedImgY);// 被抠滑块的坐标集合

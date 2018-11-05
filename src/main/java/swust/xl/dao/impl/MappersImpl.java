@@ -118,12 +118,13 @@ public class MappersImpl implements Mappers {
 	 */
 	@Override
 	public UserPerson patchUser(UserPerson userPerson) {
-		UserPersonRecord UsersRecord = dsl.selectFrom(USER_PERSON)
+		UserPersonRecord usersRecord = dsl.selectFrom(USER_PERSON)
 				.where(USER_PERSON.USERNAME.eq(userPerson.getUsername())).fetchOne();
-		UsersRecord.from(userPerson);
-		UsersRecord.changed("id", false);
-		UsersRecord.store();
-		return UsersRecord.into(UserPerson.class);
+		usersRecord.setSex(userPerson.getSex());
+		usersRecord.setPasswordSalt(userPerson.getPasswordSalt());
+		usersRecord.setSalt(userPerson.getSalt());
+		usersRecord.store();
+		return usersRecord.into(UserPerson.class);
 	}
 
 	/**

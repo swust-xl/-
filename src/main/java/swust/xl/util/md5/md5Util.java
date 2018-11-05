@@ -4,12 +4,14 @@ import java.security.MessageDigest;
 import java.util.Random;
 
 import org.apache.commons.codec.binary.Hex;
+import org.springframework.stereotype.Component;
 
 /**
  * md5加密工具类
  * 
  * @since 1.0.0
  */
+@Component
 public class md5Util {
 	/**
 	 * 

@@ -33,7 +33,6 @@ public class WebpageController {
 	@ResponseStatus(HttpStatus.OK)
 	public String Index(HttpServletRequest request) {
 		request.getSession().setMaxInactiveInterval(3600);
-		System.out.println(request.getAttribute("value"));
 		return "index";
 	}
 
@@ -66,12 +65,12 @@ public class WebpageController {
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public String CoordinateVerify(HttpServletRequest request) throws Exception {
-		String userX = String.valueOf(request.getAttribute("value"));
+		String userX = String.valueOf(request.getHeader("value"));
 		String x = String.valueOf(request.getSession().getAttribute("value"));
 		if ((Math.abs((Integer.valueOf(x) - Integer.valueOf(userX))) > 30)) {
 			throw new Exception("验证失败");
 		}
-		return null;
+		return "验证成功";
 	}
 
 }
