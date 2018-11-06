@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
-import swust.xl.pojo.bo.getuser.response.BoGetUserResponse;
+import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
 import swust.xl.pojo.po.user.transform.UserTransform;
@@ -33,7 +33,7 @@ public interface BoMapper {
 	 * @since 1.0.0
 	 */
 
-	BoGetUserResponse toBoGetUserRespMap(UserPerson userPerson);
+	BoGetUserResp toBoGetUserRespMap(UserPerson userPerson);
 
 	/*
 	 * BO层的对象转化为数据库对象

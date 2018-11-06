@@ -2,7 +2,6 @@ package swust.xl.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import swust.xl.pojo.vo.GetUserResp;
 import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.adduser.requset.VoAddUserRequest;
 import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
@@ -101,6 +100,6 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public GetUserResp logout();
+	public ResponseEntity<Object> logout();
 
 }

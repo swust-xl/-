@@ -1,10 +1,9 @@
 package swust.xl.pojo.vo;
 
-import swust.xl.pojo.vo.getuser.response.VoGetUserResponse;
+import swust.xl.pojo.vo.getuser.response.VoGetUserResp;
 
 /**
  * 查询用户统一响应体.
- *
  *
  * @author xuLiang
  * @since 1.0.0
@@ -13,7 +12,7 @@ public class GetUserResp {
 
 	private int code;
 	private String message;
-	private VoGetUserResponse data;
+	private VoGetUserResp data;
 
 	public int getCode() {
 		return code;
@@ -31,11 +30,11 @@ public class GetUserResp {
 		this.message = message;
 	}
 
-	public VoGetUserResponse getData() {
+	public VoGetUserResp getData() {
 		return data;
 	}
 
-	public void setData(VoGetUserResponse data) {
+	public void setData(VoGetUserResp data) {
 		this.data = data;
 	}
 

@@ -7,7 +7,7 @@ package swust.xl.pojo.bo.getuser.response;
  * @author xuLiang
  * @since 1.0.0
  */
-public class BoGetUserResponse {
+public class BoGetUserResp {
 	private Long id;
 	private String username;
 	private String sex;

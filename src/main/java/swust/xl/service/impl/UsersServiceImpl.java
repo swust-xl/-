@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import swust.xl.dao.Mappers;
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
-import swust.xl.pojo.bo.getuser.response.BoGetUserResponse;
+import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.dto.BoMapper;
 import swust.xl.pojo.vo.UserLogin;
@@ -48,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
 	 * @since 1.0.0
 	 */
 	@Override
-	public BoGetUserResponse getUser(@Valid @NotNull Long id) {
+	public BoGetUserResp getUser(@Valid @NotNull Long id) {
 		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(id));
 
 	}
@@ -63,7 +63,7 @@ public class UsersServiceImpl implements UsersService {
 	 * @since 1.0.0
 	 */
 	@Override
-	public BoGetUserResponse getUser(@Valid @NotNull String username) {
+	public BoGetUserResp getUser(@Valid @NotNull String username) {
 		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(username));
 
 	}
@@ -80,7 +80,7 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Transactional
 	@Override
-	public BoGetUserResponse addUser(BoAddUserRequest boAddUserRequest) {
+	public BoGetUserResp addUser(BoAddUserRequest boAddUserRequest) {
 		String salt = md5Util.getSalt();
 		String passwordWithSalt = md5Util.md5Hex(boAddUserRequest.getPassword() + salt);
 		boAddUserRequest.setSalt(salt);
@@ -119,7 +119,7 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Transactional
 	@Override
-	public BoGetUserResponse patchUser(BoPatchUserRequest boPatchUserRequest) {
+	public BoGetUserResp patchUser(BoPatchUserRequest boPatchUserRequest) {
 		String salt = md5Util.getSalt();
 		String passwordWithSalt = md5Util.md5Hex(boPatchUserRequest.getPassword() + salt);
 		boPatchUserRequest.setSalt(salt);
@@ -140,6 +140,8 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Override
 	public boolean verifyLogin(UserLogin userLogin) {
+		userLogin.setPassword(
+				md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsername()).getSalt()));
 		return mappers.findByIdAndPassword(userLogin);
 	}
 

@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import swust.xl.controller.UsersController;
 import swust.xl.pojo.dto.VoMapper;
-import swust.xl.pojo.vo.GetUserResp;
 import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.adduser.requset.VoAddUserRequest;
 import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
 import swust.xl.service.UsersService;
+import swust.xl.util.md5.md5Util;
+import swust.xl.util.response.ResponseUtil;
+import swust.xl.util.session.SessionUtil;
 import swust.xl.webSecurityConfig.WebSecurityConfig;
 
 /**
@@ -53,17 +55,18 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@Override
 	public ResponseEntity<Object> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
-		GetUserResp response = new GetUserResp();
-		if (usersService.getUser(voAddUserRequest.getUsername()) == null) {
-			response.setCode(1);
-			response.setMessage("添加成功");
-			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
-					usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
-			return new ResponseEntity<Object>(response, HttpStatus.CREATED);
+		if (request.getSession().getAttribute("ip") == null) {
+			if (usersService.getUser(voAddUserRequest.getUsername()) == null) {
+				request.getSession().setAttribute("ip", request.getRemoteAddr());
+				SessionUtil.removeAttribute(request.getSession(), "ip", 60);
+				return ResponseUtil.commonResp(HttpStatus.OK, 1, "添加成功",
+						VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
+								usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
+			}
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户已存在",
+					md5Util.md5Hex(usersService.getUser(voAddUserRequest.getUsername()).getId().toString()));
 		}
-		response.setCode(0);
-		response.setMessage("用户名已存在");
-		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "请求过于频繁", "");
 	}
 
 	/**
@@ -81,16 +84,11 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public ResponseEntity<Object> getUserById(@PathVariable("user-id") Long id) {
-		GetUserResp response = new GetUserResp();
 		if (request.getSession().getAttribute("admin") != null) {
-			response.setCode(1);
-			response.setMessage("查询成功");
-			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
-			return new ResponseEntity<Object>(response, HttpStatus.OK);
+			return ResponseUtil.GetUserResp(HttpStatus.OK, 1, "查询成功",
+					VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
 		}
-		response.setCode(0);
-		response.setMessage("查询失败");
-		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
 	}
 
 	/**
@@ -108,16 +106,14 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public ResponseEntity<Object> getUserByUsername(@RequestParam("username") String username) {
-		GetUserResp response = new GetUserResp();
-		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY).equals(username)) {
-			response.setCode(1);
-			response.setMessage("查询成功");
-			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(username)));
-			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY) != null) {
+			if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY).equals(username)) {
+				return ResponseUtil.GetUserResp(HttpStatus.OK, 0, "查询成功",
+						VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(username)));
+			}
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
 		}
-		response.setCode(0);
-		response.setMessage("查询失败");
-		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
 	}
 
 	/**
@@ -157,17 +153,16 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public ResponseEntity<Object> patchUser(@RequestBody VoPatchUserRequest voPatchUserRequest) {
-		GetUserResp response = new GetUserResp();
-		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY).equals(voPatchUserRequest.getUsername())) {
-			response.setCode(1);
-			response.setMessage("更新成功");
-			response.setData(VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(
-					usersService.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
-			return new ResponseEntity<Object>(response, HttpStatus.OK);
+		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY) != null) {
+			if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY)
+					.equals(voPatchUserRequest.getUsername())) {
+				return ResponseUtil.GetUserResp(HttpStatus.OK, 1, "更新成功",
+						VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService
+								.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
+			}
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
 		}
-		response.setCode(0);
-		response.setMessage("更新失败");
-		return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
 	}
 
 	/**
@@ -184,7 +179,6 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public ResponseEntity<Object> loginVerify(@RequestBody UserLogin userLogin) {
-		GetUserResp response = new GetUserResp();
 		boolean verify = usersService.verifyLogin(userLogin);
 		if (verify) {
 			if (usersService.getUser(userLogin.getUsername()).getIsSystem() == 1) {
@@ -196,15 +190,10 @@ public class UsersControllerImpl implements UsersController {
 				request.getSession().setMaxInactiveInterval(3600);
 			}
 			usersService.updateLastLoginDatetime(userLogin.getUsername());
-			response.setCode(1);
-			response.setMessage("登录成功");
-			response.setData(
-					VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(userLogin.getUsername())));
-			return new ResponseEntity<Object>(response, HttpStatus.OK);
+			return ResponseUtil.commonResp(HttpStatus.OK, 1, "登录成功", VoMapper.INSTANCE
+					.fromBoToVoGetUserCommonResponseMap(usersService.getUser(userLogin.getUsername())));
 		} else {
-			response.setCode(0);
-			response.setMessage("用户名或密码错误");
-			return new ResponseEntity<Object>(response, HttpStatus.UNAUTHORIZED);
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户名或密码错误", "");
 		}
 	}
 
@@ -220,11 +209,8 @@ public class UsersControllerImpl implements UsersController {
 	@DeleteMapping("/logout")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public GetUserResp logout() {
-		GetUserResp response = new GetUserResp();
+	public ResponseEntity<Object> logout() {
 		request.getSession().invalidate();
-		response.setCode(0);
-		response.setMessage("登出成功");
-		return response;
+		return ResponseUtil.commonResp(HttpStatus.OK, 1, "登出成功", null);
 	}
 }

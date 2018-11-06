@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
-import swust.xl.pojo.bo.getuser.response.BoGetUserResponse;
+import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.VerificationCodeResp;
@@ -32,7 +32,7 @@ public interface UsersService {
 	 * @since 1.0.0
 	 */
 
-	BoGetUserResponse getUser(@Valid @NotNull Long id);
+	BoGetUserResp getUser(@Valid @NotNull Long id);
 
 	/**
 	 * 根据用户名获取一条用户信息记录.
@@ -44,7 +44,7 @@ public interface UsersService {
 	 * @since 1.0.0
 	 */
 
-	BoGetUserResponse getUser(@Valid @NotNull String username);
+	BoGetUserResp getUser(@Valid @NotNull String username);
 
 	/**
 	 * 
@@ -57,7 +57,7 @@ public interface UsersService {
 	 * @since 1.0.0
 	 */
 
-	BoGetUserResponse addUser(@Valid @NotNull BoAddUserRequest boAddUserRequest);
+	BoGetUserResp addUser(@Valid @NotNull BoAddUserRequest boAddUserRequest);
 
 	/**
 	 * 
@@ -81,7 +81,7 @@ public interface UsersService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	BoGetUserResponse patchUser(@Valid @NotNull BoPatchUserRequest boPatchUserRequest);
+	BoGetUserResp patchUser(@Valid @NotNull BoPatchUserRequest boPatchUserRequest);
 
 	/**
 	 * 更新用户最后登录时间

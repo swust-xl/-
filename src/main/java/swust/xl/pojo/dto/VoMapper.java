@@ -4,10 +4,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
-import swust.xl.pojo.bo.getuser.response.BoGetUserResponse;
+import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.vo.adduser.requset.VoAddUserRequest;
-import swust.xl.pojo.vo.getuser.response.VoGetUserResponse;
+import swust.xl.pojo.vo.getuser.commonresponse.VoGetUserCommonResp;
+import swust.xl.pojo.vo.getuser.response.VoGetUserResp;
 import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
 
 /**
@@ -31,7 +32,9 @@ public interface VoMapper {
 	 * @since 1.0.0
 	 */
 
-	VoGetUserResponse fromBoToVoGetUserResponseMap(BoGetUserResponse boGetUserResponse);
+	VoGetUserResp fromBoToVoGetUserResponseMap(BoGetUserResp boGetUserResponse);
+
+	VoGetUserCommonResp fromBoToVoGetUserCommonResponseMap(BoGetUserResp boGetUserResponse);
 
 	/**
 	 * VO层转化为BO层对象

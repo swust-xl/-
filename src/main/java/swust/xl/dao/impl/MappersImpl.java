@@ -12,7 +12,6 @@ import swust.xl.dao.Mappers;
 import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
 import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
 import swust.xl.pojo.vo.UserLogin;
-import swust.xl.util.md5.md5Util;
 
 /**
  * 
@@ -139,11 +138,8 @@ public class MappersImpl implements Mappers {
 	 */
 	@Override
 	public boolean findByIdAndPassword(UserLogin userLogin) {
-		UserPersonRecord record = dsl.selectFrom(USER_PERSON)
-				.where(USER_PERSON.USERNAME.eq(userLogin.getUsername())
-						.and(USER_PERSON.PASSWORD_SALT.eq(
-								md5Util.md5Hex(userLogin.getPassword() + getUser(userLogin.getUsername()).getSalt()))))
-				.fetchOne();
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(userLogin.getUsername())
+				.and(USER_PERSON.PASSWORD_SALT.eq(userLogin.getPassword()))).fetchOne();
 		if (record != null) {
 			return true;
 		}

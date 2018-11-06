@@ -6,7 +6,7 @@ package swust.xl.pojo.vo.getuser.response;
  * @author xuLiang
  * @since 1.0.0
  */
-public class VoGetUserResponse {
+public class VoGetUserResp {
 	private Long id;
 	private String username;
 	private String sex;
@@ -18,7 +18,7 @@ public class VoGetUserResponse {
 
 	@Override
 	public String toString() {
-		return "VoGetUserResponse [id=" + id + ", username=" + username + ", sex=" + sex + ", isSystem=" + isSystem
+		return "BoGetUserResponse [id=" + id + ", username=" + username + ", sex=" + sex + ", isSystem=" + isSystem
 				+ ", salt=" + salt + ", passwordSalt=" + passwordSalt + ", registDatetime=" + registDatetime
 				+ ", lastLoginDatetime=" + lastLoginDatetime + "]";
 	}
@@ -55,20 +55,20 @@ public class VoGetUserResponse {
 		this.salt = salt;
 	}
 
-	public int getIsSystem() {
-		return isSystem;
-	}
-
-	public void setIsSystem(int isSystem) {
-		this.isSystem = isSystem;
-	}
-
 	public String getPasswordSalt() {
 		return passwordSalt;
 	}
 
 	public void setPasswordSalt(String passwordSalt) {
 		this.passwordSalt = passwordSalt;
+	}
+
+	public int getIsSystem() {
+		return isSystem;
+	}
+
+	public void setIsSystem(int isSystem) {
+		this.isSystem = isSystem;
 	}
 
 	public String getRegistDatetime() {

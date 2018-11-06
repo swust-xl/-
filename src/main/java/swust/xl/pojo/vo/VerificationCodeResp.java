@@ -1,7 +1,7 @@
 package swust.xl.pojo.vo;
 
 /**
- * 获取验证图片响应体
+ * 验证图片响应体
  * 
  * @author xuLiang
  * @since 1.0.0
