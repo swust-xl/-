@@ -24,6 +24,10 @@ import swust.xl.util.response.ResponseUtil;
 @RestController
 @SessionAttributes("value")
 public class WebControllerImpl implements WebController {
+
+	public static final int ALLOWED_DIFFERENCE_VALUE = 20;
+	public static final String PICTURE_PATH = "src/main/resources/static/1.jpg";
+
 	@Autowired
 	private UsersService usersService;
 	@Autowired
@@ -40,14 +44,13 @@ public class WebControllerImpl implements WebController {
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public VerificationCodeResp sendImage() {
-		String path = "src/main/resources/static/2.jpg";// 指定图片路径
 		VerificationCodeResp resp = new VerificationCodeResp();
 		try {
-			resp = usersService.getImage(500, 400, 90, 90, path);
+			resp = usersService.getImage(500, 400, 90, 90, PICTURE_PATH);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		int x = Integer.valueOf(resp.getXCoordinate());
+		int x = Integer.valueOf(resp.getxCoordinate());
 		request.getSession().setAttribute("value", x);
 		return resp;
 	}
@@ -55,17 +58,17 @@ public class WebControllerImpl implements WebController {
 	/**
 	 * 验证接口
 	 * 
-	 * @return String
+	 * @return ResponseEntity<Object>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
 	@PostMapping("/coorverify")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public ResponseEntity<Object> CoordinateVerify() {
+	public ResponseEntity<Object> coordinateVerify() {
 		String userX = String.valueOf(request.getHeader("value"));
 		String x = String.valueOf(request.getSession().getAttribute("value"));
-		if ((Math.abs((Integer.valueOf(x) - Integer.valueOf(userX))) > 20)) {
+		if ((Math.abs((Integer.valueOf(x) - Integer.valueOf(userX))) > ALLOWED_DIFFERENCE_VALUE)) {
 			request.getSession().removeAttribute("value");
 			return ResponseUtil.commonResp(HttpStatus.BAD_REQUEST, 0, "验证失败", null);
 		}

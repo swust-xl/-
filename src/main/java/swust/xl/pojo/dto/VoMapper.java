@@ -34,6 +34,15 @@ public interface VoMapper {
 
 	VoGetUserResp fromBoToVoGetUserResponseMap(BoGetUserResp boGetUserResponse);
 
+	/**
+	 * BO层转化为VO层对象
+	 * 
+	 * @param boGetUserResponse
+	 * @return 转化后的VO层对象
+	 * 
+	 * @author xuLiang
+	 * @since 1.0.0
+	 */
 	VoGetUserCommonResp fromBoToVoGetUserCommonResponseMap(BoGetUserResp boGetUserResponse);
 
 	/**

@@ -72,7 +72,8 @@ public class VerifyImageUtil {
 			for (int j = 0; j < oriImage.getHeight(); j++) {
 				int rgb = templateImage[i][j];
 				if (rgb == 1) {
-					oriImage.setRGB(i, j, -1); // 原图对应位置颜色变化
+					// 原图对应位置颜色变化
+					oriImage.setRGB(i, j, -1);
 				}
 			}
 		}
@@ -91,9 +92,10 @@ public class VerifyImageUtil {
 		ImageIO.write(image, "png", bao);
 		imagedata = bao.toByteArray();
 		BASE64Encoder encoder = new BASE64Encoder();
-		String BASE64IMAGE = encoder.encodeBuffer(imagedata).trim();
-		BASE64IMAGE = BASE64IMAGE.replaceAll("\n", "").replaceAll("\r", "");// 删除 \r\n
-		return BASE64IMAGE;
+		String base64Image = encoder.encodeBuffer(imagedata).trim();
+		// 删除 \r\n
+		base64Image = base64Image.replaceAll("\n", "").replaceAll("\r", "");
+		return base64Image;
 	}
 
 	/**

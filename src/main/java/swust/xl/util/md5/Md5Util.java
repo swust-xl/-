@@ -13,18 +13,20 @@ import org.springframework.stereotype.Component;
  * @since 1.0.0
  */
 @Component
-public class md5Util {
+public class Md5Util {
+
+	public static final int SALT_LENGTH = 16;
+
 	/**
-	 * 
 	 * 随机生成salt
 	 */
 	public static String getSalt() {
 		Random r = new Random();
-		StringBuilder sb = new StringBuilder(16);
+		StringBuilder sb = new StringBuilder(SALT_LENGTH);
 		sb.append(r.nextInt(99999999)).append(r.nextInt(99999999));
 		int len = sb.length();
-		if (len < 16) {
-			for (int i = 0; i < 16 - len; i++) {
+		if (len < SALT_LENGTH) {
+			for (int i = 0; i < SALT_LENGTH - len; i++) {
 				sb.append("0");
 			}
 		}

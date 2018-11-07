@@ -1,8 +1,8 @@
 package swust.xl.util.session;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -17,22 +17,28 @@ public class SessionUtil {
 	 * 
 	 * @param session
 	 *            指定session
-	 * @param attrName
+	 * @param attributeName
 	 *            指定session中的值
 	 * @param time
 	 *            指定时间(秒)
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static void removeAttribute(HttpSession session, String attrName, int time) {
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
+	public static void removeAttribute(HttpSession session, String attributeName, int time) {
+		ThreadFactory threadFactory = new ThreadFactory() {
+			@Override
+			public Thread newThread(Runnable r) {
+				Thread t = new Thread(r, "销毁session值线程");
+				return t;
+			}
+		};
+		ScheduledThreadPoolExecutor scheduled = new ScheduledThreadPoolExecutor(2, threadFactory);
+		scheduled.schedule(new Runnable() {
 			@Override
 			public void run() {
-				session.removeAttribute(attrName);
-				timer.cancel();
+				session.removeAttribute(attributeName);
 			}
-		}, time * 1000);
-	}
+		}, time, TimeUnit.SECONDS);
 
+	}
 }

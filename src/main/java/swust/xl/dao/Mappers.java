@@ -33,8 +33,8 @@ public interface Mappers {
 	 * 
 	 * 获取指定用户名用户.
 	 *
-	 * @param id
-	 *            需要获取的用户id
+	 * @param username
+	 *            需要获取的用户名
 	 * @return 获取到的用户对象
 	 * @author xuLiang
 	 * @since 1.0.0
@@ -45,7 +45,7 @@ public interface Mappers {
 	 * 
 	 * 添加一条用户信息记录.
 	 *
-	 * @param users
+	 * @param userPerson
 	 *            待添加的用户信息
 	 * @return 添加完成的用户信息对象
 	 * @author xuLiang
@@ -69,7 +69,7 @@ public interface Mappers {
 	 * 
 	 * 更新一条用户记录.
 	 *
-	 * @param Users
+	 * @param userPerson
 	 *            需要更新的用户对象
 	 * @return 更新完成的用户信息对象
 	 * @author xuLiang

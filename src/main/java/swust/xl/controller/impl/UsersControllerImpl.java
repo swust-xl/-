@@ -19,10 +19,10 @@ import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.adduser.requset.VoAddUserRequest;
 import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
 import swust.xl.service.UsersService;
-import swust.xl.util.md5.md5Util;
+import swust.xl.util.md5.Md5Util;
 import swust.xl.util.response.ResponseUtil;
 import swust.xl.util.session.SessionUtil;
-import swust.xl.webSecurityConfig.WebSecurityConfig;
+import swust.xl.websecurityconfig.WebSecurityConfig;
 
 /**
  * 
@@ -34,6 +34,9 @@ import swust.xl.webSecurityConfig.WebSecurityConfig;
  */
 @RestController
 public class UsersControllerImpl implements UsersController {
+
+	public static final String REFUSE_ATTRIBUTE = "ip";
+	public static final String ADMIN_ATTRIBUTE = "admin";
 
 	@Autowired
 	private UsersService usersService;
@@ -55,18 +58,18 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@Override
 	public ResponseEntity<Object> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
-		if (request.getSession().getAttribute("ip") == null) {
+		if (request.getSession().getAttribute(REFUSE_ATTRIBUTE) == null) {
 			if (usersService.getUser(voAddUserRequest.getUsername()) == null) {
-				request.getSession().setAttribute("ip", request.getRemoteAddr());
-				SessionUtil.removeAttribute(request.getSession(), "ip", 60);
+				request.getSession().setAttribute(REFUSE_ATTRIBUTE, request.getRemoteAddr());
+				SessionUtil.removeAttribute(request.getSession(), REFUSE_ATTRIBUTE, 60);
 				return ResponseUtil.commonResp(HttpStatus.OK, 1, "添加成功",
 						VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
 								usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
 			}
 			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户已存在",
-					md5Util.md5Hex(usersService.getUser(voAddUserRequest.getUsername()).getId().toString()));
+					Md5Util.md5Hex(usersService.getUser(voAddUserRequest.getUsername()).getId().toString()));
 		}
-		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "请求过于频繁", "");
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "请求过于频繁", "Request Refused");
 	}
 
 	/**
@@ -84,11 +87,11 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public ResponseEntity<Object> getUserById(@PathVariable("user-id") Long id) {
-		if (request.getSession().getAttribute("admin") != null) {
-			return ResponseUtil.GetUserResp(HttpStatus.OK, 1, "查询成功",
+		if (request.getSession().getAttribute(ADMIN_ATTRIBUTE) != null) {
+			return ResponseUtil.getUserResp(HttpStatus.OK, 1, "查询成功",
 					VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
 		}
-		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
 	}
 
 	/**
@@ -108,12 +111,12 @@ public class UsersControllerImpl implements UsersController {
 	public ResponseEntity<Object> getUserByUsername(@RequestParam("username") String username) {
 		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY) != null) {
 			if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY).equals(username)) {
-				return ResponseUtil.GetUserResp(HttpStatus.OK, 0, "查询成功",
+				return ResponseUtil.getUserResp(HttpStatus.OK, 0, "查询成功",
 						VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(username)));
 			}
-			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
 		}
-		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
 	}
 
 	/**
@@ -131,7 +134,7 @@ public class UsersControllerImpl implements UsersController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Override
 	public void deleteUser(@RequestParam Long id) {
-		if (request.getSession().getAttribute("admin") != null) {
+		if (request.getSession().getAttribute(ADMIN_ATTRIBUTE) != null) {
 			usersService.deleteUser(id);
 		}
 	}
@@ -156,13 +159,13 @@ public class UsersControllerImpl implements UsersController {
 		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY) != null) {
 			if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY)
 					.equals(voPatchUserRequest.getUsername())) {
-				return ResponseUtil.GetUserResp(HttpStatus.OK, 1, "更新成功",
+				return ResponseUtil.getUserResp(HttpStatus.OK, 1, "更新成功",
 						VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService
 								.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
 			}
-			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
 		}
-		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "");
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
 	}
 
 	/**
@@ -193,7 +196,7 @@ public class UsersControllerImpl implements UsersController {
 			return ResponseUtil.commonResp(HttpStatus.OK, 1, "登录成功", VoMapper.INSTANCE
 					.fromBoToVoGetUserCommonResponseMap(usersService.getUser(userLogin.getUsername())));
 		} else {
-			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户名或密码错误", "");
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户名或密码错误", "Request Refused");
 		}
 	}
 

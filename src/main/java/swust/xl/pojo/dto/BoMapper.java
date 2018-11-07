@@ -21,10 +21,10 @@ import swust.xl.pojo.po.user.transform.UserTransform;
 public interface BoMapper {
 	BoMapper INSTANCE = Mappers.getMapper(BoMapper.class);
 
-	/*
+	/**
 	 * 数据库对象转化为BO层的对象
 	 * 
-	 * @param Users
+	 * @param userPerson
 	 * 
 	 * @return 转化后的BO层对象
 	 * 
@@ -35,10 +35,10 @@ public interface BoMapper {
 
 	BoGetUserResp toBoGetUserRespMap(UserPerson userPerson);
 
-	/*
+	/**
 	 * BO层的对象转化为数据库对象
 	 * 
-	 * @param BoAddUserRequest
+	 * @param boAddUserRequest
 	 * 
 	 * @return 转化后的数据库对象
 	 * 
@@ -49,7 +49,7 @@ public interface BoMapper {
 	@Mapping(target = "passwordSalt", source = "password")
 	UserPerson fromBoAddUserReqMap(BoAddUserRequest boAddUserRequest);
 
-	/*
+	/**
 	 * BO层的对象转化为数据库对象
 	 * 
 	 * @param boPatchUserReq

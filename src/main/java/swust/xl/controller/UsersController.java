@@ -9,7 +9,6 @@ import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
 /**
  * 
  * 用户信息操作相关控制器接口.
- * </p>
  *
  * @author xuLiang
  * @since 1.0.0
@@ -96,7 +95,7 @@ public interface UsersController {
 	 * 用户登出移除session
 	 * 
 	 * @param session
-	 * 
+	 * @return ResponseEntity<Object>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */

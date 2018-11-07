@@ -22,7 +22,7 @@ import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.VerificationCodeResp;
 import swust.xl.service.UsersService;
 import swust.xl.util.image.VerifyImageUtil;
-import swust.xl.util.md5.md5Util;
+import swust.xl.util.md5.Md5Util;
 
 /**
  * 
@@ -78,11 +78,11 @@ public class UsersServiceImpl implements UsersService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public BoGetUserResp addUser(BoAddUserRequest boAddUserRequest) {
-		String salt = md5Util.getSalt();
-		String passwordWithSalt = md5Util.md5Hex(boAddUserRequest.getPassword() + salt);
+		String salt = Md5Util.getSalt();
+		String passwordWithSalt = Md5Util.md5Hex(boAddUserRequest.getPassword() + salt);
 		boAddUserRequest.setSalt(salt);
 		boAddUserRequest.setPassword(passwordWithSalt);
 		boAddUserRequest.setRegistDatetime(new Timestamp(System.currentTimeMillis()));
@@ -100,7 +100,7 @@ public class UsersServiceImpl implements UsersService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public boolean deleteUser(Long id) {
 		return mappers.deleteUser(id);
@@ -117,11 +117,11 @@ public class UsersServiceImpl implements UsersService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public BoGetUserResp patchUser(BoPatchUserRequest boPatchUserRequest) {
-		String salt = md5Util.getSalt();
-		String passwordWithSalt = md5Util.md5Hex(boPatchUserRequest.getPassword() + salt);
+		String salt = Md5Util.getSalt();
+		String passwordWithSalt = Md5Util.md5Hex(boPatchUserRequest.getPassword() + salt);
 		boPatchUserRequest.setSalt(salt);
 		boPatchUserRequest.setPassword(passwordWithSalt);
 		return BoMapper.INSTANCE
@@ -141,7 +141,7 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public boolean verifyLogin(UserLogin userLogin) {
 		userLogin.setPassword(
-				md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsername()).getSalt()));
+				Md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsername()).getSalt()));
 		return mappers.findByIdAndPassword(userLogin);
 	}
 
@@ -169,14 +169,17 @@ public class UsersServiceImpl implements UsersService {
 		VerificationCodeResp response = new VerificationCodeResp();
 		int x = new Random().nextInt(originImgX - cuttedImgX);
 		int y = new Random().nextInt(originImgY - cuttedImgY);
-		response.setXCoordinate(x + "");
-		response.setYCoordinate(y + "");
+		response.setxCoordinate(x + "");
+		response.setyCoordinate(y + "");
 		BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
-		BufferedImage cuttedImg = VerifyImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgX, cuttedImgY);// 用来裁剪到滑动的方块
+		// 用来裁剪到滑动的方块
+		BufferedImage cuttedImg = VerifyImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgX, cuttedImgY);
 		response.setCuttedImgBase64(VerifyImageUtil.imageToBase64(cuttedImg));
+		// 被抠滑块的坐标集合
 		int[][] cuttedOriginImgCoordinate = VerifyImageUtil.getCutAreaData(originImgX, originImgY, x, y, cuttedImgX,
-				cuttedImgY);// 被抠滑块的坐标集合
-		VerifyImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);// 得到抠掉滑块后的图并加阴影
+				cuttedImgY);
+		// 得到抠掉滑块后的图并加阴影
+		VerifyImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);
 		response.setCuttedOriginImgBase64(VerifyImageUtil.imageToBase64(bufferedImage));
 		return response;
 	}

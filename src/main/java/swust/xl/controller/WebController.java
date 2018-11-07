@@ -29,5 +29,5 @@ public interface WebController {
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	ResponseEntity<Object> CoordinateVerify();
+	ResponseEntity<Object> coordinateVerify();
 }

@@ -10,13 +10,13 @@ public class VerificationCodeResp {
 
 	private String cuttedImgBase64;
 	private String cuttedOriginImgBase64;
-	private String XCoordinate;
-	private String YCoordinate;
+	private String xCoordinate;
+	private String yCoordinate;
 
 	@Override
 	public String toString() {
 		return "VerificationCodeResp [cuttedImgBase64=" + cuttedImgBase64 + ", cuttedOriginImgBase64="
-				+ cuttedOriginImgBase64 + ", XCoordinate=" + XCoordinate + ", YCoordinate=" + YCoordinate + "]";
+				+ cuttedOriginImgBase64 + ", XCoordinate=" + xCoordinate + ", YCoordinate=" + yCoordinate + "]";
 	}
 
 	public String getCuttedImgBase64() {
@@ -35,20 +35,20 @@ public class VerificationCodeResp {
 		this.cuttedOriginImgBase64 = cuttedOriginImgBase64;
 	}
 
-	public String getXCoordinate() {
-		return XCoordinate;
+	public String getxCoordinate() {
+		return xCoordinate;
 	}
 
-	public void setXCoordinate(String xCoordinate) {
-		XCoordinate = xCoordinate;
+	public void setxCoordinate(String xCoordinate) {
+		this.xCoordinate = xCoordinate;
 	}
 
-	public String getYCoordinate() {
-		return YCoordinate;
+	public String getyCoordinate() {
+		return yCoordinate;
 	}
 
-	public void setYCoordinate(String yCoordinate) {
-		YCoordinate = yCoordinate;
+	public void setyCoordinate(String yCoordinate) {
+		this.yCoordinate = yCoordinate;
 	}
 
 }

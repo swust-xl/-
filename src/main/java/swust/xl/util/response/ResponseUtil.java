@@ -78,7 +78,7 @@ public class ResponseUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static ResponseEntity<Object> GetUserResp(HttpStatus httpStatus, int code, String message,
+	public static ResponseEntity<Object> getUserResp(HttpStatus httpStatus, int code, String message,
 			VoGetUserResp data) {
 		GetUserResp response = new GetUserResp();
 		response.setCode(code);
