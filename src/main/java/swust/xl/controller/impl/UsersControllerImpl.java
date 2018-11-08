@@ -1,9 +1,11 @@
 package swust.xl.controller.impl;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +61,10 @@ public class UsersControllerImpl implements UsersController {
 	@Override
 	public ResponseEntity<Object> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
 		if (request.getSession().getAttribute(REFUSE_ATTRIBUTE) == null) {
+			if (StringUtils.isEmpty(voAddUserRequest.getUsername())
+					|| StringUtils.isEmpty(voAddUserRequest.getPassword())) {
+				return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户信息格式错误", "Request Refused");
+			}
 			if (usersService.getUser(voAddUserRequest.getUsername()) == null) {
 				request.getSession().setAttribute(REFUSE_ATTRIBUTE, request.getRemoteAddr());
 				SessionUtil.removeAttribute(request.getSession(), REFUSE_ATTRIBUTE, 60);
@@ -66,7 +72,7 @@ public class UsersControllerImpl implements UsersController {
 						VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
 								usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
 			}
-			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户已存在",
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户名已存在",
 					Md5Util.md5Hex(usersService.getUser(voAddUserRequest.getUsername()).getId().toString()));
 		}
 		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "请求过于频繁", "Request Refused");
@@ -91,7 +97,7 @@ public class UsersControllerImpl implements UsersController {
 			return ResponseUtil.getUserResp(HttpStatus.OK, 1, "查询成功",
 					VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
 		}
-		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "No Access");
 	}
 
 	/**
@@ -114,9 +120,9 @@ public class UsersControllerImpl implements UsersController {
 				return ResponseUtil.getUserResp(HttpStatus.OK, 0, "查询成功",
 						VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(username)));
 			}
-			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "No Access");
 		}
-		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "No Access");
 	}
 
 	/**
@@ -159,13 +165,17 @@ public class UsersControllerImpl implements UsersController {
 		if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY) != null) {
 			if (request.getSession().getAttribute(WebSecurityConfig.SESSION_KEY)
 					.equals(voPatchUserRequest.getUsername())) {
+				if (StringUtils.isEmpty(voPatchUserRequest.getUsername())
+						|| StringUtils.isEmpty(voPatchUserRequest.getPassword())) {
+					return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户信息格式错误", "Request Refused");
+				}
 				return ResponseUtil.getUserResp(HttpStatus.OK, 1, "更新成功",
 						VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService
 								.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
 			}
-			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
+			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "No Access");
 		}
-		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "Request Refused");
+		return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问", "No Access");
 	}
 
 	/**
@@ -196,16 +206,14 @@ public class UsersControllerImpl implements UsersController {
 			return ResponseUtil.commonResp(HttpStatus.OK, 1, "登录成功", VoMapper.INSTANCE
 					.fromBoToVoGetUserCommonResponseMap(usersService.getUser(userLogin.getUsername())));
 		} else {
-			return ResponseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "用户名或密码错误", "Request Refused");
+			return ResponseUtil.errorResp(HttpStatus.UNAUTHORIZED, 0, "用户名或密码错误", "Request Refused");
 		}
 	}
 
 	/**
 	 * 用户登出移除session
 	 * 
-	 * @param userLogin
-	 *            用户登录请求体
-	 * @return GetUserResp
+	 * @return ResponseEntity<Object>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */

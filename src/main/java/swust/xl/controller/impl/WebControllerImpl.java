@@ -25,7 +25,11 @@ import swust.xl.util.response.ResponseUtil;
 @SessionAttributes("value")
 public class WebControllerImpl implements WebController {
 
-	public static final int ALLOWED_DIFFERENCE_VALUE = 20;
+	public static final int ORIGIN_IMAGE_WIDTH = 500;
+	public static final int ORIGIN_IMAGE_HEIGHT = 400;
+	public static final int CUTTED_IMAGE_WIDTH = 90;
+	public static final int CUTTED_IMAGE_HEIGHT = 90;
+	public static final int ALLOWED_ERROR_RANGE = 20;
 	public static final String PICTURE_PATH = "src/main/resources/static/1.jpg";
 
 	@Autowired
@@ -46,7 +50,8 @@ public class WebControllerImpl implements WebController {
 	public VerificationCodeResp sendImage() {
 		VerificationCodeResp resp = new VerificationCodeResp();
 		try {
-			resp = usersService.getImage(500, 400, 90, 90, PICTURE_PATH);
+			resp = usersService.getImage(ORIGIN_IMAGE_WIDTH, ORIGIN_IMAGE_HEIGHT, CUTTED_IMAGE_WIDTH,
+					CUTTED_IMAGE_HEIGHT, PICTURE_PATH);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,7 +73,7 @@ public class WebControllerImpl implements WebController {
 	public ResponseEntity<Object> coordinateVerify() {
 		String userX = String.valueOf(request.getHeader("value"));
 		String x = String.valueOf(request.getSession().getAttribute("value"));
-		if ((Math.abs((Integer.valueOf(x) - Integer.valueOf(userX))) > ALLOWED_DIFFERENCE_VALUE)) {
+		if ((Math.abs((Integer.valueOf(x) - Integer.valueOf(userX))) > ALLOWED_ERROR_RANGE)) {
 			request.getSession().removeAttribute("value");
 			return ResponseUtil.commonResp(HttpStatus.BAD_REQUEST, 0, "验证失败", null);
 		}

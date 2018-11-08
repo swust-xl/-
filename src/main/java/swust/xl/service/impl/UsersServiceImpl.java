@@ -148,14 +148,14 @@ public class UsersServiceImpl implements UsersService {
 	/**
 	 * 获取图片和坐标值
 	 * 
-	 * @param originImgX
-	 *            原图的长
-	 * @param originImgY
+	 * @param originImgWidth
 	 *            原图的宽
-	 * @param cuttedImgX
-	 *            裁出来的方块的长
-	 * @param cuttedImgY
+	 * @param originImgHeight
+	 *            原图的高
+	 * @param cuttedImgWidth
 	 *            裁出来的方块的宽
+	 * @param cuttedImgHeight
+	 *            裁出来的方块的高
 	 * @param path
 	 *            原图文件路径
 	 * @return VerificationCodeResp
@@ -164,20 +164,20 @@ public class UsersServiceImpl implements UsersService {
 	 * @throws Exception
 	 */
 	@Override
-	public VerificationCodeResp getImage(int originImgX, int originImgY, int cuttedImgX, int cuttedImgY, String path)
-			throws Exception {
+	public VerificationCodeResp getImage(int originImgWidth, int originImgHeight, int cuttedImgWidth,
+			int cuttedImgHeight, String path) throws Exception {
 		VerificationCodeResp response = new VerificationCodeResp();
-		int x = new Random().nextInt(originImgX - cuttedImgX);
-		int y = new Random().nextInt(originImgY - cuttedImgY);
+		int x = new Random().nextInt(originImgWidth - cuttedImgWidth);
+		int y = new Random().nextInt(originImgHeight - cuttedImgHeight);
 		response.setxCoordinate(x + "");
 		response.setyCoordinate(y + "");
 		BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
 		// 用来裁剪到滑动的方块
-		BufferedImage cuttedImg = VerifyImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgX, cuttedImgY);
+		BufferedImage cuttedImg = VerifyImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgWidth, cuttedImgHeight);
 		response.setCuttedImgBase64(VerifyImageUtil.imageToBase64(cuttedImg));
 		// 被抠滑块的坐标集合
-		int[][] cuttedOriginImgCoordinate = VerifyImageUtil.getCutAreaData(originImgX, originImgY, x, y, cuttedImgX,
-				cuttedImgY);
+		int[][] cuttedOriginImgCoordinate = VerifyImageUtil.getCutAreaData(originImgWidth, originImgHeight, x, y,
+				cuttedImgWidth, cuttedImgHeight);
 		// 得到抠掉滑块后的图并加阴影
 		VerifyImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);
 		response.setCuttedOriginImgBase64(VerifyImageUtil.imageToBase64(bufferedImage));
@@ -192,6 +192,7 @@ public class UsersServiceImpl implements UsersService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Timestamp updateLastLoginDatetime(String username) {
 		return mappers.updateLastLoginDatetime(username);

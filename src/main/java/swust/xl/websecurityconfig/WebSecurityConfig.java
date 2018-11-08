@@ -14,7 +14,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 /**
  * 
  * web拦截器类
- * </p>
  *
  * @author xuLiang
  * @since 1.0.0
@@ -23,10 +22,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 @Configuration
 public class WebSecurityConfig implements WebMvcConfigurer {
 
-	/**
-	 * 登录session key
-	 */
-	public final static String SESSION_KEY = "username";
+	public static final String SESSION_KEY = "username";
 
 	@Bean
 	public SecurityInterceptor getSecurityInterceptor() {
@@ -39,7 +35,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
 		// 排除配置
 		addInterceptor.excludePathPatterns("/error");
-		addInterceptor.excludePathPatterns("/**");
+		addInterceptor.excludePathPatterns("/");
 
 		// 拦截配置
 		addInterceptor.addPathPatterns("/index");
@@ -54,8 +50,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 			if (session.getAttribute(SESSION_KEY) != null) {
 				return true;
 			}
-			String url = "/login";
-			response.sendRedirect(url);
+			response.sendError(400, "Unauthorized");
 			return false;
 		}
 	}

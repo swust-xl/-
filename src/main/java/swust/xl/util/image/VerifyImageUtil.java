@@ -24,8 +24,8 @@ public class VerifyImageUtil {
 	/**
 	 * 用来裁剪到滑动的方块
 	 */
-	public static BufferedImage getCuttedImage(BufferedImage bufferedImage, int x, int y, int length, int width) {
-		BufferedImage bi = bufferedImage.getSubimage(x, y, length, width);
+	public static BufferedImage getCuttedImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
+		BufferedImage bi = bufferedImage.getSubimage(x, y, width, height);
 		return bi;
 	}
 

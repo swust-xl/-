@@ -108,14 +108,14 @@ public interface UsersService {
 	/**
 	 * 获取图片和坐标值
 	 * 
-	 * @param originImgX
-	 *            原图的长
-	 * @param originImgY
+	 * @param originImgWidth
 	 *            原图的宽
-	 * @param cuttedImgX
-	 *            裁出来的方块的长
-	 * @param cuttedImgY
+	 * @param originImgHeight
+	 *            原图的高
+	 * @param cuttedImgWidth
 	 *            裁出来的方块的宽
+	 * @param cuttedImgHeight
+	 *            裁出来的方块的高
 	 * @param path
 	 *            原图文件路径
 	 * @return VerificationCodeResp
@@ -123,7 +123,7 @@ public interface UsersService {
 	 * @since 1.0.0
 	 * @throws Exception
 	 */
-	VerificationCodeResp getImage(int originImgX, int originImgY, int cuttedImgX, int cuttedImgY, String path)
-			throws Exception;
+	VerificationCodeResp getImage(int originImgWidth, int originImgHeight, int cuttedImgWidth, int cuttedImgHeight,
+			String path) throws Exception;
 
 }
