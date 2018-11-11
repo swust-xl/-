@@ -1,9 +1,7 @@
-package swust.xl.websecurityconfig;
+package swust.xl.config.websecurity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
@@ -46,8 +44,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 		@Override
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 				throws Exception {
-			HttpSession session = request.getSession();
-			if (session.getAttribute(SESSION_KEY) != null) {
+			if (request.getSession().getAttribute(SESSION_KEY) != null) {
 				return true;
 			}
 			response.sendError(400, "Unauthorized");

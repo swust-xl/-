@@ -21,7 +21,7 @@ import swust.xl.pojo.dto.BoMapper;
 import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.VerificationCodeResp;
 import swust.xl.service.UsersService;
-import swust.xl.util.image.VerifyImageUtil;
+import swust.xl.util.image.ImageUtil;
 import swust.xl.util.md5.Md5Util;
 
 /**
@@ -173,14 +173,14 @@ public class UsersServiceImpl implements UsersService {
 		response.setyCoordinate(y + "");
 		BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
 		// 用来裁剪到滑动的方块
-		BufferedImage cuttedImg = VerifyImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgWidth, cuttedImgHeight);
-		response.setCuttedImgBase64(VerifyImageUtil.imageToBase64(cuttedImg));
+		BufferedImage cuttedImg = ImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgWidth, cuttedImgHeight);
+		response.setCuttedImgBase64(ImageUtil.imageToBase64(cuttedImg));
 		// 被抠滑块的坐标集合
-		int[][] cuttedOriginImgCoordinate = VerifyImageUtil.getCutAreaData(originImgWidth, originImgHeight, x, y,
+		int[][] cuttedOriginImgCoordinate = ImageUtil.getCutAreaData(originImgWidth, originImgHeight, x, y,
 				cuttedImgWidth, cuttedImgHeight);
 		// 得到抠掉滑块后的图并加阴影
-		VerifyImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);
-		response.setCuttedOriginImgBase64(VerifyImageUtil.imageToBase64(bufferedImage));
+		ImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);
+		response.setCuttedOriginImgBase64(ImageUtil.imageToBase64(bufferedImage));
 		return response;
 	}
 

@@ -19,7 +19,7 @@ import sun.misc.BASE64Encoder;
 
 @SuppressWarnings("restriction")
 @Component
-public class VerifyImageUtil {
+public class ImageUtil {
 
 	/**
 	 * 用来裁剪到滑动的方块
@@ -45,6 +45,8 @@ public class VerifyImageUtil {
 	 * @param width
 	 *            抠图的宽度
 	 * @return 被抠滑块的坐标
+	 * @author xuLiang
+	 * @since 1.0.0
 	 */
 	public static int[][] getCutAreaData(int targetLength, int targetWidth, int x, int y, int length, int width) {
 		int[][] data = new int[targetLength][targetWidth];
@@ -61,11 +63,12 @@ public class VerifyImageUtil {
 	}
 
 	/**
-	 * 得到抠掉滑块后的图并加阴影
+	 * 得到抠掉滑块并加阴影后的图
 	 * 
 	 * @param oriImage
 	 * @param templateImage
-	 * 
+	 * @author xuLiang
+	 * @since 1.0.0
 	 */
 	public static void cutByTemplate(BufferedImage oriImage, int[][] templateImage) {
 		for (int i = 0; i < oriImage.getWidth(); i++) {
@@ -85,6 +88,8 @@ public class VerifyImageUtil {
 	 * @param image
 	 * @return Base64
 	 * @throws Exception
+	 * @author xuLiang
+	 * @since 1.0.0
 	 */
 	public static String imageToBase64(BufferedImage image) throws Exception {
 		byte[] imagedata = null;
@@ -104,6 +109,8 @@ public class VerifyImageUtil {
 	 * @param base64String
 	 * @return image
 	 * @throws Exception
+	 * @author xuLiang
+	 * @since 1.0.0
 	 */
 	public static BufferedImage base64StringToImage(String base64String) {
 		try {

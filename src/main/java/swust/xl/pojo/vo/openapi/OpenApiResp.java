@@ -1,19 +1,13 @@
-package swust.xl.pojo.vo;
+package swust.xl.pojo.vo.openapi;
 
-/**
- * 请求错误响应体
- * 
- * @author xuLiang
- * @since 1.0.0
- */
-public class VoErrorResp {
+public class OpenApiResp {
 
 	private int code;
 	private String message;
 
 	@Override
 	public String toString() {
-		return "VoErrorResp [code=" + code + ", message=" + message + "]";
+		return "OpenApiResp [code=" + code + ", message=" + message + "]";
 	}
 
 	public int getCode() {

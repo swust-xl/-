@@ -2,8 +2,10 @@ package swust.xl.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import swust.xl.pojo.vo.VerificationCodeResp;
+import swust.xl.pojo.vo.behavior.verification.BehaviorVerificationReq;
 
 /**
  * 验证相关controller
@@ -20,7 +22,7 @@ public interface WebController {
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	VerificationCodeResp sendImage();
+	VerificationCodeResp sendImage() throws Exception;
 
 	/**
 	 * 验证接口
@@ -29,5 +31,5 @@ public interface WebController {
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	ResponseEntity<Object> coordinateVerify();
+	ResponseEntity<Object> coordinateVerify(@RequestBody BehaviorVerificationReq request);
 }

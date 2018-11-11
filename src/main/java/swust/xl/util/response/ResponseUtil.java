@@ -8,6 +8,7 @@ import swust.xl.pojo.vo.GetUserResp;
 import swust.xl.pojo.vo.VoErrorResp;
 import swust.xl.pojo.vo.getuser.commonresponse.VoGetUserCommonResp;
 import swust.xl.pojo.vo.getuser.response.VoGetUserResp;
+import swust.xl.pojo.vo.openapi.OpenApiResp;
 
 /**
  * 响应工具类
@@ -31,11 +32,10 @@ public class ResponseUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static ResponseEntity<Object> errorResp(HttpStatus httpStatus, int code, String message, String error) {
+	public static ResponseEntity<Object> errorResp(HttpStatus httpStatus, int code, String message) {
 		VoErrorResp errorResp = new VoErrorResp();
 		errorResp.setCode(code);
 		errorResp.setMessage(message);
-		errorResp.setError(error);
 		return new ResponseEntity<Object>(errorResp, httpStatus);
 	}
 
@@ -84,6 +84,26 @@ public class ResponseUtil {
 		response.setCode(code);
 		response.setMessage(message);
 		response.setData(data);
+		return new ResponseEntity<Object>(response, httpStatus);
+	}
+
+	/**
+	 * 开放平台用户响应
+	 * 
+	 * @param httpStatus
+	 *            http响应码
+	 * @param code
+	 *            响应码
+	 * @param message
+	 *            提示消息
+	 * @return ResponseEntity<Object>
+	 * @author xuLiang
+	 * @since 1.0.0
+	 */
+	public static ResponseEntity<Object> openApiResp(HttpStatus httpStatus, int code, String message) {
+		OpenApiResp response = new OpenApiResp();
+		response.setCode(code);
+		response.setMessage(message);
 		return new ResponseEntity<Object>(response, httpStatus);
 	}
 }
