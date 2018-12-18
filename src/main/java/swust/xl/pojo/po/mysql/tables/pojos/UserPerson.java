@@ -23,10 +23,11 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPerson implements Serializable {
 
-    private static final long serialVersionUID = 443259655;
+    private static final long serialVersionUID = 1345519641;
 
     private Long      id;
     private String    username;
+    private String    email;
     private String    sex;
     private Byte      isSystem;
     private String    salt;
@@ -39,6 +40,7 @@ public class UserPerson implements Serializable {
     public UserPerson(UserPerson value) {
         this.id = value.id;
         this.username = value.username;
+        this.email = value.email;
         this.sex = value.sex;
         this.isSystem = value.isSystem;
         this.salt = value.salt;
@@ -50,6 +52,7 @@ public class UserPerson implements Serializable {
     public UserPerson(
         Long      id,
         String    username,
+        String    email,
         String    sex,
         Byte      isSystem,
         String    salt,
@@ -59,6 +62,7 @@ public class UserPerson implements Serializable {
     ) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.sex = sex;
         this.isSystem = isSystem;
         this.salt = salt;
@@ -81,6 +85,14 @@ public class UserPerson implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSex() {
@@ -137,6 +149,7 @@ public class UserPerson implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(username);
+        sb.append(", ").append(email);
         sb.append(", ").append(sex);
         sb.append(", ").append(isSystem);
         sb.append(", ").append(salt);

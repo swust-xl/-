@@ -9,19 +9,20 @@ package swust.xl.pojo.bo.getuser.response;
  */
 public class BoGetUserResp {
 	private Long id;
-	private String username;
+	private String userName;
+	private String email;
 	private String sex;
-	private int isSystem;
+	private String isSystem;
 	private String salt;
 	private String passwordSalt;
-	private String registDatetime;
-	private String lastLoginDatetime;
+	private Long registDatetime;
+	private Long lastLoginDatetime;
 
 	@Override
 	public String toString() {
-		return "BoGetUserResponse [id=" + id + ", username=" + username + ", sex=" + sex + ", isSystem=" + isSystem
-				+ ", salt=" + salt + ", passwordSalt=" + passwordSalt + ", registDatetime=" + registDatetime
-				+ ", lastLoginDatetime=" + lastLoginDatetime + "]";
+		return "BoGetUserResp [id=" + id + ", userName=" + userName + ", email=" + email + ", sex=" + sex
+				+ ", isSystem=" + isSystem + ", salt=" + salt + ", passwordSalt=" + passwordSalt + ", registDatetime="
+				+ registDatetime + ", lastLoginDatetime=" + lastLoginDatetime + "]";
 	}
 
 	public Long getId() {
@@ -33,11 +34,11 @@ public class BoGetUserResp {
 	}
 
 	public String getUsername() {
-		return username;
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String userName) {
+		this.userName = userName;
 	}
 
 	public String getSex() {
@@ -64,28 +65,36 @@ public class BoGetUserResp {
 		this.passwordSalt = passwordSalt;
 	}
 
-	public int getIsSystem() {
+	public String getIsSystem() {
 		return isSystem;
 	}
 
-	public void setIsSystem(int isSystem) {
+	public void setIsSystem(String isSystem) {
 		this.isSystem = isSystem;
 	}
 
-	public String getRegistDatetime() {
+	public Long getRegistDatetime() {
 		return registDatetime;
 	}
 
-	public void setRegistDatetime(String registDatetime) {
+	public void setRegistDatetime(Long registDatetime) {
 		this.registDatetime = registDatetime;
 	}
 
-	public String getLastLoginDatetime() {
+	public Long getLastLoginDatetime() {
 		return lastLoginDatetime;
 	}
 
-	public void setLastLoginDatetime(String lastLoginDatetime) {
+	public void setLastLoginDatetime(Long lastLoginDatetime) {
 		this.lastLoginDatetime = lastLoginDatetime;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

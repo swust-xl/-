@@ -1,6 +1,7 @@
 package swust.xl.pojo.dto;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
@@ -14,7 +15,6 @@ import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
 /**
  * 创建VO与BO之间的映射
  *
- * 
  * @author xuLiang
  * @since 1.0.0
  */
@@ -50,8 +50,6 @@ public interface VoMapper {
 	 * 
 	 * @param voAddUserRequest
 	 * @return 转化后的BO层对象
-	 *
-	 * 
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
@@ -62,11 +60,10 @@ public interface VoMapper {
 	 * 
 	 * @param voPatchUserRequest
 	 * @return 转化后的BO层对象
-	 *
-	 * 
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
+	@Mapping(target = "password", source = "newPassword")
 	BoPatchUserRequest fromVoToBoPatchUserRequestMap(VoPatchUserRequest voPatchUserRequest);
 
 }

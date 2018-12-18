@@ -2,13 +2,14 @@ package swust.xl.util.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
 import swust.xl.pojo.vo.GetUserCommonResp;
 import swust.xl.pojo.vo.GetUserResp;
 import swust.xl.pojo.vo.VoErrorResp;
 import swust.xl.pojo.vo.getuser.commonresponse.VoGetUserCommonResp;
 import swust.xl.pojo.vo.getuser.response.VoGetUserResp;
-import swust.xl.pojo.vo.openapi.OpenApiResp;
+import swust.xl.pojo.vo.verify.response.VerifyResp;
 
 /**
  * 响应工具类
@@ -16,6 +17,7 @@ import swust.xl.pojo.vo.openapi.OpenApiResp;
  * @author xuLiang
  * @since 1.0.0
  */
+@Component
 public class ResponseUtil {
 	/**
 	 * 错误响应
@@ -26,13 +28,11 @@ public class ResponseUtil {
 	 *            响应码
 	 * @param message
 	 *            提示消息
-	 * @param error
-	 *            错误相关信息
 	 * @return ResponseEntity<Object>响应体和http状态码
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static ResponseEntity<Object> errorResp(HttpStatus httpStatus, int code, String message) {
+	public ResponseEntity<Object> errorResp(HttpStatus httpStatus, int code, String message) {
 		VoErrorResp errorResp = new VoErrorResp();
 		errorResp.setCode(code);
 		errorResp.setMessage(message);
@@ -54,7 +54,7 @@ public class ResponseUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static ResponseEntity<Object> commonResp(HttpStatus httpStatus, int code, String message,
+	public ResponseEntity<Object> commonResp(HttpStatus httpStatus, int code, String message,
 			VoGetUserCommonResp data) {
 		GetUserCommonResp response = new GetUserCommonResp();
 		response.setCode(code);
@@ -78,8 +78,7 @@ public class ResponseUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static ResponseEntity<Object> getUserResp(HttpStatus httpStatus, int code, String message,
-			VoGetUserResp data) {
+	public ResponseEntity<Object> getUserResp(HttpStatus httpStatus, int code, String message, VoGetUserResp data) {
 		GetUserResp response = new GetUserResp();
 		response.setCode(code);
 		response.setMessage(message);
@@ -88,7 +87,7 @@ public class ResponseUtil {
 	}
 
 	/**
-	 * 开放平台用户响应
+	 * 验证结果响应
 	 * 
 	 * @param httpStatus
 	 *            http响应码
@@ -96,14 +95,18 @@ public class ResponseUtil {
 	 *            响应码
 	 * @param message
 	 *            提示消息
+	 * @param source
+	 *            请求来源
 	 * @return ResponseEntity<Object>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static ResponseEntity<Object> openApiResp(HttpStatus httpStatus, int code, String message) {
-		OpenApiResp response = new OpenApiResp();
+	public ResponseEntity<Object> verifyResp(HttpStatus httpStatus, int code, String message, String source) {
+		VerifyResp response = new VerifyResp();
 		response.setCode(code);
 		response.setMessage(message);
+		response.setSource(source);
 		return new ResponseEntity<Object>(response, httpStatus);
 	}
+
 }

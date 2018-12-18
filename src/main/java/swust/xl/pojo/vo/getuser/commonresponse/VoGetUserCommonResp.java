@@ -8,37 +8,37 @@ package swust.xl.pojo.vo.getuser.commonresponse;
  */
 public class VoGetUserCommonResp {
 
-	private String username;
-	private int isSystem;
-	private String lastLoginDatetime;
+	private String userName;
+	private String isSystem;
+	private Long lastLoginDatetime;
 
 	@Override
 	public String toString() {
-		return "UserCommonResp [username=" + username + ", isSystem=" + isSystem + ", lastLoginDatetime="
+		return "UserCommonResp [userName=" + userName + ", isSystem=" + isSystem + ", lastLoginDatetime="
 				+ lastLoginDatetime + "]";
 	}
 
 	public String getUsername() {
-		return username;
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String userName) {
+		this.userName = userName;
 	}
 
-	public int getIsSystem() {
+	public String getIsSystem() {
 		return isSystem;
 	}
 
-	public void setIsSystem(int isSystem) {
+	public void setIsSystem(String isSystem) {
 		this.isSystem = isSystem;
 	}
 
-	public String getLastLoginDatetime() {
+	public Long getLastLoginDatetime() {
 		return lastLoginDatetime;
 	}
 
-	public void setLastLoginDatetime(String lastLoginDatetime) {
+	public void setLastLoginDatetime(Long lastLoginDatetime) {
 		this.lastLoginDatetime = lastLoginDatetime;
 	}
 }

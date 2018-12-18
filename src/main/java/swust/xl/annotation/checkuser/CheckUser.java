@@ -1,23 +1,23 @@
-package swust.xl.annotation;
+package swust.xl.annotation.checkuser;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 自定义注解
+ * 检查用户相关信息
  * 
- * 
+ * @see swust.xl.annotation.checkuser.CheckUserImpl
  * @author xuLiang
  * @since 1.0.0
  */
-@Target({ ElementType.METHOD, ElementType.PARAMETER })
+@Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Inherited
-public @interface CustomAnnotation {
+public @interface CheckUser {
+
+	String message() default "";
 
 }

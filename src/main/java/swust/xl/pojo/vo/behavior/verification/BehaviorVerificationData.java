@@ -6,10 +6,10 @@ package swust.xl.pojo.vo.behavior.verification;
  * @author xuLiang
  * @since 1.0.0
  */
-public class BehaviorVerificationData {
+public class BehaviorVerificationData<T> {
 
-	private String x;
-	private String y;
+	private T x;
+	private T y;
 	private Long timestamp;
 
 	@Override
@@ -17,19 +17,19 @@ public class BehaviorVerificationData {
 		return "BehaviorVerificationReq [x=" + x + ", y=" + y + ", time=" + timestamp + "]";
 	}
 
-	public String getX() {
+	public T getX() {
 		return x;
 	}
 
-	public void setX(String x) {
+	public void setX(T x) {
 		this.x = x;
 	}
 
-	public String getY() {
+	public T getY() {
 		return y;
 	}
 
-	public void setY(String y) {
+	public void setY(T y) {
 		this.y = y;
 	}
 

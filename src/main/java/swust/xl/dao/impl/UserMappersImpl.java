@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import swust.xl.dao.Mappers;
+import swust.xl.dao.UserMappers;
 import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
 import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
 import swust.xl.pojo.vo.UserLogin;
@@ -17,12 +17,11 @@ import swust.xl.pojo.vo.UserLogin;
  * 
  * 用户信息操作相关Dao层实现类.
  * 
- *
  * @author xuLiang
  * @since 1.0.0
  */
 @Repository
-public class MappersImpl implements Mappers {
+public class UserMappersImpl implements UserMappers {
 
 	@Autowired
 	private DSLContext dsl;
@@ -41,14 +40,13 @@ public class MappersImpl implements Mappers {
 	public UserPerson getUser(Long id) {
 		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.ID.eq(id)).fetchOne();
 		if (record != null) {
-			UserPerson userPerson = record.into(UserPerson.class);
-			return userPerson;
+			return record.into(UserPerson.class);
 		}
 		return null;
 	}
 
 	/**
-	 * 根据用户名查询用户信息
+	 * 根据用户名或邮箱查询用户信息
 	 * 
 	 * @param username
 	 * @return 获取到的用户对象
@@ -56,11 +54,11 @@ public class MappersImpl implements Mappers {
 	 * @since 1.0.0
 	 */
 	@Override
-	public UserPerson getUser(String username) {
-		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(username)).fetchOne();
+	public UserPerson getUser(String userNameOrEmail) {
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(userNameOrEmail))
+				.or(USER_PERSON.EMAIL.eq(userNameOrEmail)).fetchOne();
 		if (record != null) {
-			UserPerson userPerson = record.into(UserPerson.class);
-			return userPerson;
+			return record.into(UserPerson.class);
 		}
 		return null;
 	}
@@ -119,6 +117,7 @@ public class MappersImpl implements Mappers {
 	public UserPerson patchUser(UserPerson userPerson) {
 		UserPersonRecord usersRecord = dsl.selectFrom(USER_PERSON)
 				.where(USER_PERSON.USERNAME.eq(userPerson.getUsername())).fetchOne();
+		usersRecord.setEmail(userPerson.getEmail());
 		usersRecord.setSex(userPerson.getSex());
 		usersRecord.setPasswordSalt(userPerson.getPasswordSalt());
 		usersRecord.setSalt(userPerson.getSalt());
@@ -137,9 +136,12 @@ public class MappersImpl implements Mappers {
 	 * @since 1.0.0
 	 */
 	@Override
-	public boolean findByIdAndPassword(UserLogin userLogin) {
-		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(userLogin.getUsername())
-				.and(USER_PERSON.PASSWORD_SALT.eq(userLogin.getPassword()))).fetchOne();
+	public boolean Login(UserLogin userLogin) {
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON)
+				.where(USER_PERSON.USERNAME.eq(userLogin.getUsernameOrEmail())
+						.or(USER_PERSON.EMAIL.eq(userLogin.getUsernameOrEmail()))
+						.and(USER_PERSON.PASSWORD_SALT.eq(userLogin.getPassword())))
+				.fetchOne();
 		if (record != null) {
 			return true;
 		}
@@ -149,18 +151,18 @@ public class MappersImpl implements Mappers {
 	/**
 	 * 更新用户最后登录时间
 	 * 
-	 * @param username
-	 * @return Timestamp更新后的时间
+	 * @param usernameOrEmail
+	 * @return UserPerson更新后的用户信息
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
 	@Override
-	public Timestamp updateLastLoginDatetime(String username) {
-		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(username)).fetchOne();
+	public UserPerson updateLastLoginDatetime(String usernameOrEmail) {
+		UserPersonRecord record = dsl.selectFrom(USER_PERSON).where(USER_PERSON.USERNAME.eq(usernameOrEmail))
+				.or(USER_PERSON.EMAIL.eq(usernameOrEmail)).fetchOne();
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		record.setLastLoginDatetime(ts);
 		record.store();
-		return ts;
+		return record.into(UserPerson.class);
 	}
-
 }

@@ -7,6 +7,7 @@ package swust.xl.pojo.po.mysql;
 import javax.annotation.Generated;
 
 import swust.xl.pojo.po.mysql.tables.UserPerson;
+import swust.xl.pojo.po.mysql.tables.VerifyStatistics;
 
 
 /**
@@ -26,4 +27,9 @@ public class Tables {
      * The table <code>test.user_person</code>.
      */
     public static final UserPerson USER_PERSON = swust.xl.pojo.po.mysql.tables.UserPerson.USER_PERSON;
+
+    /**
+     * The table <code>test.verify_statistics</code>.
+     */
+    public static final VerifyStatistics VERIFY_STATISTICS = swust.xl.pojo.po.mysql.tables.VerifyStatistics.VERIFY_STATISTICS;
 }

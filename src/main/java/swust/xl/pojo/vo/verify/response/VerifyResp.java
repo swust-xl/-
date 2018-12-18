@@ -1,9 +1,10 @@
-package swust.xl.pojo.vo.openapi;
+package swust.xl.pojo.vo.verify.response;
 
-public class OpenApiResp {
+public class VerifyResp {
 
 	private int code;
 	private String message;
+	private String source;
 
 	@Override
 	public String toString() {
@@ -24,6 +25,14 @@ public class OpenApiResp {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 }

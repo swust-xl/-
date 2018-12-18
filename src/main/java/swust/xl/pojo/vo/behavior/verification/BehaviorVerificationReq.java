@@ -10,28 +10,28 @@ import java.util.Arrays;
  */
 public class BehaviorVerificationReq {
 
-	private BehaviorVerificationData[] data;
-	private String userResult;
+	private BehaviorVerificationData<Integer>[] data;
+	private String lastXPosition;
 
 	@Override
 	public String toString() {
-		return "BehaviorVerificationReq [data=" + Arrays.toString(data) + ", count=" + userResult + "]";
+		return "BehaviorVerificationReq [data=" + Arrays.toString(data) + ", lastXPosition=" + lastXPosition + "]";
 	}
 
-	public BehaviorVerificationData[] getData() {
+	public BehaviorVerificationData<Integer>[] getData() {
 		return data;
 	}
 
-	public void setData(BehaviorVerificationData[] data) {
+	public void setData(BehaviorVerificationData<Integer>[] data) {
 		this.data = data;
 	}
 
-	public String getUserResult() {
-		return userResult;
+	public String getLastXPosition() {
+		return lastXPosition;
 	}
 
-	public void setUserResult(String userResult) {
-		this.userResult = userResult;
+	public void setLastXPosition(String lastXPosition) {
+		this.lastXPosition = lastXPosition;
 	}
 
 }

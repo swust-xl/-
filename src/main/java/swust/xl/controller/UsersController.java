@@ -1,5 +1,8 @@
 package swust.xl.controller;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import swust.xl.pojo.vo.UserLogin;
@@ -25,7 +28,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	ResponseEntity<Object> addUser(VoAddUserRequest voAddUserRequset);
+	ResponseEntity<Object> addUser(@Valid @NotNull VoAddUserRequest voAddUserRequset);
 
 	/**
 	 * 
@@ -50,7 +53,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	ResponseEntity<Object> getUserByUsername(String username);
+	ResponseEntity<Object> getUserByUsername(String userName);
 
 	/**
 	 * 
@@ -77,7 +80,7 @@ public interface UsersController {
 	 * @since 1.0.0
 	 */
 
-	ResponseEntity<Object> patchUser(VoPatchUserRequest voPatchUserRequest);
+	ResponseEntity<Object> patchUser(@Valid @NotNull VoPatchUserRequest voPatchUserRequest);
 
 	/**
 	 * 用户登陆验证

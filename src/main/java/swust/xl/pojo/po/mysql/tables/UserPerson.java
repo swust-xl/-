@@ -40,7 +40,7 @@ import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPerson extends TableImpl<UserPersonRecord> {
 
-    private static final long serialVersionUID = -142630307;
+    private static final long serialVersionUID = -375382028;
 
     /**
      * The reference instance of <code>test.user_person</code>
@@ -64,6 +64,11 @@ public class UserPerson extends TableImpl<UserPersonRecord> {
      * The column <code>test.user_person.username</code>.
      */
     public final TableField<UserPersonRecord, String> USERNAME = createField("username", org.jooq.impl.SQLDataType.VARCHAR(64), this, "");
+
+    /**
+     * The column <code>test.user_person.email</code>.
+     */
+    public final TableField<UserPersonRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR(50), this, "");
 
     /**
      * The column <code>test.user_person.sex</code>.

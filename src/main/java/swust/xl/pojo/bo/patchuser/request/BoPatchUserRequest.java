@@ -7,15 +7,16 @@ package swust.xl.pojo.bo.patchuser.request;
  * @since 1.0.0
  */
 public class BoPatchUserRequest {
-	private String username;
+	private String userName;
 	private String password;
+	private String email;
 	private String sex;
 	private String salt;
 
 	@Override
 	public String toString() {
-		return "BoPatchUserRequest [username=" + username + ", password=" + password + ", sex=" + sex + ", salt=" + salt
-				+ "]";
+		return "BoPatchUserRequest [userName=" + userName + ", password=" + password + ", email=" + email + ", sex="
+				+ sex + ", salt=" + salt + "]";
 	}
 
 	public String getPassword() {
@@ -26,12 +27,12 @@ public class BoPatchUserRequest {
 		this.password = password;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getSex() {
@@ -48,6 +49,14 @@ public class BoPatchUserRequest {
 
 	public void setSalt(String salt) {
 		this.salt = salt;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

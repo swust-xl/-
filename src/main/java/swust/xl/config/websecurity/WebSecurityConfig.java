@@ -20,7 +20,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 @Configuration
 public class WebSecurityConfig implements WebMvcConfigurer {
 
-	public static final String SESSION_KEY = "username";
+	public static final String SESSION_KEY = "usernameOrEmail";
 
 	@Bean
 	public SecurityInterceptor getSecurityInterceptor() {
@@ -33,10 +33,10 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
 		// 排除配置
 		addInterceptor.excludePathPatterns("/error");
-		addInterceptor.excludePathPatterns("/");
+		addInterceptor.excludePathPatterns("/**");
 
 		// 拦截配置
-		addInterceptor.addPathPatterns("/index");
+		// addInterceptor.addPathPatterns("/index");
 	}
 
 	private class SecurityInterceptor extends HandlerInterceptorAdapter {

@@ -5,21 +5,21 @@ import java.sql.Timestamp;
 /**
  * 服务层添加用户请求.
  * 
- * 
  * @author xuLiang
  * @since 1.0.0
  */
 public class BoAddUserRequest {
-	private String username;
+	private String userName;
 	private String password;
+	private String email;
 	private String sex;
 	private String salt;
 	private Timestamp registDatetime;
 
 	@Override
 	public String toString() {
-		return "BoAddUserRequest [username=" + username + ", password=" + password + ", sex=" + sex + ", salt=" + salt
-				+ ", registDatetime=" + registDatetime + "]";
+		return "BoAddUserRequest [userName=" + userName + ", password=" + password + ", email=" + email + ", sex=" + sex
+				+ ", salt=" + salt + ", registDatetime=" + registDatetime + "]";
 	}
 
 	public String getPassword() {
@@ -30,12 +30,12 @@ public class BoAddUserRequest {
 		this.password = password;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getSex() {
@@ -60,6 +60,14 @@ public class BoAddUserRequest {
 
 	public void setRegistDatetime(Timestamp registDatetime) {
 		this.registDatetime = registDatetime;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

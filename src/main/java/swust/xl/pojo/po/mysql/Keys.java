@@ -11,7 +11,9 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
 import swust.xl.pojo.po.mysql.tables.UserPerson;
+import swust.xl.pojo.po.mysql.tables.VerifyStatistics;
 import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
+import swust.xl.pojo.po.mysql.tables.records.VerifyStatisticsRecord;
 
 
 /**
@@ -39,6 +41,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<UserPersonRecord> KEY_USER_PERSON_PRIMARY = UniqueKeys0.KEY_USER_PERSON_PRIMARY;
+    public static final UniqueKey<VerifyStatisticsRecord> KEY_VERIFY_STATISTICS_PRIMARY = UniqueKeys0.KEY_VERIFY_STATISTICS_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -55,5 +58,6 @@ public class Keys {
 
     private static class UniqueKeys0 {
         public static final UniqueKey<UserPersonRecord> KEY_USER_PERSON_PRIMARY = Internal.createUniqueKey(UserPerson.USER_PERSON, "KEY_user_person_PRIMARY", UserPerson.USER_PERSON.ID);
+        public static final UniqueKey<VerifyStatisticsRecord> KEY_VERIFY_STATISTICS_PRIMARY = Internal.createUniqueKey(VerifyStatistics.VERIFY_STATISTICS, "KEY_verify_statistics_PRIMARY", VerifyStatistics.VERIFY_STATISTICS.USERNAME);
     }
 }

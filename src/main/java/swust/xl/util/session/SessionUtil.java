@@ -5,12 +5,15 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Component;
+
 /**
  * session工具类
  * 
  * @author xuLiang
  * @since 1.0.0
  */
+@Component
 public class SessionUtil {
 	/**
 	 * 设置倒计时删除session中指定的值
@@ -24,7 +27,7 @@ public class SessionUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static void removeAttribute(HttpSession session, String attributeName, int time) {
+	public void removeAttribute(HttpSession session, String attributeName, int time) {
 		ThreadFactory threadFactory = new ThreadFactory() {
 			@Override
 			public Thread newThread(Runnable r) {
@@ -50,11 +53,11 @@ public class SessionUtil {
 	 *            指定session
 	 * @param attributeName
 	 *            指定attribute名称
-	 * @return boolean
+	 * @return true-存在；false-不存在
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static boolean checkAttribute(HttpSession session, String attributeName) {
+	public boolean checkAttribute(HttpSession session, String attributeName) {
 		if (session == null || session.getAttribute(attributeName) == null) {
 			return false;
 		}
@@ -74,7 +77,7 @@ public class SessionUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static boolean verifyAttribute(HttpSession session, String attributeName, Object value) {
+	public boolean verifyAttribute(HttpSession session, String attributeName, Object value) {
 		if (session.getAttribute(attributeName).equals(value)) {
 			return true;
 		}

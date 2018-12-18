@@ -15,6 +15,7 @@ import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
 
 import swust.xl.pojo.po.mysql.tables.UserPerson;
+import swust.xl.pojo.po.mysql.tables.VerifyStatistics;
 
 
 /**
@@ -30,7 +31,7 @@ import swust.xl.pojo.po.mysql.tables.UserPerson;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Test extends SchemaImpl {
 
-    private static final long serialVersionUID = 1914287982;
+    private static final long serialVersionUID = -1823023179;
 
     /**
      * The reference instance of <code>test</code>
@@ -41,6 +42,11 @@ public class Test extends SchemaImpl {
      * The table <code>test.user_person</code>.
      */
     public final UserPerson USER_PERSON = swust.xl.pojo.po.mysql.tables.UserPerson.USER_PERSON;
+
+    /**
+     * The table <code>test.verify_statistics</code>.
+     */
+    public final VerifyStatistics VERIFY_STATISTICS = swust.xl.pojo.po.mysql.tables.VerifyStatistics.VERIFY_STATISTICS;
 
     /**
      * No further instances allowed
@@ -67,6 +73,7 @@ public class Test extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            UserPerson.USER_PERSON);
+            UserPerson.USER_PERSON,
+            VerifyStatistics.VERIFY_STATISTICS);
     }
 }

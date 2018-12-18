@@ -8,16 +8,15 @@ import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
 import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
-import swust.xl.pojo.po.user.transform.UserTransform;
+import swust.xl.pojo.util.transform.Transform;
 
 /**
  * 创建BO与PO之间的映射
- * </p>
  *
  * @author xuLiang 1.0.0
  * @since 1.0.0
  */
-@Mapper(uses = UserTransform.class)
+@Mapper(uses = Transform.class)
 public interface BoMapper {
 	BoMapper INSTANCE = Mappers.getMapper(BoMapper.class);
 
@@ -47,6 +46,7 @@ public interface BoMapper {
 	 * @since 1.0.0
 	 */
 	@Mapping(target = "passwordSalt", source = "password")
+	@Mapping(target = "username", source = "userName")
 	UserPerson fromBoAddUserReqMap(BoAddUserRequest boAddUserRequest);
 
 	/**
@@ -61,6 +61,7 @@ public interface BoMapper {
 	 * @since 1.0.0
 	 */
 	@Mapping(target = "passwordSalt", source = "password")
+	@Mapping(target = "username", source = "userName")
 	UserPerson fromBoPatchUserReqMap(BoPatchUserRequest boPatchUserReq);
 
 }

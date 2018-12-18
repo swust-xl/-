@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import swust.xl.pojo.vo.VerificationCodeResp;
 import swust.xl.pojo.vo.behavior.verification.BehaviorVerificationReq;
 
 /**
@@ -22,7 +21,7 @@ public interface WebController {
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	VerificationCodeResp sendImage() throws Exception;
+	ResponseEntity<Object> sendImage() throws Exception;
 
 	/**
 	 * 验证接口

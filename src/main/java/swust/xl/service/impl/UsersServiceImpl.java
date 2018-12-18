@@ -1,11 +1,6 @@
 package swust.xl.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.sql.Timestamp;
-import java.util.Random;
-
-import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -13,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import swust.xl.dao.Mappers;
+import swust.xl.dao.UserMappers;
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
 import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.dto.BoMapper;
 import swust.xl.pojo.vo.UserLogin;
-import swust.xl.pojo.vo.VerificationCodeResp;
 import swust.xl.service.UsersService;
-import swust.xl.util.image.ImageUtil;
 import swust.xl.util.md5.Md5Util;
 
 /**
@@ -35,7 +28,7 @@ import swust.xl.util.md5.Md5Util;
 public class UsersServiceImpl implements UsersService {
 
 	@Autowired
-	private Mappers mappers;
+	private UserMappers mappers;
 
 	/**
 	 * 
@@ -63,8 +56,8 @@ public class UsersServiceImpl implements UsersService {
 	 * @since 1.0.0
 	 */
 	@Override
-	public BoGetUserResp getUser(@Valid @NotNull String username) {
-		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(username));
+	public BoGetUserResp getUser(@Valid @NotNull String userName) {
+		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(userName));
 
 	}
 
@@ -141,61 +134,22 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public boolean verifyLogin(UserLogin userLogin) {
 		userLogin.setPassword(
-				Md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsername()).getSalt()));
-		return mappers.findByIdAndPassword(userLogin);
-	}
+				Md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsernameOrEmail()).getSalt()));
 
-	/**
-	 * 获取图片和坐标值
-	 * 
-	 * @param originImgWidth
-	 *            原图的宽
-	 * @param originImgHeight
-	 *            原图的高
-	 * @param cuttedImgWidth
-	 *            裁出来的方块的宽
-	 * @param cuttedImgHeight
-	 *            裁出来的方块的高
-	 * @param path
-	 *            原图文件路径
-	 * @return VerificationCodeResp
-	 * @author xuLiang
-	 * @since 1.0.0
-	 * @throws Exception
-	 */
-	@Override
-	public VerificationCodeResp getImage(int originImgWidth, int originImgHeight, int cuttedImgWidth,
-			int cuttedImgHeight, String path) throws Exception {
-		VerificationCodeResp response = new VerificationCodeResp();
-		int x = new Random().nextInt(originImgWidth - cuttedImgWidth);
-		int y = new Random().nextInt(originImgHeight - cuttedImgHeight);
-		response.setxCoordinate(x + "");
-		response.setyCoordinate(y + "");
-		BufferedImage bufferedImage = ImageIO.read(new FileInputStream(path));
-		// 用来裁剪到滑动的方块
-		BufferedImage cuttedImg = ImageUtil.getCuttedImage(bufferedImage, x, y, cuttedImgWidth, cuttedImgHeight);
-		response.setCuttedImgBase64(ImageUtil.imageToBase64(cuttedImg));
-		// 被抠滑块的坐标集合
-		int[][] cuttedOriginImgCoordinate = ImageUtil.getCutAreaData(originImgWidth, originImgHeight, x, y,
-				cuttedImgWidth, cuttedImgHeight);
-		// 得到抠掉滑块后的图并加阴影
-		ImageUtil.cutByTemplate(bufferedImage, cuttedOriginImgCoordinate);
-		response.setCuttedOriginImgBase64(ImageUtil.imageToBase64(bufferedImage));
-		return response;
+		return mappers.Login(userLogin);
 	}
 
 	/**
 	 * 更新用户最后登录时间
 	 * 
 	 * @param username
-	 * @return Timestamp更新后的时间
+	 * @return UserPerson
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Timestamp updateLastLoginDatetime(String username) {
-		return mappers.updateLastLoginDatetime(username);
+	public BoGetUserResp updateLastLoginDatetime(String usernameOrEmail) {
+		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.updateLastLoginDatetime(usernameOrEmail));
 	}
-
 }

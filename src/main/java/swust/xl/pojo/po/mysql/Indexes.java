@@ -11,6 +11,7 @@ import org.jooq.OrderField;
 import org.jooq.impl.Internal;
 
 import swust.xl.pojo.po.mysql.tables.UserPerson;
+import swust.xl.pojo.po.mysql.tables.VerifyStatistics;
 
 
 /**
@@ -31,6 +32,7 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index USER_PERSON_PRIMARY = Indexes0.USER_PERSON_PRIMARY;
+    public static final Index VERIFY_STATISTICS_PRIMARY = Indexes0.VERIFY_STATISTICS_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -38,5 +40,6 @@ public class Indexes {
 
     private static class Indexes0 {
         public static Index USER_PERSON_PRIMARY = Internal.createIndex("PRIMARY", UserPerson.USER_PERSON, new OrderField[] { UserPerson.USER_PERSON.ID }, true);
+        public static Index VERIFY_STATISTICS_PRIMARY = Internal.createIndex("PRIMARY", VerifyStatistics.VERIFY_STATISTICS, new OrderField[] { VerifyStatistics.VERIFY_STATISTICS.USERNAME }, true);
     }
 }

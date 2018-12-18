@@ -1,6 +1,7 @@
 package swust.xl.dao;
 
-import java.sql.Timestamp;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -16,7 +17,7 @@ import swust.xl.pojo.vo.UserLogin;
  * @since 1.0.0
  */
 @Validated
-public interface Mappers {
+public interface UserMappers {
 	/**
 	 * 
 	 * 获取指定id用户.
@@ -27,19 +28,19 @@ public interface Mappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson getUser(Long id);
+	UserPerson getUser(@Valid @NotNull Long id);
 
 	/**
 	 * 
-	 * 获取指定用户名用户.
+	 * 获取指定用户名或邮箱用户.
 	 *
-	 * @param username
+	 * @param usernameOrEmail
 	 *            需要获取的用户名
 	 * @return 获取到的用户对象
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson getUser(String username);
+	UserPerson getUser(@Valid @NotNull String userNameOrEmail);
 
 	/**
 	 * 
@@ -51,7 +52,7 @@ public interface Mappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson addUser(UserPerson userPerson);
+	UserPerson addUser(@Valid @NotNull UserPerson userPerson);
 
 	/**
 	 * 
@@ -75,7 +76,7 @@ public interface Mappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson patchUser(UserPerson userPerson);
+	UserPerson patchUser(@Valid @NotNull UserPerson userPerson);
 
 	/**
 	 * 
@@ -87,15 +88,15 @@ public interface Mappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	boolean findByIdAndPassword(UserLogin userLogin);
+	boolean Login(@Valid @NotNull UserLogin userLogin);
 
 	/**
 	 * 更新用户最后登录时间
 	 * 
-	 * @param username
-	 * @return Timestamp更新后的时间
+	 * @param usernameOrEmail
+	 * @return UserPerson 更新后的用户信息
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	Timestamp updateLastLoginDatetime(String username);
+	UserPerson updateLastLoginDatetime(@Valid @NotNull String userNameOrEmail);
 }

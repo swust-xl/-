@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Md5Util {
 
-	public static final int SALT_LENGTH = 16;
+	public static final int SALT_LENGTH = 10;
 
 	/**
 	 * 随机生成salt
