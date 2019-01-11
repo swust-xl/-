@@ -13,6 +13,22 @@ public class GetUserCommonResp {
 	private String message;
 	private VoGetUserCommonResp data;
 
+	public GetUserCommonResp(int code, String message, VoGetUserCommonResp data) {
+		super();
+		this.code = code;
+		this.message = message;
+		this.data = data;
+	}
+
+	public GetUserCommonResp() {
+
+	}
+
+	@Override
+	public String toString() {
+		return "GetUserCommonResp [code=" + code + ", message=" + message + ", data=" + data + "]";
+	}
+
 	public int getCode() {
 		return code;
 	}
@@ -37,8 +53,4 @@ public class GetUserCommonResp {
 		this.data = data;
 	}
 
-	@Override
-	public String toString() {
-		return "GetUserCommonResp [code=" + code + ", message=" + message + ", data=" + data + "]";
-	}
 }

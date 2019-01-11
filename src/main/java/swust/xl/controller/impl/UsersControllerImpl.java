@@ -1,6 +1,7 @@
 package swust.xl.controller.impl;
 
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,6 @@ import swust.xl.util.session.SessionUtil;
 /**
  * 
  * 用户信息操作相关控制器实现.
- * </p>
  *
  * @author xuLiang
  * @since 1.0.0

@@ -65,6 +65,8 @@ public class ValidateUtil {
 	 * @param valueToValidate
 	 *            用于判断的临界值
 	 * @return true-通过验证；false-不通过
+	 * @author xuLiang
+	 * @since 1.0.0
 	 */
 	public boolean Validate(Object valueFromSession, String valueFromUser, int valueToValidate) {
 		if ((Math.abs(

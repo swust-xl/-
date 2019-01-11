@@ -35,10 +35,10 @@ public class SessionUtil {
 				return t;
 			}
 		};
-		ScheduledThreadPoolExecutor scheduled = new ScheduledThreadPoolExecutor(2, threadFactory);
-		scheduled.allowsCoreThreadTimeOut();
-		scheduled.setKeepAliveTime(90, TimeUnit.SECONDS);
-		scheduled.schedule(new Runnable() {
+		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(2, threadFactory);
+		executor.allowsCoreThreadTimeOut();
+		executor.setKeepAliveTime(90, TimeUnit.SECONDS);
+		executor.schedule(new Runnable() {
 			@Override
 			public void run() {
 				session.removeAttribute(attributeName);
@@ -73,7 +73,7 @@ public class SessionUtil {
 	 *            指定attribute名称
 	 * @param value
 	 *            指定attribute值
-	 * @return boolean
+	 * @return true-相等，false-不相等
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */

@@ -14,6 +14,21 @@ public class GetUserResp {
 	private String message;
 	private VoGetUserResp data;
 
+	public GetUserResp(int code, String message, VoGetUserResp data) {
+		super();
+		this.code = code;
+		this.message = message;
+		this.data = data;
+	}
+
+	public GetUserResp() {
+	}
+
+	@Override
+	public String toString() {
+		return "GetUserResp [code=" + code + ", message=" + message + ", data=" + data + "]";
+	}
+
 	public int getCode() {
 		return code;
 	}
