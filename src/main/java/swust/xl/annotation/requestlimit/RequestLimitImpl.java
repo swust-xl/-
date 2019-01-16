@@ -53,6 +53,6 @@ public class RequestLimitImpl {
 		} else {
 			throw new RequestTooFrequentException(requestLimit.message());
 		}
-	}
 
+	}
 }

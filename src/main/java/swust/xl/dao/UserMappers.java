@@ -28,7 +28,7 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson getUser(@Valid @NotNull Long id);
+	public UserPerson getUser(@Valid @NotNull Long id);
 
 	/**
 	 * 
@@ -40,7 +40,7 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson getUser(@Valid @NotNull String userNameOrEmail);
+	public UserPerson getUser(@Valid @NotNull String userNameOrEmail);
 
 	/**
 	 * 
@@ -52,7 +52,7 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson addUser(@Valid @NotNull UserPerson userPerson);
+	public UserPerson addUser(@Valid @NotNull UserPerson userPerson);
 
 	/**
 	 * 
@@ -64,7 +64,7 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	Boolean deleteUser(Long id);
+	public boolean deleteUser(@Valid @NotNull Long id);
 
 	/**
 	 * 
@@ -76,7 +76,7 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson patchUser(@Valid @NotNull UserPerson userPerson);
+	public UserPerson patchUser(@Valid @NotNull UserPerson userPerson);
 
 	/**
 	 * 
@@ -88,7 +88,7 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	boolean Login(@Valid @NotNull UserLogin userLogin);
+	public boolean Login(@Valid @NotNull UserLogin userLogin);
 
 	/**
 	 * 更新用户最后登录时间
@@ -98,5 +98,5 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	UserPerson updateLastLoginDatetime(@Valid @NotNull String userNameOrEmail);
+	public UserPerson updateLastLoginDatetime(@Valid @NotNull String userNameOrEmail);
 }

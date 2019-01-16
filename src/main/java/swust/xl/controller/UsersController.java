@@ -28,7 +28,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	ResponseEntity<Object> addUser(@Valid @NotNull VoAddUserRequest voAddUserRequset);
+	public ResponseEntity<Object> addUser(@Valid @NotNull VoAddUserRequest voAddUserRequset);
 
 	/**
 	 * 
@@ -40,7 +40,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	ResponseEntity<Object> getUserById(Long id);
+	public ResponseEntity<Object> getUserById(Long id);
 
 	/**
 	 * 
@@ -53,7 +53,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	ResponseEntity<Object> getUserByUsername(String userName);
+	public ResponseEntity<Object> getUser(String userName);
 
 	/**
 	 * 
@@ -65,7 +65,7 @@ public interface UsersController {
 	 * @since 1.0.0
 	 */
 
-	void deleteUser(Long id);
+	public void deleteUser(Long id);
 
 	/**
 	 * 
@@ -80,7 +80,7 @@ public interface UsersController {
 	 * @since 1.0.0
 	 */
 
-	ResponseEntity<Object> patchUser(@Valid @NotNull VoPatchUserRequest voPatchUserRequest);
+	public ResponseEntity<Object> patchUser(@Valid @NotNull VoPatchUserRequest voPatchUserRequest);
 
 	/**
 	 * 用户登陆验证
@@ -104,4 +104,14 @@ public interface UsersController {
 	 */
 	public ResponseEntity<Object> logout();
 
+	/**
+	 * 查询用户统计数据
+	 * 
+	 * @param userName
+	 *            用户名
+	 * @return ResponseEntity<Object>
+	 * @author xuLiang
+	 * @since 1.0.0
+	 */
+	public ResponseEntity<Object> getAllStatistics(String userName);
 }

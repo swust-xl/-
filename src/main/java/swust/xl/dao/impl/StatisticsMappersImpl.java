@@ -156,8 +156,7 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 		VerifyStatisticsRecord record = dsl.selectFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(userName))
 				.fetchOne();
 		if (record != null) {
-			Timestamp ts = new Timestamp(System.currentTimeMillis());
-			record.setLastInvokeDatetime(ts);
+			record.setLastInvokeDatetime(new Timestamp(System.currentTimeMillis()));
 			record.store();
 			return true;
 		}

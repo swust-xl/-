@@ -1,8 +1,9 @@
 package swust.xl.util.session;
 
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
@@ -27,17 +28,8 @@ public class SessionUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public void removeAttribute(HttpSession session, String attributeName, int time) {
-		ThreadFactory threadFactory = new ThreadFactory() {
-			@Override
-			public Thread newThread(Runnable r) {
-				Thread t = new Thread(r, "清除Attribute线程");
-				return t;
-			}
-		};
-		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(2, threadFactory);
-		executor.allowsCoreThreadTimeOut();
-		executor.setKeepAliveTime(90, TimeUnit.SECONDS);
+	public void removeAttribute(HttpSession session, String attributeName, long time) {
+		ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(5);
 		executor.schedule(new Runnable() {
 			@Override
 			public void run() {
@@ -58,7 +50,10 @@ public class SessionUtil {
 	 * @since 1.0.0
 	 */
 	public boolean checkAttribute(HttpSession session, String attributeName) {
-		if (session == null || session.getAttribute(attributeName) == null) {
+		if (session == null) {
+			throw new IllegalArgumentException();
+		}
+		if (session.getAttribute(attributeName) == null) {
 			return false;
 		}
 		return true;
@@ -78,7 +73,13 @@ public class SessionUtil {
 	 * @since 1.0.0
 	 */
 	public boolean verifyAttribute(HttpSession session, String attributeName, Object value) {
-		if (session.getAttribute(attributeName).equals(value)) {
+		if (session == null) {
+			throw new IllegalArgumentException();
+		}
+		if (value == null) {
+			throw new NullPointerException();
+		}
+		if (value.equals(session.getAttribute(attributeName))) {
 			return true;
 		}
 		return false;

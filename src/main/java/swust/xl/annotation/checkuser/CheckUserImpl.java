@@ -121,8 +121,9 @@ public class CheckUserImpl {
 		Object[] objects = joinPoint.getArgs();
 		for (Object arg : objects) {
 			if (arg instanceof String) {
-				if (!(sessionUtil.checkAttribute(request.getSession(), WebSecurityConfig.SESSION_KEY)
-						&& sessionUtil.verifyAttribute(request.getSession(), WebSecurityConfig.SESSION_KEY, arg))) {
+				boolean Accesse = sessionUtil.checkAttribute(request.getSession(), WebSecurityConfig.SESSION_KEY)
+						&& sessionUtil.verifyAttribute(request.getSession(), WebSecurityConfig.SESSION_KEY, arg);
+				if (!Accesse) {
 					throw new NoAccessException(checkUser.message());
 				}
 			}

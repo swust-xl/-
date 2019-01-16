@@ -54,11 +54,12 @@ public class ResponseUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> commonResp(HttpStatus httpStatus, int code, String message,
+	public ResponseEntity<Object> commonResp(HttpStatus httpStatus, int code, String message, String SESSION_KEY,
 			VoGetUserCommonResp data) {
 		GetUserCommonResp response = new GetUserCommonResp();
 		response.setCode(code);
 		response.setMessage(message);
+		response.setSESSION_KEY(SESSION_KEY);
 		response.setData(data);
 		return new ResponseEntity<Object>(response, httpStatus);
 	}

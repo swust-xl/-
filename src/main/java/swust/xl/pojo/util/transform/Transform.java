@@ -26,7 +26,7 @@ public class Transform {
 	}
 
 	/**
-	 * 将timestamp类数据转换成Long
+	 * 将Timestamp类数据转换成Long
 	 * 
 	 * @param timestamp
 	 *            待转换的属性数据

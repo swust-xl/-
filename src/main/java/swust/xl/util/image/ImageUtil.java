@@ -16,13 +16,21 @@ import sun.misc.BASE64Encoder;
  * @author xuLiang
  * @since 1.0.0
  */
-
-@SuppressWarnings("restriction")
 @Component
 public class ImageUtil {
 
 	/**
 	 * 用来裁剪到滑动的方块
+	 * 
+	 * @param bufferedImage
+	 *            原图
+	 * @param x
+	 *            裁出来的图的X坐标
+	 * @param y
+	 *            裁出来的图的Y坐标
+	 * @param width
+	 *            裁出来的图的宽
+	 * @param height裁出来的图的高
 	 */
 	public static BufferedImage getCuttedImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
 		BufferedImage bi = bufferedImage.getSubimage(x, y, width, height);
@@ -110,18 +118,14 @@ public class ImageUtil {
 	 * @return image
 	 * @throws Exception
 	 * @author xuLiang
+	 * @throws IOException
 	 * @since 1.0.0
 	 */
-	public static BufferedImage base64StringToImage(String base64String) {
-		try {
-			BASE64Decoder decoder = new BASE64Decoder();
-			byte[] bytes1 = decoder.decodeBuffer(base64String);
-			ByteArrayInputStream bais = new ByteArrayInputStream(bytes1);
-			return ImageIO.read(bais);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public static BufferedImage base64StringToImage(String base64String) throws IOException {
+		BASE64Decoder decoder = new BASE64Decoder();
+		byte[] bytes1 = decoder.decodeBuffer(base64String);
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes1);
+		return ImageIO.read(bais);
 	}
 
 }

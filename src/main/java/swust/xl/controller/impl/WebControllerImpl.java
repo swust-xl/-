@@ -82,12 +82,12 @@ public class WebControllerImpl implements WebController {
 			if (usersService.verifyLogin(userLogin)) {
 				request.getSession().setAttribute(USER_iNVOKE_SESSION_KEY, userLogin.getUsernameOrEmail());
 				request.getSession().setMaxInactiveInterval(24 * 3600);
-				return responseUtil.commonResp(HttpStatus.OK, 1, "用户凭证验证通过", VoMapper.INSTANCE
+				return responseUtil.commonResp(HttpStatus.OK, 1, "用户凭证验证通过", null, VoMapper.INSTANCE
 						.fromBoToVoGetUserCommonResponseMap(usersService.getUser(userLogin.getUsernameOrEmail())));
 			}
 			return responseUtil.errorResp(HttpStatus.UNAUTHORIZED, 0, "无效的用户凭证");
 		}
-		return responseUtil.commonResp(HttpStatus.OK, 1, "用户凭证生效中", VoMapper.INSTANCE
+		return responseUtil.commonResp(HttpStatus.OK, 1, "用户凭证生效中", null, VoMapper.INSTANCE
 				.fromBoToVoGetUserCommonResponseMap(usersService.getUser(userLogin.getUsernameOrEmail())));
 	}
 

@@ -18,9 +18,9 @@ import java.lang.annotation.Target;
 @Documented
 public @interface RequestLimit {
 	/*
-	 * 默认同一IP在Integer.MAX_VALUE秒内能访问1次
+	 * 同一IP在n秒内能访问1次 ,默认不限制
 	 */
-	int value() default Integer.MAX_VALUE;
+	long value() default 0;
 
 	String message() default "请求过于频繁";
 

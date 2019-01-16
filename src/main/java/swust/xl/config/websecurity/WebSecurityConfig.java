@@ -36,7 +36,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 		addInterceptor.excludePathPatterns("/**");
 
 		// 拦截配置
-		// addInterceptor.addPathPatterns("/index");
+		// addInterceptor.addPathPatterns("/users");
 	}
 
 	private class SecurityInterceptor extends HandlerInterceptorAdapter {

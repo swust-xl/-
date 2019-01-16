@@ -1,6 +1,7 @@
 package swust.xl.dao.impl;
 
 import static swust.xl.pojo.po.mysql.tables.UserPerson.USER_PERSON;
+import static swust.xl.pojo.po.mysql.tables.VerifyStatistics.VERIFY_STATISTICS;
 
 import java.sql.Timestamp;
 import org.jooq.DSLContext;
@@ -74,10 +75,11 @@ public class UserMappersImpl implements UserMappers {
 	 * @since 1.0.0
 	 */
 	@Override
-	public Boolean deleteUser(Long id) {
-		Assert.notNull(id, "待删除的Users全局ID不能为空");
-		int num = dsl.deleteFrom(USER_PERSON).where(USER_PERSON.ID.eq(id)).execute();
-		Assert.isTrue(num == 1, "根据id删除Users失败");
+	public boolean deleteUser(Long id) {
+		Assert.notNull(id, "待删除的用户ID不能为空");
+		int result = dsl.deleteFrom(USER_PERSON).where(USER_PERSON.ID.eq(id)).execute();
+		Assert.isTrue(result == 1, "根据id删除Users失败");
+		dsl.deleteFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(getUser(id).getUsername()));
 		return true;
 	}
 
