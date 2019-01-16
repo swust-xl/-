@@ -17,10 +17,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface RequestLimit {
-	/*
-	 * 同一IP在n秒内能访问1次 ,默认不限制
+	/**
+	 * 允许访问的最大次数，默认不限制
 	 */
-	long value() default 0;
+	int value() default Integer.MAX_VALUE;
+
+	/**
+	 * 时间段，单位为分钟，默认值一分钟
+	 */
+	long time() default 1;
 
 	String message() default "请求过于频繁";
 

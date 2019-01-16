@@ -67,7 +67,7 @@ public class UsersControllerImpl implements UsersController {
 	@ApiOperation(value = "新增用户", notes = "同一IP一分钟内只能注册成功一次", httpMethod = "POST", response = GetUserCommonResp.class)
 	@PostMapping("/users")
 	@CheckUser(message = "用户名或邮箱已存在")
-	@RequestLimit(5)
+	@RequestLimit(value = 2, time = 1)
 	@Override
 	public ResponseEntity<Object> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
 		verifyStatisticsService.InitUserInfo(voAddUserRequest.getUserName());
@@ -173,7 +173,7 @@ public class UsersControllerImpl implements UsersController {
 	@ApiOperation(value = "登录", notes = "用户登录接口,管理员账号登录后有管理员限权", httpMethod = "POST", response = GetUserCommonResp.class)
 	@PostMapping("/users/login")
 	@CheckUser(message = "用户名或密码错误")
-	@RequestLimit(5)
+	@RequestLimit(value = 3, time = 1)
 	@Override
 	public ResponseEntity<Object> loginVerify(@RequestBody UserLogin userLogin) {
 		request.getSession().setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsernameOrEmail());
