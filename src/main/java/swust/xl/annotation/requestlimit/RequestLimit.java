@@ -18,14 +18,14 @@ import java.lang.annotation.Target;
 @Documented
 public @interface RequestLimit {
 	/**
-	 * 允许访问的最大次数，默认不限制
+	 * 时间段内允许访问的最大次数，默认不限制
 	 */
 	int value() default Integer.MAX_VALUE;
 
 	/**
-	 * 时间段，单位为分钟，默认值一分钟
+	 * 时间段，单位为秒，默认值60秒
 	 */
-	long time() default 1;
+	long time() default 60;
 
 	String message() default "请求过于频繁";
 

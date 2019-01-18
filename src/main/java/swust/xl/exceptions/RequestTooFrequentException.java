@@ -2,7 +2,13 @@ package swust.xl.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+/**
+ * 
+ * 请求过于频繁异常
+ * 
+ * @author xuLiang
+ * @since 1.0.0
+ */
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "请求过于频繁")
 public class RequestTooFrequentException extends RuntimeException {
 

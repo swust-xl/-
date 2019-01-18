@@ -1,4 +1,4 @@
-package swust.xl.pojo.vo;
+package swust.xl.pojo.vo.error.response;
 
 /**
  * 请求错误响应体

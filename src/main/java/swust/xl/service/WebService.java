@@ -1,7 +1,16 @@
 package swust.xl.service;
 
+import java.io.IOException;
+
 import swust.xl.pojo.vo.VerificationCodeResp;
 
+/**
+ * 
+ * 验证相关服务层接口
+ *
+ * @author xuLiang
+ * @since 1.0.0
+ */
 public interface WebService {
 	/**
 	 * 获取图片和坐标值
@@ -19,8 +28,8 @@ public interface WebService {
 	 * @return VerificationCodeResp
 	 * @author xuLiang
 	 * @since 1.0.0
-	 * @throws Exception
+	 * @throws IOException
 	 */
 	VerificationCodeResp getImage(int originImgWidth, int originImgHeight, int cuttedImgWidth, int cuttedImgHeight,
-			String path) throws Exception;
+			String path) throws IOException;
 }

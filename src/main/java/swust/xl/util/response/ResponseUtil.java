@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import swust.xl.pojo.vo.GetUserCommonResp;
 import swust.xl.pojo.vo.GetUserResp;
-import swust.xl.pojo.vo.VoErrorResp;
+import swust.xl.pojo.vo.error.response.VoErrorResp;
 import swust.xl.pojo.vo.getuser.commonresponse.VoGetUserCommonResp;
 import swust.xl.pojo.vo.getuser.response.VoGetUserResp;
 import swust.xl.pojo.vo.verify.response.VerifyResp;
@@ -54,12 +54,12 @@ public class ResponseUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> commonResp(HttpStatus httpStatus, int code, String message, String SESSION_KEY,
+	public ResponseEntity<Object> commonResp(HttpStatus httpStatus, int code, String message, String sessionKey,
 			VoGetUserCommonResp data) {
 		GetUserCommonResp response = new GetUserCommonResp();
 		response.setCode(code);
 		response.setMessage(message);
-		response.setSESSION_KEY(SESSION_KEY);
+		response.setSessionKey(sessionKey);
 		response.setData(data);
 		return new ResponseEntity<Object>(response, httpStatus);
 	}

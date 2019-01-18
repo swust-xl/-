@@ -6,13 +6,12 @@ import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
-import swust.xl.pojo.vo.UserLogin;
+import swust.xl.pojo.vo.user.login.UserLogin;
 
 /**
  * 
  * 用户信息操作相关Dao层接口.
  * 
- *
  * @author xuLiang
  * @since 1.0.0
  */
@@ -34,7 +33,7 @@ public interface UserMappers {
 	 * 
 	 * 获取指定用户名或邮箱用户.
 	 *
-	 * @param usernameOrEmail
+	 * @param userNameOrEmail
 	 *            需要获取的用户名
 	 * @return 获取到的用户对象
 	 * @author xuLiang
@@ -88,12 +87,12 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public boolean Login(@Valid @NotNull UserLogin userLogin);
+	public boolean login(@Valid @NotNull UserLogin userLogin);
 
 	/**
 	 * 更新用户最后登录时间
 	 * 
-	 * @param usernameOrEmail
+	 * @param userNameOrEmail
 	 * @return UserPerson 更新后的用户信息
 	 * @author xuLiang
 	 * @since 1.0.0

@@ -10,6 +10,13 @@ import swust.xl.dao.StatisticsMappers;
 import swust.xl.pojo.po.mysql.tables.pojos.VerifyStatistics;
 import swust.xl.service.VerifyStatisticsService;
 
+/**
+ * 
+ * 用户统计数据操作相关服务层实现.
+ *
+ * @author xuLiang
+ * @since 1.0.0
+ */
 @Service
 public class VerifyStatisticsServiceImpl implements VerifyStatisticsService {
 
@@ -26,8 +33,8 @@ public class VerifyStatisticsServiceImpl implements VerifyStatisticsService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public VerifyStatistics InitUserInfo(@Valid @NotBlank String userName) {
-		return statisticsMappers.InitUserInfo(userName);
+	public VerifyStatistics initUserInfo(@Valid @NotBlank String userName) {
+		return statisticsMappers.initUserInfo(userName);
 	}
 
 	/**

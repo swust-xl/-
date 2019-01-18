@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
 import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
-import swust.xl.pojo.vo.UserLogin;
+import swust.xl.pojo.vo.user.login.UserLogin;
 
 /**
  * 
@@ -84,7 +84,7 @@ public interface UsersService {
 	/**
 	 * 更新用户最后登录时间
 	 * 
-	 * @param username
+	 * @param userameOrEmail
 	 * @return UserPerson
 	 * @author xuLiang
 	 * @since 1.0.0

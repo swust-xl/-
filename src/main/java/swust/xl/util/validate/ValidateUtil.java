@@ -68,7 +68,7 @@ public class ValidateUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public boolean Validate(Object valueFromSession, String valueFromUser, int valueToValidate) {
+	public boolean validate(Object valueFromSession, String valueFromUser, int valueToValidate) {
 		if ((Math.abs(
 				(Integer.valueOf(valueFromSession.toString()) - Integer.valueOf(valueFromUser))) > valueToValidate)) {
 			return false;

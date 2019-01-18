@@ -6,6 +6,13 @@ import org.springframework.validation.annotation.Validated;
 
 import swust.xl.pojo.po.mysql.tables.pojos.VerifyStatistics;
 
+/**
+ * 
+ * 用户统计数据操作相关服务层接口
+ *
+ * @author xuLiang
+ * @since 1.0.0
+ */
 @Validated
 public interface VerifyStatisticsService {
 	/**
@@ -16,7 +23,7 @@ public interface VerifyStatisticsService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	VerifyStatistics InitUserInfo(@Valid @NotBlank String userName);
+	public VerifyStatistics initUserInfo(@Valid @NotBlank String userName);
 
 	/**
 	 * 根据用户名查询所有统计数据

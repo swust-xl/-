@@ -24,10 +24,10 @@ import swust.xl.pojo.dto.VoMapper;
 import swust.xl.pojo.po.mysql.tables.pojos.VerifyStatistics;
 import swust.xl.pojo.vo.GetUserCommonResp;
 import swust.xl.pojo.vo.GetUserResp;
-import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.adduser.requset.VoAddUserRequest;
 import swust.xl.pojo.vo.getuser.response.VoGetUserResp;
 import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
+import swust.xl.pojo.vo.user.login.UserLogin;
 import swust.xl.service.UsersService;
 import swust.xl.service.VerifyStatisticsService;
 import swust.xl.util.response.ResponseUtil;
@@ -64,13 +64,13 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "新增用户", notes = "同一IP一分钟内只能注册成功一次", httpMethod = "POST", response = GetUserCommonResp.class)
+	@ApiOperation(value = "新增用户", notes = "同一IP一分钟内只能注册一次", httpMethod = "POST", response = GetUserCommonResp.class)
 	@PostMapping("/users")
 	@CheckUser(message = "用户名或邮箱已存在")
-	@RequestLimit(value = 2, time = 1)
+	@RequestLimit(value = 1)
 	@Override
 	public ResponseEntity<Object> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
-		verifyStatisticsService.InitUserInfo(voAddUserRequest.getUserName());
+		verifyStatisticsService.initUserInfo(voAddUserRequest.getUserName());
 		return responseUtil.commonResp(HttpStatus.CREATED, 1, "添加成功", null,
 				VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
 						usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
@@ -173,7 +173,7 @@ public class UsersControllerImpl implements UsersController {
 	@ApiOperation(value = "登录", notes = "用户登录接口,管理员账号登录后有管理员限权", httpMethod = "POST", response = GetUserCommonResp.class)
 	@PostMapping("/users/login")
 	@CheckUser(message = "用户名或密码错误")
-	@RequestLimit(value = 3, time = 1)
+	@RequestLimit(value = 3)
 	@Override
 	public ResponseEntity<Object> loginVerify(@RequestBody UserLogin userLogin) {
 		request.getSession().setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsernameOrEmail());

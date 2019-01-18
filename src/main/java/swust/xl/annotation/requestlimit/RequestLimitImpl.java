@@ -30,7 +30,8 @@ public class RequestLimitImpl {
 
 	@Autowired
 	private HttpServletRequest request;
-	private Map<String, Integer> limitMap = new HashMap<>();
+	private Map<String, Integer> limitMap = new HashMap<String, Integer>();
+	private ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(5);
 
 	@Pointcut("within(swust.xl.controller.impl..*)")
 	public void pointCut() {
@@ -51,7 +52,7 @@ public class RequestLimitImpl {
 	 */
 	@Before(value = "pointCut() && @annotation(requestLimit)")
 	public void requestLimit(JoinPoint joinPoint, RequestLimit requestLimit) {
-		String ip = request.getRemoteAddr();
+		String ip = request.getRemoteAddr().toString();
 		String url = request.getRequestURL().toString();
 		String key = "req_limit_".concat(url).concat(ip);
 		if (limitMap.get(key) == null || limitMap.get(key) == 0) {
@@ -61,13 +62,12 @@ public class RequestLimitImpl {
 		}
 		int count = limitMap.get(key);
 		if (count > 0) {
-			ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(2);
 			executor.schedule(new Runnable() {
 				@Override
 				public void run() {
 					limitMap.remove(key);
 				}
-			}, requestLimit.time(), TimeUnit.MINUTES);
+			}, requestLimit.time(), TimeUnit.SECONDS);
 		}
 		if (count > requestLimit.value()) {
 			throw new RequestTooFrequentException();

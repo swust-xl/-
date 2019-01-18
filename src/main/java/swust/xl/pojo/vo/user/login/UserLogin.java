@@ -1,4 +1,4 @@
-package swust.xl.pojo.vo;
+package swust.xl.pojo.vo.user.login;
 
 /**
  * 用户登陆请求体

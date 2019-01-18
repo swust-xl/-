@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 import swust.xl.dao.UserMappers;
 import swust.xl.pojo.po.mysql.tables.pojos.UserPerson;
 import swust.xl.pojo.po.mysql.tables.records.UserPersonRecord;
-import swust.xl.pojo.vo.UserLogin;
+import swust.xl.pojo.vo.user.login.UserLogin;
 
 /**
  * 
@@ -138,7 +138,7 @@ public class UserMappersImpl implements UserMappers {
 	 * @since 1.0.0
 	 */
 	@Override
-	public boolean Login(UserLogin userLogin) {
+	public boolean login(UserLogin userLogin) {
 		UserPersonRecord record = dsl.selectFrom(USER_PERSON)
 				.where(USER_PERSON.USERNAME.eq(userLogin.getUsernameOrEmail())
 						.or(USER_PERSON.EMAIL.eq(userLogin.getUsernameOrEmail()))

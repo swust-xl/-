@@ -11,13 +11,14 @@ import swust.xl.pojo.vo.getuser.commonresponse.VoGetUserCommonResp;
 public class GetUserCommonResp {
 	private int code;
 	private String message;
-	private String SESSION_KEY;
+	private String sessionKey;
 	private VoGetUserCommonResp data;
 
-	public GetUserCommonResp(int code, String message, VoGetUserCommonResp data) {
+	public GetUserCommonResp(int code, String message, String sessionKey, VoGetUserCommonResp data) {
 		super();
 		this.code = code;
 		this.message = message;
+		this.setSessionKey(sessionKey);
 		this.data = data;
 	}
 
@@ -54,12 +55,12 @@ public class GetUserCommonResp {
 		this.data = data;
 	}
 
-	public String getSESSION_KEY() {
-		return SESSION_KEY;
+	public String getSessionKey() {
+		return sessionKey;
 	}
 
-	public void setSESSION_KEY(String sESSION_KEY) {
-		SESSION_KEY = sESSION_KEY;
+	public void setSessionKey(String sessionKey) {
+		this.sessionKey = sessionKey;
 	}
 
 }

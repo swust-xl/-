@@ -1,10 +1,13 @@
 package swust.xl.controller;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import swust.xl.pojo.vo.behavior.verification.BehaviorVerificationReq;
+import swust.xl.pojo.vo.user.preprocess.UserPreprocess;
 
 /**
  * 验证相关controller
@@ -15,20 +18,32 @@ import swust.xl.pojo.vo.behavior.verification.BehaviorVerificationReq;
 @Validated
 public interface WebController {
 	/**
+	 * 第三方调用验证预处理
+	 * 
+	 * @param userLogin
+	 * @return ResponseEntity<Object>
+	 * @author xuLiang
+	 * @since 1.0.0
+	 */
+	public ResponseEntity<Object> preprocess(@Valid @NotNull UserPreprocess user);
+
+	/**
 	 * 获取图片接口
 	 * 
 	 * @return VerificationCodeResp
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	ResponseEntity<Object> sendImage() throws Exception;
+	public ResponseEntity<Object> sendImage() throws Exception;
 
 	/**
 	 * 验证接口
 	 * 
 	 * @return String
+	 * @param request
+	 *            行为验证请求体
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	ResponseEntity<Object> coordinateVerify(@RequestBody BehaviorVerificationReq request);
+	public ResponseEntity<Object> coordinateVerify(BehaviorVerificationReq request);
 }

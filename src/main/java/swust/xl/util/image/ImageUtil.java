@@ -95,11 +95,11 @@ public class ImageUtil {
 	 * 
 	 * @param image
 	 * @return Base64
-	 * @throws Exception
+	 * @throws IOException
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public static String imageToBase64(BufferedImage image) throws Exception {
+	public static String imageToBase64(BufferedImage image) throws IOException {
 		byte[] imagedata = null;
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 		ImageIO.write(image, "png", bao);

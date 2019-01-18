@@ -1,5 +1,12 @@
 package swust.xl.pojo.vo;
 
+/**
+ * 
+ * 获取图片响应体
+ * 
+ * @author xuLiang
+ * @since 1.0.0
+ */
 public class GetImgResp {
 	private int code;
 	private String message;

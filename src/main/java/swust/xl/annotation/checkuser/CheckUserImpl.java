@@ -14,9 +14,9 @@ import swust.xl.dao.UserMappers;
 import swust.xl.exceptions.NoAccessException;
 import swust.xl.exceptions.UserAlreadyExistsException;
 import swust.xl.exceptions.UserInfoException;
-import swust.xl.pojo.vo.UserLogin;
 import swust.xl.pojo.vo.adduser.requset.VoAddUserRequest;
 import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
+import swust.xl.pojo.vo.user.login.UserLogin;
 import swust.xl.service.UsersService;
 import swust.xl.util.session.SessionUtil;
 
@@ -121,9 +121,9 @@ public class CheckUserImpl {
 		Object[] objects = joinPoint.getArgs();
 		for (Object arg : objects) {
 			if (arg instanceof String) {
-				boolean Accesse = sessionUtil.checkAttribute(request.getSession(), WebSecurityConfig.SESSION_KEY)
+				boolean accesse = sessionUtil.checkAttribute(request.getSession(), WebSecurityConfig.SESSION_KEY)
 						&& sessionUtil.verifyAttribute(request.getSession(), WebSecurityConfig.SESSION_KEY, arg);
-				if (!Accesse) {
+				if (!accesse) {
 					throw new NoAccessException(checkUser.message());
 				}
 			}

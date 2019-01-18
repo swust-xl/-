@@ -29,7 +29,7 @@ public class SessionUtil {
 	 * @since 1.0.0
 	 */
 	public void removeAttribute(HttpSession session, String attributeName, long time) {
-		ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(5);
+		ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(3);
 		executor.schedule(new Runnable() {
 			@Override
 			public void run() {
@@ -51,7 +51,7 @@ public class SessionUtil {
 	 */
 	public boolean checkAttribute(HttpSession session, String attributeName) {
 		if (session == null) {
-			throw new IllegalArgumentException();
+			throw new NullPointerException();
 		}
 		if (session.getAttribute(attributeName) == null) {
 			return false;

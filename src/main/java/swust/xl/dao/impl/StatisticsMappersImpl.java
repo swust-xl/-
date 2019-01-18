@@ -33,7 +33,7 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 	 * @since 1.0.0
 	 */
 	@Override
-	public VerifyStatistics InitUserInfo(String userName) {
+	public VerifyStatistics initUserInfo(String userName) {
 		VerifyStatisticsRecord record = new VerifyStatisticsRecord();
 		record = dsl.newRecord(VERIFY_STATISTICS);
 		record.setUsername(userName);

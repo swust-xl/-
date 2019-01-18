@@ -13,7 +13,7 @@ import swust.xl.pojo.bo.adduser.request.BoAddUserRequest;
 import swust.xl.pojo.bo.getuser.response.BoGetUserResp;
 import swust.xl.pojo.bo.patchuser.request.BoPatchUserRequest;
 import swust.xl.pojo.dto.BoMapper;
-import swust.xl.pojo.vo.UserLogin;
+import swust.xl.pojo.vo.user.login.UserLogin;
 import swust.xl.service.UsersService;
 import swust.xl.util.md5.Md5Util;
 
@@ -136,7 +136,7 @@ public class UsersServiceImpl implements UsersService {
 		userLogin.setPassword(
 				Md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsernameOrEmail()).getSalt()));
 
-		return mappers.Login(userLogin);
+		return mappers.login(userLogin);
 	}
 
 	/**

@@ -3,6 +3,13 @@ package swust.xl.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * 
+ * 用户无限权异常
+ * 
+ * @author xuLiang
+ * @since 1.0.0
+ */
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "拒绝访问")
 public class NoAccessException extends RuntimeException {
 

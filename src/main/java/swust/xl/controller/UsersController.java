@@ -5,9 +5,10 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import swust.xl.pojo.vo.UserLogin;
+
 import swust.xl.pojo.vo.adduser.requset.VoAddUserRequest;
 import swust.xl.pojo.vo.patchuser.request.VoPatchUserRequest;
+import swust.xl.pojo.vo.user.login.UserLogin;
 
 /**
  * 
@@ -46,7 +47,7 @@ public interface UsersController {
 	 * 
 	 * 根据用户名查询用户信息
 	 *
-	 * @param username
+	 * @param userName
 	 *            待获取用户的用户名
 	 * @return 封装用户信息的统一响应对象
 	 * 

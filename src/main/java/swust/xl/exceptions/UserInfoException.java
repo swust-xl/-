@@ -2,7 +2,13 @@ package swust.xl.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+/**
+ * 
+ * 用户信息异常
+ * 
+ * @author xuLiang
+ * @since 1.0.0
+ */
 @ResponseStatus(code = HttpStatus.UNAUTHORIZED, reason = "用户名或密码错误")
 public class UserInfoException extends RuntimeException {
 

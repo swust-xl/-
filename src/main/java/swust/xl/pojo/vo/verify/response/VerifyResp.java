@@ -1,5 +1,12 @@
 package swust.xl.pojo.vo.verify.response;
 
+/**
+ * 
+ * 验证结果响应体
+ * 
+ * @author xuLiang
+ * @since 1.0.0
+ */
 public class VerifyResp {
 
 	private int code;
@@ -8,7 +15,7 @@ public class VerifyResp {
 
 	@Override
 	public String toString() {
-		return "OpenApiResp [code=" + code + ", message=" + message + "]";
+		return "VerifyResp [code=" + code + ", message=" + message + ", source=" + source + "]";
 	}
 
 	public int getCode() {
