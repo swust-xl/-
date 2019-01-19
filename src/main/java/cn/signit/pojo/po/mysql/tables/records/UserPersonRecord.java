@@ -4,6 +4,8 @@
 package cn.signit.pojo.po.mysql.tables.records;
 
 
+import cn.signit.pojo.po.mysql.tables.UserPerson;
+
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
@@ -13,8 +15,6 @@ import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
-
-import cn.signit.pojo.po.mysql.tables.UserPerson;
 
 
 /**
@@ -30,7 +30,7 @@ import cn.signit.pojo.po.mysql.tables.UserPerson;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPersonRecord extends UpdatableRecordImpl<UserPersonRecord> implements Record9<Long, String, String, String, Byte, String, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 1451517471;
+    private static final long serialVersionUID = -1288670537;
 
     /**
      * Setter for <code>test.user_person.id</code>.

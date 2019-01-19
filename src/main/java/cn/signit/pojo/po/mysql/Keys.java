@@ -4,16 +4,16 @@
 package cn.signit.pojo.po.mysql;
 
 
+import cn.signit.pojo.po.mysql.tables.UserPerson;
+import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
+import cn.signit.pojo.po.mysql.tables.records.UserPersonRecord;
+import cn.signit.pojo.po.mysql.tables.records.VerifyStatisticsRecord;
+
 import javax.annotation.Generated;
 
 import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
-
-import cn.signit.pojo.po.mysql.tables.UserPerson;
-import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
-import cn.signit.pojo.po.mysql.tables.records.UserPersonRecord;
-import cn.signit.pojo.po.mysql.tables.records.VerifyStatisticsRecord;
 
 
 /**

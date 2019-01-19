@@ -4,14 +4,14 @@
 package cn.signit.pojo.po.mysql;
 
 
+import cn.signit.pojo.po.mysql.tables.UserPerson;
+import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
+
 import javax.annotation.Generated;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.Internal;
-
-import cn.signit.pojo.po.mysql.tables.UserPerson;
-import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
 
 
 /**

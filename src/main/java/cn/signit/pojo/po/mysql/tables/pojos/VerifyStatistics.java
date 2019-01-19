@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class VerifyStatistics implements Serializable {
 
-    private static final long serialVersionUID = -195844144;
+    private static final long serialVersionUID = 353891625;
 
     private String    username;
     private Long      count;

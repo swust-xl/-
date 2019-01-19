@@ -4,10 +4,10 @@
 package cn.signit.pojo.po.mysql;
 
 
-import javax.annotation.Generated;
-
 import cn.signit.pojo.po.mysql.tables.UserPerson;
 import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
+
+import javax.annotation.Generated;
 
 
 /**

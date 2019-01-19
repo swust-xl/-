@@ -4,6 +4,8 @@
 package cn.signit.pojo.po.mysql.tables.records;
 
 
+import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
+
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
@@ -13,8 +15,6 @@ import org.jooq.Record1;
 import org.jooq.Record6;
 import org.jooq.Row6;
 import org.jooq.impl.UpdatableRecordImpl;
-
-import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
 
 
 /**
@@ -30,7 +30,7 @@ import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class VerifyStatisticsRecord extends UpdatableRecordImpl<VerifyStatisticsRecord> implements Record6<String, Long, Long, Long, Long, Timestamp> {
 
-    private static final long serialVersionUID = 1647412838;
+    private static final long serialVersionUID = 2026650382;
 
     /**
      * Setter for <code>test.verify_statistics.username</code>. 用户名

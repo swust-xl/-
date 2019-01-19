@@ -4,6 +4,9 @@
 package cn.signit.pojo.po.mysql;
 
 
+import cn.signit.pojo.po.mysql.tables.UserPerson;
+import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +16,6 @@ import javax.annotation.Generated;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
-
-import cn.signit.pojo.po.mysql.tables.UserPerson;
-import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
 
 
 /**
@@ -31,7 +31,7 @@ import cn.signit.pojo.po.mysql.tables.VerifyStatistics;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Test extends SchemaImpl {
 
-    private static final long serialVersionUID = -1823023179;
+    private static final long serialVersionUID = -125733182;
 
     /**
      * The reference instance of <code>test</code>

@@ -175,7 +175,7 @@
 						</database>
 						<target>
 							<!-- 自动生成的代码的位置 -->
-							<packageName>swust.xl.pojo.po.mysql</packageName>
+							<packageName>cn.signit.pojo.po.mysql</packageName>
 							<directory>src/main/java</directory>
 						</target>
 					</generator>
