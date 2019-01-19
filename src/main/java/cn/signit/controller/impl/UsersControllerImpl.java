@@ -178,7 +178,7 @@ public class UsersControllerImpl implements UsersController {
 	public ResponseEntity<Object> loginVerify(@RequestBody UserLogin userLogin) {
 		request.getSession().setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsernameOrEmail());
 		request.getSession().setMaxInactiveInterval(3600);
-		return responseUtil.commonResp(HttpStatus.OK, 1, "登录成功", WebSecurityConfig.SESSION_KEY,
+		return responseUtil.commonResp(HttpStatus.OK, 1, "登录成功", userLogin.getUsernameOrEmail(),
 				VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
 						usersService.updateLastLoginDatetime(userLogin.getUsernameOrEmail())));
 	}

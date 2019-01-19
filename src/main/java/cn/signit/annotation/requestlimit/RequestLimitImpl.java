@@ -2,8 +2,8 @@ package cn.signit.annotation.requestlimit;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +31,6 @@ public class RequestLimitImpl {
 	@Autowired
 	private HttpServletRequest request;
 	private Map<String, Integer> limitMap = new HashMap<String, Integer>();
-	private ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(5);
 
 	@Pointcut("within(cn.signit.controller.impl..*)")
 	public void pointCut() {
@@ -61,16 +60,32 @@ public class RequestLimitImpl {
 			limitMap.put(key, limitMap.get(key) + 1);
 		}
 		int count = limitMap.get(key);
-		if (count > 0) {
-			executor.schedule(new Runnable() {
+		if (count > requestLimit.value()) {
+			throw new RequestTooFrequentException(requestLimit.message());
+		}
+		if (count == requestLimit.value()) {
+			newExecutor(3, 20, true, "倒计时").schedule(new Runnable() {
 				@Override
 				public void run() {
 					limitMap.remove(key);
 				}
 			}, requestLimit.time(), TimeUnit.SECONDS);
 		}
-		if (count > requestLimit.value()) {
-			throw new RequestTooFrequentException(requestLimit.message());
-		}
 	}
+
+	private ScheduledThreadPoolExecutor newExecutor(int corePoolSize, long keepAliveTime,
+			boolean allowCoreThreadTimeOut, String threadName) {
+		final ThreadFactory threadFactory = new ThreadFactory() {
+			@Override
+			public Thread newThread(Runnable r) {
+				Thread thread = new Thread(r, threadName);
+				return thread;
+			}
+		};
+		final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(corePoolSize, threadFactory);
+		executor.setKeepAliveTime(keepAliveTime, TimeUnit.SECONDS);
+		executor.allowCoreThreadTimeOut(allowCoreThreadTimeOut);
+		return executor;
+	}
+
 }
