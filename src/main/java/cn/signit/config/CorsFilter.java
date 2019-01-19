@@ -1,4 +1,4 @@
-package cn.signit.config.websecurity;
+package cn.signit.config;
 
 import java.io.IOException;
 
