@@ -1,12 +1,12 @@
 package cn.signit.util.session;
 
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
+
+import cn.signit.factory.scheduledthreadpoolexecutor.ScheduledThreadPoolExecutorFactory;
 
 /**
  * session工具类
@@ -29,8 +29,8 @@ public class SessionUtil {
 	 * @since 1.0.0
 	 */
 	public void removeAttribute(HttpSession session, String attributeName, long time) {
-		ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(3);
-		executor.schedule(new Runnable() {
+		ScheduledThreadPoolExecutorFactory executorFactory = new ScheduledThreadPoolExecutorFactory();
+		executorFactory.newExecutor(3, 20, true).schedule(new Runnable() {
 			@Override
 			public void run() {
 				session.removeAttribute(attributeName);

@@ -2,8 +2,6 @@ package cn.signit.annotation.requestlimit;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.signit.exceptions.RequestTooFrequentException;
+import cn.signit.factory.scheduledthreadpoolexecutor.ScheduledThreadPoolExecutorFactory;
 
 /**
  * 限制接口访问次数
@@ -30,6 +29,8 @@ public class RequestLimitImpl {
 
 	@Autowired
 	private HttpServletRequest request;
+	@Autowired
+	private ScheduledThreadPoolExecutorFactory executorFactory;
 	private Map<String, Integer> limitMap = new HashMap<String, Integer>();
 
 	@Pointcut("within(cn.signit.controller.impl..*)")
@@ -64,28 +65,13 @@ public class RequestLimitImpl {
 			throw new RequestTooFrequentException(requestLimit.message());
 		}
 		if (count == requestLimit.value()) {
-			newExecutor(3, 20, true, "倒计时").schedule(new Runnable() {
+			executorFactory.newExecutor(3, 20, true).schedule(new Runnable() {
 				@Override
 				public void run() {
 					limitMap.remove(key);
 				}
 			}, requestLimit.time(), TimeUnit.SECONDS);
 		}
-	}
-
-	private ScheduledThreadPoolExecutor newExecutor(int corePoolSize, long keepAliveTime,
-			boolean allowCoreThreadTimeOut, String threadName) {
-		final ThreadFactory threadFactory = new ThreadFactory() {
-			@Override
-			public Thread newThread(Runnable r) {
-				Thread thread = new Thread(r, threadName);
-				return thread;
-			}
-		};
-		final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(corePoolSize, threadFactory);
-		executor.setKeepAliveTime(keepAliveTime, TimeUnit.SECONDS);
-		executor.allowCoreThreadTimeOut(allowCoreThreadTimeOut);
-		return executor;
 	}
 
 }
