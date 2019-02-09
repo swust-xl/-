@@ -64,7 +64,7 @@ public class RequestLimitImpl {
 		if (count > requestLimit.value()) {
 			throw new RequestTooFrequentException(requestLimit.message());
 		}
-		if (count == requestLimit.value()) {
+		if (count > 0) {
 			executorFactory.newExecutor(3, 20, true).schedule(new Runnable() {
 				@Override
 				public void run() {

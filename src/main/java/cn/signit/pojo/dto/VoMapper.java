@@ -4,13 +4,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import cn.signit.pojo.bo.adduser.request.BoAddUserRequest;
-import cn.signit.pojo.bo.getuser.response.BoGetUserResp;
-import cn.signit.pojo.bo.patchuser.request.BoPatchUserRequest;
-import cn.signit.pojo.vo.adduser.requset.VoAddUserRequest;
-import cn.signit.pojo.vo.getuser.commonresponse.VoGetUserCommonResp;
-import cn.signit.pojo.vo.getuser.response.VoGetUserResp;
-import cn.signit.pojo.vo.patchuser.request.VoPatchUserRequest;
+import cn.signit.pojo.bo.BoAddUserRequest;
+import cn.signit.pojo.bo.BoGetUserResp;
+import cn.signit.pojo.bo.BoUpdateUserRequest;
+import cn.signit.pojo.vo.VoAddUserRequest;
+import cn.signit.pojo.vo.VoGetUserResp;
+import cn.signit.pojo.vo.VoUpdateUserRequest;
 
 /**
  * 创建VO与BO之间的映射
@@ -32,18 +31,7 @@ public interface VoMapper {
 	 * @since 1.0.0
 	 */
 
-	VoGetUserResp fromBoToVoGetUserResponseMap(BoGetUserResp boGetUserResponse);
-
-	/**
-	 * BO层转化为VO层对象
-	 * 
-	 * @param boGetUserResponse
-	 * @return 转化后的VO层对象
-	 * 
-	 * @author xuLiang
-	 * @since 1.0.0
-	 */
-	VoGetUserCommonResp fromBoToVoGetUserCommonResponseMap(BoGetUserResp boGetUserResponse);
+	VoGetUserResp fromBoToVoGetUserResponse(BoGetUserResp boGetUserResponse);
 
 	/**
 	 * VO层转化为BO层对象
@@ -53,7 +41,7 @@ public interface VoMapper {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	BoAddUserRequest fromVoToBoAddUserRequestMap(VoAddUserRequest voAddUserRequest);
+	BoAddUserRequest fromVoToBoAddUserRequest(VoAddUserRequest voAddUserRequest);
 
 	/**
 	 * VO层转化为BO层对象
@@ -64,6 +52,6 @@ public interface VoMapper {
 	 * @since 1.0.0
 	 */
 	@Mapping(target = "password", source = "newPassword")
-	BoPatchUserRequest fromVoToBoPatchUserRequestMap(VoPatchUserRequest voPatchUserRequest);
+	BoUpdateUserRequest fromVoToBoUpdateUserRequest(VoUpdateUserRequest voUpdateUserRequest);
 
 }

@@ -16,6 +16,7 @@ import sun.misc.BASE64Encoder;
  * @author xuLiang
  * @since 1.0.0
  */
+@SuppressWarnings("restriction")
 @Component
 public class ImageUtil {
 

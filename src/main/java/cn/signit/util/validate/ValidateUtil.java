@@ -110,7 +110,7 @@ public class ValidateUtil {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	private static double plus(double d1, double d2) {
+	private static double add(double d1, double d2) {
 		BigDecimal p1 = new BigDecimal(Double.toString(d1));
 		BigDecimal p2 = new BigDecimal(Double.toString(d2));
 		return p1.add(p2).doubleValue();

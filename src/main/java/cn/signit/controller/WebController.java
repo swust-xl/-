@@ -3,11 +3,11 @@ package cn.signit.controller;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 
+import cn.signit.pojo.CommonResp;
+import cn.signit.pojo.vo.UserPreprocess;
 import cn.signit.pojo.vo.behavior.verification.BehaviorVerificationReq;
-import cn.signit.pojo.vo.user.preprocess.UserPreprocess;
 
 /**
  * 验证相关controller
@@ -25,7 +25,7 @@ public interface WebController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> preprocess(@Valid @NotNull UserPreprocess user);
+	public CommonResp<?> preprocess(@Valid @NotNull UserPreprocess user);
 
 	/**
 	 * 获取图片接口
@@ -34,7 +34,7 @@ public interface WebController {
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	public ResponseEntity<Object> sendImage() throws Exception;
+	public CommonResp<?> sendImage() throws Exception;
 
 	/**
 	 * 验证接口
@@ -45,5 +45,5 @@ public interface WebController {
 	 * @author xuLiang
 	 * @throws Exception
 	 */
-	public ResponseEntity<Object> coordinateVerify(BehaviorVerificationReq request);
+	public CommonResp<?> coordinateVerify(BehaviorVerificationReq request);
 }

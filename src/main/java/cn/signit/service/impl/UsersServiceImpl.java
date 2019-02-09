@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.signit.dao.UserMappers;
-import cn.signit.pojo.bo.adduser.request.BoAddUserRequest;
-import cn.signit.pojo.bo.getuser.response.BoGetUserResp;
-import cn.signit.pojo.bo.patchuser.request.BoPatchUserRequest;
+import cn.signit.pojo.bo.BoAddUserRequest;
+import cn.signit.pojo.bo.BoGetUserResp;
+import cn.signit.pojo.bo.BoUpdateUserRequest;
 import cn.signit.pojo.dto.BoMapper;
-import cn.signit.pojo.vo.user.login.UserLogin;
+import cn.signit.pojo.vo.UserLogin;
 import cn.signit.service.UsersService;
 import cn.signit.util.md5.Md5Util;
 
@@ -42,7 +42,7 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Override
 	public BoGetUserResp getUser(@Valid @NotNull Long id) {
-		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(id));
+		return BoMapper.INSTANCE.toBoGetUserResp(mappers.getUser(id));
 
 	}
 
@@ -57,7 +57,7 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Override
 	public BoGetUserResp getUser(@Valid @NotNull String userName) {
-		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.getUser(userName));
+		return BoMapper.INSTANCE.toBoGetUserResp(mappers.getUser(userName));
 
 	}
 
@@ -79,8 +79,7 @@ public class UsersServiceImpl implements UsersService {
 		boAddUserRequest.setSalt(salt);
 		boAddUserRequest.setPassword(passwordWithSalt);
 		boAddUserRequest.setRegistDatetime(new Timestamp(System.currentTimeMillis()));
-		return BoMapper.INSTANCE
-				.toBoGetUserRespMap(mappers.addUser(BoMapper.INSTANCE.fromBoAddUserReqMap(boAddUserRequest)));
+		return BoMapper.INSTANCE.toBoGetUserResp(mappers.addUser(BoMapper.INSTANCE.fromBoAddUserReq(boAddUserRequest)));
 	}
 
 	/**
@@ -112,13 +111,13 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public BoGetUserResp patchUser(BoPatchUserRequest boPatchUserRequest) {
+	public BoGetUserResp updateUser(BoUpdateUserRequest boUpdateUserRequest) {
 		String salt = Md5Util.getSalt();
-		String passwordWithSalt = Md5Util.md5Hex(boPatchUserRequest.getPassword() + salt);
-		boPatchUserRequest.setSalt(salt);
-		boPatchUserRequest.setPassword(passwordWithSalt);
+		String passwordWithSalt = Md5Util.md5Hex(boUpdateUserRequest.getPassword() + salt);
+		boUpdateUserRequest.setSalt(salt);
+		boUpdateUserRequest.setPassword(passwordWithSalt);
 		return BoMapper.INSTANCE
-				.toBoGetUserRespMap(mappers.patchUser(BoMapper.INSTANCE.fromBoPatchUserReqMap(boPatchUserRequest)));
+				.toBoGetUserResp(mappers.updateUser(BoMapper.INSTANCE.fromBoUpdateUserReq(boUpdateUserRequest)));
 	}
 
 	/**
@@ -150,6 +149,6 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public BoGetUserResp updateLastLoginDatetime(String usernameOrEmail) {
-		return BoMapper.INSTANCE.toBoGetUserRespMap(mappers.updateLastLoginDatetime(usernameOrEmail));
+		return BoMapper.INSTANCE.toBoGetUserResp(mappers.updateLastLoginDatetime(usernameOrEmail));
 	}
 }

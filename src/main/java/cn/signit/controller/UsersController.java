@@ -3,12 +3,12 @@ package cn.signit.controller;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 
-import cn.signit.pojo.vo.adduser.requset.VoAddUserRequest;
-import cn.signit.pojo.vo.patchuser.request.VoPatchUserRequest;
-import cn.signit.pojo.vo.user.login.UserLogin;
+import cn.signit.pojo.CommonResp;
+import cn.signit.pojo.vo.UserLogin;
+import cn.signit.pojo.vo.VoAddUserRequest;
+import cn.signit.pojo.vo.VoUpdateUserRequest;
 
 /**
  * 
@@ -29,7 +29,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> addUser(@Valid @NotNull VoAddUserRequest voAddUserRequset);
+	public CommonResp<?> addUser(@Valid @NotNull VoAddUserRequest voAddUserRequset);
 
 	/**
 	 * 
@@ -41,7 +41,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> getUserById(Long id);
+	public CommonResp<?> getUserById(Long id);
 
 	/**
 	 * 
@@ -54,7 +54,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> getUser(String userName);
+	public CommonResp<?> getUser(String userName);
 
 	/**
 	 * 
@@ -66,7 +66,7 @@ public interface UsersController {
 	 * @since 1.0.0
 	 */
 
-	public void deleteUser(Long id);
+	public CommonResp<?> deleteUser(Long id);
 
 	/**
 	 * 
@@ -81,7 +81,7 @@ public interface UsersController {
 	 * @since 1.0.0
 	 */
 
-	public ResponseEntity<Object> patchUser(@Valid @NotNull VoPatchUserRequest voPatchUserRequest);
+	public CommonResp<?> patchUser(@Valid @NotNull VoUpdateUserRequest voPatchUserRequest);
 
 	/**
 	 * 用户登陆验证
@@ -93,7 +93,7 @@ public interface UsersController {
 	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> loginVerify(UserLogin userLogin);
+	public CommonResp<?> loginVerify(UserLogin userLogin);
 
 	/**
 	 * 用户登出移除session
@@ -103,7 +103,7 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> logout();
+	public CommonResp<?> logout();
 
 	/**
 	 * 查询用户统计数据
@@ -114,5 +114,5 @@ public interface UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public ResponseEntity<Object> getAllStatistics(String userName);
+	public CommonResp<?> getAllStatistics(String userName);
 }

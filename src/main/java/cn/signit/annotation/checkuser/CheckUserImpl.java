@@ -14,9 +14,9 @@ import cn.signit.dao.UserMappers;
 import cn.signit.exceptions.NoAccessException;
 import cn.signit.exceptions.UserAlreadyExistsException;
 import cn.signit.exceptions.UserInfoException;
-import cn.signit.pojo.vo.adduser.requset.VoAddUserRequest;
-import cn.signit.pojo.vo.patchuser.request.VoPatchUserRequest;
-import cn.signit.pojo.vo.user.login.UserLogin;
+import cn.signit.pojo.vo.UserLogin;
+import cn.signit.pojo.vo.VoAddUserRequest;
+import cn.signit.pojo.vo.VoUpdateUserRequest;
 import cn.signit.service.UsersService;
 import cn.signit.util.session.SessionUtil;
 
@@ -94,8 +94,8 @@ public class CheckUserImpl {
 					throw new UserInfoException(checkUser.message());
 				}
 			}
-			if (arg instanceof VoPatchUserRequest) {
-				VoPatchUserRequest voPatchUserRequest = (VoPatchUserRequest) arg;
+			if (arg instanceof VoUpdateUserRequest) {
+				VoUpdateUserRequest voPatchUserRequest = (VoUpdateUserRequest) arg;
 				if (!usersService.verifyLogin(
 						new UserLogin(voPatchUserRequest.getUserName(), voPatchUserRequest.getOldPassword()))) {
 					throw new UserInfoException(checkUser.message());

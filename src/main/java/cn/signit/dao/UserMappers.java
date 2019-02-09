@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 import cn.signit.pojo.po.mysql.tables.pojos.UserPerson;
-import cn.signit.pojo.vo.user.login.UserLogin;
+import cn.signit.pojo.vo.UserLogin;
 
 /**
  * 
@@ -75,7 +75,7 @@ public interface UserMappers {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public UserPerson patchUser(@Valid @NotNull UserPerson userPerson);
+	public UserPerson updateUser(@Valid @NotNull UserPerson userPerson);
 
 	/**
 	 * 

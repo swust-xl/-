@@ -5,6 +5,8 @@ import static cn.signit.pojo.po.mysql.tables.VerifyStatistics.VERIFY_STATISTICS;
 
 import java.sql.Timestamp;
 import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -12,7 +14,7 @@ import org.springframework.util.Assert;
 import cn.signit.dao.UserMappers;
 import cn.signit.pojo.po.mysql.tables.pojos.UserPerson;
 import cn.signit.pojo.po.mysql.tables.records.UserPersonRecord;
-import cn.signit.pojo.vo.user.login.UserLogin;
+import cn.signit.pojo.vo.UserLogin;
 
 /**
  * 
@@ -109,22 +111,20 @@ public class UserMappersImpl implements UserMappers {
 	 * 
 	 * 更新一条用户记录.
 	 *
-	 * @param Users
+	 * @param userPerson
 	 *            需要更新的用户对象
 	 * @return 更新完成的用户信息对象
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
 	@Override
-	public UserPerson patchUser(UserPerson userPerson) {
-		UserPersonRecord usersRecord = dsl.selectFrom(USER_PERSON)
-				.where(USER_PERSON.USERNAME.eq(userPerson.getUsername())).fetchOne();
-		usersRecord.setEmail(userPerson.getEmail());
-		usersRecord.setSex(userPerson.getSex());
-		usersRecord.setPasswordSalt(userPerson.getPasswordSalt());
-		usersRecord.setSalt(userPerson.getSalt());
-		usersRecord.store();
-		return usersRecord.into(UserPerson.class);
+	public UserPerson updateUser(UserPerson userPerson) {
+		UserPersonRecord record = formatUpdateSelective(dsl.newRecord(USER_PERSON, userPerson));
+		int result = dsl.update(USER_PERSON).set(record).where(USER_PERSON.ID.eq(userPerson.getId())).execute();
+		if (result == 1) {
+			return getUser(userPerson.getId());
+		}
+		return null;
 	}
 
 	/**
@@ -166,5 +166,25 @@ public class UserMappersImpl implements UserMappers {
 		record.setLastLoginDatetime(ts);
 		record.store();
 		return record.into(UserPerson.class);
+	}
+
+	/**
+	 * 格式化非空更新的记录.
+	 *
+	 * @param record
+	 *            待更新的记录
+	 * @return 格式化后只允许非空更新的记录
+	 * @author zhd
+	 * @since 1.0.0
+	 */
+	protected <R extends Record> R formatUpdateSelective(R record) {
+		for (Field<?> f : record.fields()) {
+			if (record.getValue(f) == null) {
+				record.changed(f, false);
+			} else {
+				record.changed(f, true);
+			}
+		}
+		return record;
 	}
 }

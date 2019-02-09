@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "拒绝访问")
 public class NoAccessException extends RuntimeException {
-
 	private static final long serialVersionUID = -1963478108563445342L;
 
 	public NoAccessException() {

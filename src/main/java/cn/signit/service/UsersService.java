@@ -5,10 +5,10 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
-import cn.signit.pojo.bo.adduser.request.BoAddUserRequest;
-import cn.signit.pojo.bo.getuser.response.BoGetUserResp;
-import cn.signit.pojo.bo.patchuser.request.BoPatchUserRequest;
-import cn.signit.pojo.vo.user.login.UserLogin;
+import cn.signit.pojo.bo.BoAddUserRequest;
+import cn.signit.pojo.bo.BoGetUserResp;
+import cn.signit.pojo.bo.BoUpdateUserRequest;
+import cn.signit.pojo.vo.UserLogin;
 
 /**
  * 
@@ -79,7 +79,7 @@ public interface UsersService {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	BoGetUserResp patchUser(@Valid @NotNull BoPatchUserRequest boPatchUserRequest);
+	BoGetUserResp updateUser(@Valid @NotNull BoUpdateUserRequest boPatchUserRequest);
 
 	/**
 	 * 更新用户最后登录时间

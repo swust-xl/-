@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,19 +18,17 @@ import cn.signit.annotation.checkuser.CheckUser;
 import cn.signit.annotation.requestlimit.RequestLimit;
 import cn.signit.config.websecurity.WebSecurityConfig;
 import cn.signit.controller.UsersController;
+import cn.signit.exceptions.NoAccessException;
+import cn.signit.pojo.CommonResp;
 import cn.signit.pojo.dto.VoMapper;
 import cn.signit.pojo.po.mysql.tables.pojos.VerifyStatistics;
-import cn.signit.pojo.vo.GetUserCommonResp;
-import cn.signit.pojo.vo.GetUserResp;
-import cn.signit.pojo.vo.adduser.requset.VoAddUserRequest;
-import cn.signit.pojo.vo.getuser.response.VoGetUserResp;
-import cn.signit.pojo.vo.patchuser.request.VoPatchUserRequest;
-import cn.signit.pojo.vo.user.login.UserLogin;
+import cn.signit.pojo.vo.UserLogin;
+import cn.signit.pojo.vo.VoAddUserRequest;
+import cn.signit.pojo.vo.VoGetUserResp;
+import cn.signit.pojo.vo.VoUpdateUserRequest;
 import cn.signit.service.UsersService;
 import cn.signit.service.VerifyStatisticsService;
-import cn.signit.util.response.ResponseUtil;
 import cn.signit.util.session.SessionUtil;
-import io.swagger.annotations.ApiOperation;
 
 /**
  * 
@@ -50,8 +47,6 @@ public class UsersControllerImpl implements UsersController {
 	@Autowired
 	private HttpServletRequest request;
 	@Autowired
-	private ResponseUtil responseUtil;
-	@Autowired
 	private SessionUtil sessionUtil;
 
 	/**
@@ -64,16 +59,14 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "新增用户", notes = "同一IP一分钟内只能注册一次", httpMethod = "POST", response = GetUserCommonResp.class)
 	@PostMapping("/users")
 	@CheckUser(message = "用户名或邮箱已存在")
 	@RequestLimit(value = 1)
 	@Override
-	public ResponseEntity<Object> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
+	public CommonResp<?> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
 		verifyStatisticsService.initUserInfo(voAddUserRequest.getUserName());
-		return responseUtil.commonResp(HttpStatus.CREATED, 1, "添加成功", null,
-				VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
-						usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequestMap(voAddUserRequest))));
+		return new CommonResp<>(1, "添加成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(
+				usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequest(voAddUserRequest))));
 	}
 
 	/**
@@ -86,15 +79,13 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "根据id查询用户", notes = "仅管理员可操作", httpMethod = "GET", response = GetUserResp.class)
 	@GetMapping("/users/{user-id}")
 	@Override
-	public ResponseEntity<Object> getUserById(@PathVariable("user-id") Long id) {
+	public CommonResp<?> getUserById(@PathVariable("user-id") Long id) {
 		if (sessionUtil.checkAttribute(request.getSession(), "admin")) {
-			return responseUtil.getUserResp(HttpStatus.OK, 1, "查询成功",
-					VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(id)));
+			return new CommonResp<>(1, "查询成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(usersService.getUser(id)));
 		}
-		return responseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "拒绝访问");
+		throw new NoAccessException("拒绝访问");
 	}
 
 	/**
@@ -107,16 +98,15 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "根据用户名或邮箱查询用户", notes = "用户登录后才可查询并且只能查询当前登录用户的信息", httpMethod = "GET", response = GetUserResp.class)
 	@GetMapping("/users")
 	@CheckUser(message = "拒绝访问")
 	@Override
-	public ResponseEntity<Object> getUser(@RequestParam("usernameOrEmail") String usernameOrEmail) {
-		VoGetUserResp result = VoMapper.INSTANCE.fromBoToVoGetUserResponseMap(usersService.getUser(usernameOrEmail));
+	public CommonResp<?> getUser(@RequestParam("usernameOrEmail") String usernameOrEmail) {
+		VoGetUserResp result = VoMapper.INSTANCE.fromBoToVoGetUserResponse(usersService.getUser(usernameOrEmail));
 		if (result == null) {
-			return responseUtil.errorResp(HttpStatus.BAD_REQUEST, 0, "没有相关用户信息");
+			return new CommonResp<>(0, "没有相关用户信息", null);
 		}
-		return responseUtil.getUserResp(HttpStatus.OK, 0, "查询成功", result);
+		return new CommonResp<>(1, "查询成功", result);
 	}
 
 	/**
@@ -129,14 +119,14 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "根据id删除用户", notes = "仅管理员可操作", httpMethod = "DELETE")
 	@DeleteMapping("/users")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Override
-	public void deleteUser(@RequestParam Long id) {
+	public CommonResp<?> deleteUser(@RequestParam Long id) {
 		if (request.getSession().getAttribute("admin") != null) {
-			usersService.deleteUser(id);
+			return new CommonResp<>(1, "删除成功", usersService.deleteUser(id));
 		}
+		throw new NoAccessException("拒绝访问");
 	}
 
 	/**
@@ -151,14 +141,12 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "更新用户", notes = "无论用户更新了哪条信息都需要将完整的用户信息发送给后台(用户名不能更改)", httpMethod = "PUT", response = GetUserResp.class)
 	@PutMapping("/users")
 	@CheckUser(message = "用户名或密码错误")
 	@Override
-	public ResponseEntity<Object> patchUser(@RequestBody VoPatchUserRequest voPatchUserRequest) {
-		return responseUtil.commonResp(HttpStatus.OK, 1, "更新成功", WebSecurityConfig.SESSION_KEY,
-				VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
-						usersService.patchUser(VoMapper.INSTANCE.fromVoToBoPatchUserRequestMap(voPatchUserRequest))));
+	public CommonResp<?> patchUser(@RequestBody VoUpdateUserRequest voPatchUserRequest) {
+		return new CommonResp<>(1, "更新成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(
+				usersService.updateUser(VoMapper.INSTANCE.fromVoToBoUpdateUserRequest(voPatchUserRequest))));
 	}
 
 	/**
@@ -170,32 +158,29 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "登录", notes = "用户登录接口,管理员账号登录后有管理员限权", httpMethod = "POST", response = GetUserCommonResp.class)
 	@PostMapping("/users/login")
 	@CheckUser(message = "用户名或密码错误")
 	@RequestLimit(value = 3)
 	@Override
-	public ResponseEntity<Object> loginVerify(@RequestBody UserLogin userLogin) {
+	public CommonResp<?> loginVerify(@RequestBody UserLogin userLogin) {
 		request.getSession().setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsernameOrEmail());
 		request.getSession().setMaxInactiveInterval(3600);
-		return responseUtil.commonResp(HttpStatus.OK, 1, "登录成功", userLogin.getUsernameOrEmail(),
-				VoMapper.INSTANCE.fromBoToVoGetUserCommonResponseMap(
-						usersService.updateLastLoginDatetime(userLogin.getUsernameOrEmail())));
+		return new CommonResp<>(1, "登录成功", VoMapper.INSTANCE
+				.fromBoToVoGetUserResponse(usersService.updateLastLoginDatetime(userLogin.getUsernameOrEmail())));
 	}
 
 	/**
 	 * 用户登出移除session
 	 * 
-	 * @return ResponseEntity<Object>
+	 * @return CommonResp<?>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "登出", notes = "用户登出接口", httpMethod = "DELETE")
 	@DeleteMapping("/users/logout")
 	@Override
-	public ResponseEntity<Object> logout() {
+	public CommonResp<?> logout() {
 		request.getSession().invalidate();
-		return responseUtil.commonResp(HttpStatus.OK, 1, "登出成功", null, null);
+		return new CommonResp<>(1, "登出成功", null);
 	}
 
 	/**
@@ -203,16 +188,15 @@ public class UsersControllerImpl implements UsersController {
 	 * 
 	 * @param userName
 	 *            用户名
-	 * @return ResponseEntity<Object>
+	 * @return CommonResp<?>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@ApiOperation(value = "查询统计数据", notes = "查询统计数据接口", httpMethod = "GET")
-	@GetMapping("/statisics/{userName}")
+	@GetMapping("/users/statisics/{userName}")
 	@CheckUser(message = "拒绝访问")
 	@Override
-	public ResponseEntity<Object> getAllStatistics(@PathVariable String userName) {
+	public CommonResp<?> getAllStatistics(@PathVariable String userName) {
 		VerifyStatistics result = verifyStatisticsService.getStatistics(userName);
-		return new ResponseEntity<Object>(result, HttpStatus.OK);
+		return new CommonResp<>(1, "查询成功", result);
 	}
 }
