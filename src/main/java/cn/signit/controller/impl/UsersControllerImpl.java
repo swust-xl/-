@@ -28,6 +28,7 @@ import cn.signit.pojo.vo.VoGetUserResp;
 import cn.signit.pojo.vo.VoUpdateUserRequest;
 import cn.signit.service.UsersService;
 import cn.signit.service.VerifyStatisticsService;
+import cn.signit.urls.RestUrls;
 
 /**
  * 
@@ -56,7 +57,8 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@PostMapping("/users")
+	@PostMapping(RestUrls.USERS)
+	@ResponseStatus(HttpStatus.CREATED)
 	@RequestLimit(count = 1)
 	@Override
 	public CommonResp<?> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
@@ -74,7 +76,8 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@GetMapping("/users/{user-id}")
+	@GetMapping(RestUrls.USERS_PathVariable_ID)
+	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public CommonResp<?> getUserById(@PathVariable("user-id") Long id) {
 
@@ -91,7 +94,8 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@GetMapping("/users")
+	@GetMapping(RestUrls.USERS)
+	@ResponseStatus(HttpStatus.OK)
 	@CheckUser(message = "拒绝访问")
 	@Override
 	public CommonResp<?> getUser(@RequestParam("usernameOrEmail") String usernameOrEmail) {
@@ -112,7 +116,7 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@DeleteMapping("/users")
+	@DeleteMapping(RestUrls.USERS)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@CheckUser(message = "用户无限权")
 	@Override
@@ -134,7 +138,8 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@PutMapping("/users")
+	@PutMapping(RestUrls.USERS)
+	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public CommonResp<?> patchUser(@RequestBody VoUpdateUserRequest voPatchUserRequest) {
 		return new CommonResp<>(1, "更新成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(
@@ -150,7 +155,8 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@PostMapping("/users/login")
+	@PostMapping(RestUrls.USERS_LOGIN)
+	@ResponseStatus(HttpStatus.OK)
 	@RequestLimit(count = 3)
 	@Override
 	public CommonResp<?> loginVerify(@RequestBody UserLogin userLogin) {
@@ -167,7 +173,8 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@DeleteMapping("/users/logout")
+	@DeleteMapping(RestUrls.USERS_LOGOUT)
+	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public CommonResp<?> logout() {
 		request.getSession().invalidate();
@@ -183,11 +190,13 @@ public class UsersControllerImpl implements UsersController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@GetMapping("/users/statisics/{userName}")
+	@GetMapping(RestUrls.USERS_STATISTICS_PathVariable_USERNAME)
+	@ResponseStatus(HttpStatus.OK)
 	@CheckUser(message = "拒绝访问")
 	@Override
 	public CommonResp<?> getStatistics(@PathVariable String userName) {
 		VerifyStatistics result = verifyStatisticsService.getStatistics(userName);
 		return new CommonResp<>(1, "查询成功", result);
 	}
+
 }

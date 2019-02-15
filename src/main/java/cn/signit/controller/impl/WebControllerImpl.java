@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.signit.controller.WebController;
@@ -22,6 +24,7 @@ import cn.signit.pojo.vo.behavior.verification.BehaviorVerificationReq;
 import cn.signit.service.UsersService;
 import cn.signit.service.VerifyStatisticsService;
 import cn.signit.service.WebService;
+import cn.signit.urls.RestUrls;
 import cn.signit.util.session.SessionUtil;
 import cn.signit.util.validate.ValidateUtil;
 
@@ -70,7 +73,8 @@ public class WebControllerImpl implements WebController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@PostMapping("/images/preprocess")
+	@PostMapping(RestUrls.IMAGES_PREPROCESS)
+	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public CommonResp<?> preprocess(@RequestBody UserPreprocess user) {
 		if (!sessionUtil.checkAttribute(request.getSession(), USER_INVOKE_SESSION_KEY)) {
@@ -94,7 +98,8 @@ public class WebControllerImpl implements WebController {
 	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	@GetMapping("/images")
+	@GetMapping(RestUrls.IMAGES)
+	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public CommonResp<?> sendImage() throws IOException {
 		if (sessionUtil.checkAttribute(request.getSession(), USER_INVOKE_SESSION_KEY)) {
@@ -119,7 +124,8 @@ public class WebControllerImpl implements WebController {
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	@PostMapping("/images/verify")
+	@PostMapping(RestUrls.IMAGES_VERIFY)
+	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public CommonResp<?> coordinateVerify(@RequestBody BehaviorVerificationReq behaviorVerificationReq) {
 		if (validateUtil.isRobot(behaviorVerificationReq.getData())) {
