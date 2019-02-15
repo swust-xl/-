@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.signit.dao.StatisticsMappers;
 import cn.signit.dao.UserMappers;
+import cn.signit.exceptions.UserAlreadyExistsException;
+import cn.signit.exceptions.UserInfoException;
 import cn.signit.pojo.bo.BoAddUserRequest;
 import cn.signit.pojo.bo.BoGetUserResp;
 import cn.signit.pojo.bo.BoUpdateUserRequest;
@@ -29,6 +32,8 @@ public class UsersServiceImpl implements UsersService {
 
 	@Autowired
 	private UserMappers mappers;
+	@Autowired
+	private StatisticsMappers statisticsMappers;
 
 	/**
 	 * 
@@ -74,11 +79,16 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public BoGetUserResp addUser(BoAddUserRequest boAddUserRequest) {
+		if (mappers.getUser(boAddUserRequest.getUserName()) != null
+				|| mappers.getUser(boAddUserRequest.getEmail()) != null) {
+			throw new UserAlreadyExistsException("用户名或邮箱");
+		}
 		String salt = Md5Util.getSalt();
 		String passwordWithSalt = Md5Util.md5Hex(boAddUserRequest.getPassword() + salt);
 		boAddUserRequest.setSalt(salt);
 		boAddUserRequest.setPassword(passwordWithSalt);
 		boAddUserRequest.setRegistDatetime(new Timestamp(System.currentTimeMillis()));
+		statisticsMappers.initUserInfo(boAddUserRequest.getUserName());
 		return BoMapper.INSTANCE.toBoGetUserResp(mappers.addUser(BoMapper.INSTANCE.fromBoAddUserReq(boAddUserRequest)));
 	}
 
@@ -112,10 +122,15 @@ public class UsersServiceImpl implements UsersService {
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public BoGetUserResp updateUser(BoUpdateUserRequest boUpdateUserRequest) {
+		if (!mappers.login(new UserLogin(boUpdateUserRequest.getUserName(), boUpdateUserRequest.getPassword()))) {
+			throw new UserInfoException("用户名或密码错误");
+		}
 		String salt = Md5Util.getSalt();
 		String passwordWithSalt = Md5Util.md5Hex(boUpdateUserRequest.getPassword() + salt);
 		boUpdateUserRequest.setSalt(salt);
 		boUpdateUserRequest.setPassword(passwordWithSalt);
+		statisticsMappers.changeUserName(mappers.getUser(boUpdateUserRequest.getId()).getUsername(),
+				boUpdateUserRequest.getUserName());
 		return BoMapper.INSTANCE
 				.toBoGetUserResp(mappers.updateUser(BoMapper.INSTANCE.fromBoUpdateUserReq(boUpdateUserRequest)));
 	}
@@ -132,9 +147,11 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Override
 	public boolean verifyLogin(UserLogin userLogin) {
+		if (!mappers.login(userLogin)) {
+			throw new UserInfoException("用户名或密码错误");
+		}
 		userLogin.setPassword(
 				Md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsernameOrEmail()).getSalt()));
-
 		return mappers.login(userLogin);
 	}
 

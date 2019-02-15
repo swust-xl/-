@@ -37,11 +37,31 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 		VerifyStatisticsRecord record = new VerifyStatisticsRecord();
 		record = dsl.newRecord(VERIFY_STATISTICS);
 		record.setUsername(userName);
-		int initResult = record.store();
-		if (initResult == 1) {
+		int result = record.store();
+		if (result == 1) {
 			return record.into(VerifyStatistics.class);
 		}
 		return null;
+	}
+
+	/**
+	 * 用户名字更改时,数据统计表的用户名一同更改
+	 * 
+	 * @param newName
+	 * @return 更新后的统计数据
+	 * @author xuLiang
+	 * @since 1.0.0
+	 */
+	@Override
+	public boolean changeUserName(String oldName, String newName) {
+		VerifyStatisticsRecord record = dsl.selectFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(oldName))
+				.fetchOne();
+		record.setUsername(newName);
+		int result = record.store();
+		if (result == 1) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -75,9 +95,9 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 	public boolean raiseCount(String userName) {
 		VerifyStatisticsRecord record = dsl.selectFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(userName))
 				.fetchOne();
-		if (record != null) {
-			record.setCount(record.getCount() + 1);
-			record.store();
+		record.setCount(record.getCount() + 1);
+		int result = record.store();
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -95,9 +115,9 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 	public boolean raisePassedCount(String userName) {
 		VerifyStatisticsRecord record = dsl.selectFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(userName))
 				.fetchOne();
-		if (record != null) {
-			record.setPassedCount(record.getPassedCount() + 1);
-			record.store();
+		record.setPassedCount(record.getPassedCount() + 1);
+		int result = record.store();
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -115,9 +135,10 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 	public boolean raiseRefusedCount(String userName) {
 		VerifyStatisticsRecord record = dsl.selectFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(userName))
 				.fetchOne();
-		if (record != null) {
-			record.setRefusedCount(record.getRefusedCount() + 1);
-			record.store();
+		record.setRefusedCount(record.getRefusedCount() + 1);
+		record.store();
+		int result = record.store();
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -135,9 +156,10 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 	public boolean raiseRobotCount(String userName) {
 		VerifyStatisticsRecord record = dsl.selectFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(userName))
 				.fetchOne();
-		if (record != null) {
-			record.setRobotCount(record.getRobotCount() + 1);
-			record.store();
+		record.setRobotCount(record.getRobotCount() + 1);
+		record.store();
+		int result = record.store();
+		if (result == 1) {
 			return true;
 		}
 		return false;
@@ -155,9 +177,10 @@ public class StatisticsMappersImpl implements StatisticsMappers {
 	public boolean updateLastInvokeDatetime(String userName) {
 		VerifyStatisticsRecord record = dsl.selectFrom(VERIFY_STATISTICS).where(VERIFY_STATISTICS.USERNAME.eq(userName))
 				.fetchOne();
-		if (record != null) {
-			record.setLastInvokeDatetime(new Timestamp(System.currentTimeMillis()));
-			record.store();
+		record.setLastInvokeDatetime(new Timestamp(System.currentTimeMillis()));
+		record.store();
+		int result = record.store();
+		if (result == 1) {
 			return true;
 		}
 		return false;

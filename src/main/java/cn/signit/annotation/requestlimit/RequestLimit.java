@@ -20,7 +20,7 @@ public @interface RequestLimit {
 	/**
 	 * 时间段内允许访问的最大次数，默认不限制
 	 */
-	int value() default Integer.MAX_VALUE;
+	int count() default Integer.MAX_VALUE;
 
 	/**
 	 * 时间段，单位为秒，默认值60秒

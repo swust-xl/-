@@ -99,7 +99,7 @@ public interface UsersController {
 	 * 用户登出移除session
 	 * 
 	 * @param session
-	 * @return ResponseEntity<Object>
+	 * @return CommonResp<?>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
@@ -110,9 +110,9 @@ public interface UsersController {
 	 * 
 	 * @param userName
 	 *            用户名
-	 * @return ResponseEntity<Object>
+	 * @return CommonResp<?>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
-	public CommonResp<?> getAllStatistics(String userName);
+	public CommonResp<?> getStatistics(String userName);
 }

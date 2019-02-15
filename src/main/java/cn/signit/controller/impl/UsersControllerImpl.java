@@ -18,7 +18,7 @@ import cn.signit.annotation.checkuser.CheckUser;
 import cn.signit.annotation.requestlimit.RequestLimit;
 import cn.signit.config.websecurity.WebSecurityConfig;
 import cn.signit.controller.UsersController;
-import cn.signit.exceptions.NoAccessException;
+import cn.signit.exceptions.UserInfoException;
 import cn.signit.pojo.CommonResp;
 import cn.signit.pojo.dto.VoMapper;
 import cn.signit.pojo.po.mysql.tables.pojos.VerifyStatistics;
@@ -28,7 +28,6 @@ import cn.signit.pojo.vo.VoGetUserResp;
 import cn.signit.pojo.vo.VoUpdateUserRequest;
 import cn.signit.service.UsersService;
 import cn.signit.service.VerifyStatisticsService;
-import cn.signit.util.session.SessionUtil;
 
 /**
  * 
@@ -46,8 +45,6 @@ public class UsersControllerImpl implements UsersController {
 	private VerifyStatisticsService verifyStatisticsService;
 	@Autowired
 	private HttpServletRequest request;
-	@Autowired
-	private SessionUtil sessionUtil;
 
 	/**
 	 * 
@@ -60,11 +57,9 @@ public class UsersControllerImpl implements UsersController {
 	 * @since 1.0.0
 	 */
 	@PostMapping("/users")
-	@CheckUser(message = "用户名或邮箱已存在")
-	@RequestLimit(value = 1)
+	@RequestLimit(count = 1)
 	@Override
 	public CommonResp<?> addUser(@RequestBody VoAddUserRequest voAddUserRequest) {
-		verifyStatisticsService.initUserInfo(voAddUserRequest.getUserName());
 		return new CommonResp<>(1, "添加成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(
 				usersService.addUser(VoMapper.INSTANCE.fromVoToBoAddUserRequest(voAddUserRequest))));
 	}
@@ -82,10 +77,8 @@ public class UsersControllerImpl implements UsersController {
 	@GetMapping("/users/{user-id}")
 	@Override
 	public CommonResp<?> getUserById(@PathVariable("user-id") Long id) {
-		if (sessionUtil.checkAttribute(request.getSession(), "admin")) {
-			return new CommonResp<>(1, "查询成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(usersService.getUser(id)));
-		}
-		throw new NoAccessException("拒绝访问");
+
+		return new CommonResp<>(1, "查询成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(usersService.getUser(id)));
 	}
 
 	/**
@@ -104,7 +97,7 @@ public class UsersControllerImpl implements UsersController {
 	public CommonResp<?> getUser(@RequestParam("usernameOrEmail") String usernameOrEmail) {
 		VoGetUserResp result = VoMapper.INSTANCE.fromBoToVoGetUserResponse(usersService.getUser(usernameOrEmail));
 		if (result == null) {
-			return new CommonResp<>(0, "没有相关用户信息", null);
+			throw new UserInfoException("没有此用户信息");
 		}
 		return new CommonResp<>(1, "查询成功", result);
 	}
@@ -121,12 +114,12 @@ public class UsersControllerImpl implements UsersController {
 	 */
 	@DeleteMapping("/users")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@CheckUser(message = "用户无限权")
 	@Override
 	public CommonResp<?> deleteUser(@RequestParam Long id) {
-		if (request.getSession().getAttribute("admin") != null) {
-			return new CommonResp<>(1, "删除成功", usersService.deleteUser(id));
-		}
-		throw new NoAccessException("拒绝访问");
+
+		return new CommonResp<>(1, "删除成功", usersService.deleteUser(id));
+
 	}
 
 	/**
@@ -142,7 +135,6 @@ public class UsersControllerImpl implements UsersController {
 	 * @since 1.0.0
 	 */
 	@PutMapping("/users")
-	@CheckUser(message = "用户名或密码错误")
 	@Override
 	public CommonResp<?> patchUser(@RequestBody VoUpdateUserRequest voPatchUserRequest) {
 		return new CommonResp<>(1, "更新成功", VoMapper.INSTANCE.fromBoToVoGetUserResponse(
@@ -154,13 +146,12 @@ public class UsersControllerImpl implements UsersController {
 	 * 
 	 * @param userLogin
 	 *            用户登录请求体
-	 * @return ResponseEntity<Object>
+	 * @return CommonResp<?>
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
 	@PostMapping("/users/login")
-	@CheckUser(message = "用户名或密码错误")
-	@RequestLimit(value = 3)
+	@RequestLimit(count = 3)
 	@Override
 	public CommonResp<?> loginVerify(@RequestBody UserLogin userLogin) {
 		request.getSession().setAttribute(WebSecurityConfig.SESSION_KEY, userLogin.getUsernameOrEmail());
@@ -195,7 +186,7 @@ public class UsersControllerImpl implements UsersController {
 	@GetMapping("/users/statisics/{userName}")
 	@CheckUser(message = "拒绝访问")
 	@Override
-	public CommonResp<?> getAllStatistics(@PathVariable String userName) {
+	public CommonResp<?> getStatistics(@PathVariable String userName) {
 		VerifyStatistics result = verifyStatisticsService.getStatistics(userName);
 		return new CommonResp<>(1, "查询成功", result);
 	}

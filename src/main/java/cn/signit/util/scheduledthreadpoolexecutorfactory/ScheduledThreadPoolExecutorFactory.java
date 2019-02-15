@@ -1,4 +1,4 @@
-package cn.signit.factory.scheduledthreadpoolexecutor;
+package cn.signit.util.scheduledthreadpoolexecutorfactory;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;

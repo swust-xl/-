@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.signit.exceptions.RequestTooFrequentException;
-import cn.signit.factory.scheduledthreadpoolexecutor.ScheduledThreadPoolExecutorFactory;
+import cn.signit.util.scheduledthreadpoolexecutorfactory.ScheduledThreadPoolExecutorFactory;
 
 /**
  * 限制接口访问次数
@@ -61,7 +61,7 @@ public class RequestLimitImpl {
 			limitMap.put(key, limitMap.get(key) + 1);
 		}
 		int count = limitMap.get(key);
-		if (count > requestLimit.value()) {
+		if (count > requestLimit.count()) {
 			throw new RequestTooFrequentException(requestLimit.message());
 		}
 		if (count > 0) {

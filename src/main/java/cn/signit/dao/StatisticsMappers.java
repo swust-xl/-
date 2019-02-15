@@ -19,11 +19,21 @@ public interface StatisticsMappers {
 	 * 初始化统计数据
 	 * 
 	 * @param userName
-	 * @return VerifyStatistics
+	 * @return 更新后的统计数据
 	 * @author xuLiang
 	 * @since 1.0.0
 	 */
 	public VerifyStatistics initUserInfo(@Valid @NotBlank String userName);
+
+	/**
+	 * 用户名字更改时,数据统计表的用户名一同更改
+	 * 
+	 * @param newName
+	 * @return true-更改成功；false-更改失败
+	 * @author xuLiang
+	 * @since 1.0.0
+	 */
+	public boolean changeUserName(@Valid @NotBlank String oldName, @Valid @NotBlank String newName);
 
 	/**
 	 * 根据用户名查询所有统计数据

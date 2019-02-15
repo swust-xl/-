@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 
-import cn.signit.factory.scheduledthreadpoolexecutor.ScheduledThreadPoolExecutorFactory;
+import cn.signit.util.scheduledthreadpoolexecutorfactory.ScheduledThreadPoolExecutorFactory;
 
 /**
  * session工具类
@@ -50,9 +50,6 @@ public class SessionUtil {
 	 * @since 1.0.0
 	 */
 	public boolean checkAttribute(HttpSession session, String attributeName) {
-		if (session == null) {
-			throw new NullPointerException();
-		}
 		if (session.getAttribute(attributeName) == null) {
 			return false;
 		}
@@ -73,13 +70,7 @@ public class SessionUtil {
 	 * @since 1.0.0
 	 */
 	public boolean verifyAttribute(HttpSession session, String attributeName, Object value) {
-		if (session == null) {
-			throw new IllegalArgumentException();
-		}
-		if (value == null) {
-			throw new NullPointerException();
-		}
-		if (value.equals(session.getAttribute(attributeName))) {
+		if (session.getAttribute(attributeName).equals(value)) {
 			return true;
 		}
 		return false;
