@@ -101,7 +101,7 @@ public class WebControllerImpl implements WebController {
 	@GetMapping(RestUrls.IMAGES)
 	@ResponseStatus(HttpStatus.OK)
 	@Override
-	public CommonResp<?> sendImage() throws IOException {
+	public CommonResp<?> sendImage() {
 		if (sessionUtil.checkAttribute(request.getSession(), USER_INVOKE_SESSION_KEY)) {
 			verifyStatisticsService.raiseCount(request.getSession().getAttribute(USER_INVOKE_SESSION_KEY).toString());
 			verifyStatisticsService
@@ -109,8 +109,12 @@ public class WebControllerImpl implements WebController {
 			CommonResp<VerificationCodeResp> response = new CommonResp<>();
 			response.setCode(1);
 			response.setMessage("获取成功");
-			response.setData(webService.getImage(ORIGIN_IMAGE_WIDTH, ORIGIN_IMAGE_HEIGHT, CUTTED_IMAGE_WIDTH,
-					CUTTED_IMAGE_HEIGHT, PICTURE_PATH));
+			try {
+				response.setData(webService.getImage(ORIGIN_IMAGE_WIDTH, ORIGIN_IMAGE_HEIGHT, CUTTED_IMAGE_WIDTH,
+						CUTTED_IMAGE_HEIGHT, PICTURE_PATH));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			request.getSession().setAttribute(VALUE_SAVED_IN_SESSION, response.getData().getxCoordinate());
 			return response;
 		}

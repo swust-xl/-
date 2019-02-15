@@ -147,11 +147,11 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Override
 	public boolean verifyLogin(UserLogin userLogin) {
+		userLogin.setPassword(
+				Md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsernameOrEmail()).getSalt()));
 		if (!mappers.login(userLogin)) {
 			throw new UserInfoException("用户名或密码错误");
 		}
-		userLogin.setPassword(
-				Md5Util.md5Hex(userLogin.getPassword() + mappers.getUser(userLogin.getUsernameOrEmail()).getSalt()));
 		return mappers.login(userLogin);
 	}
 
